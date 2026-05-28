@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
-import { createServiceClient } from '@/lib/supabase/server'
+import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { sendWelcomeEmail } from '@/lib/email'
 
 export type State = {
@@ -90,6 +90,19 @@ export async function redeemToken(
 
   if (provider?.name) {
     await sendWelcomeEmail(email, provider.name)
+  }
+
+  const sessionClient = await createClient()
+  const { error: signInError } = await sessionClient.auth.signInWithPassword({
+    email,
+    password,
+  })
+
+  if (signInError) {
+    return {
+      error:
+        'Tu perfil fue activado, pero no pudimos iniciar sesión automáticamente. Entra desde /login con el correo y contraseña que acabas de crear.',
+    }
   }
 
   redirect('/mi-perfil')

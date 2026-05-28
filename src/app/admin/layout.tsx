@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
 
         <nav className="flex-1 p-3 flex flex-col gap-1">
-          <NavLink href="/admin" exact>
+          <NavLink href="/admin">
             <DashboardIcon />
             Dashboard
           </NavLink>
@@ -52,11 +52,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
 function NavLink({
   href,
-  exact,
   children,
 }: {
   href: string
-  exact?: boolean
   children: React.ReactNode
 }) {
   return (

@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { EVENT_TYPES, PRICE_RANGES } from '@/lib/constants'
 import type { Provider } from '@/lib/types'
-import { updateMyProfile, type State } from './_actions'
+import { updateMyProfile } from './_actions'
 
 type Props = {
   provider: Provider

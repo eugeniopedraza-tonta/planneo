@@ -24,6 +24,14 @@ export default function ProvidersTableActions({ provider }: { provider: Provider
 
   return (
     <div className="flex items-center gap-1">
+      {provider.categories?.slug && (
+        <Button variant="ghost" size="xs" asChild>
+          <Link href={`/${provider.categories.slug}/${provider.slug}?preview=true`} target="_blank">
+            Vista previa
+          </Link>
+        </Button>
+      )}
+
       <Button variant="ghost" size="xs" asChild>
         <Link href={`/admin/proveedores/${provider.id}/editar`}>Editar</Link>
       </Button>

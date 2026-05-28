@@ -1,48 +1,96 @@
-"use client";
+import Link from "next/link";
+import { createStaticClient } from "@/lib/supabase/server";
+import type { ProviderWithCategory } from "@/lib/types";
 
-import { useReducedMotion, motion } from "framer-motion";
-import ListingCard from "@/components/ui/ListingCard";
-import type { ListingCardProps } from "@/components/ui/ListingCard";
-
-const LISTINGS: ListingCardProps[] = [
-  { name: "Sofía Ramírez", genre: "Clásica", rating: 4.8, reviewCount: 94, location: "CDMX", pricePerHour: 3200 },
-  { name: "DJ Neon", genre: "Electrónica", rating: 4.7, reviewCount: 210, location: "Guadalajara", pricePerHour: 1800 },
-  { name: "Trio Norteño Regio", genre: "Norteño", rating: 5.0, reviewCount: 67, location: "Monterrey", pricePerHour: 2100 },
-  { name: "Elena Voss", genre: "Pop", rating: 4.9, reviewCount: 183, location: "CDMX", pricePerHour: 2800 },
-  { name: "Banda La Fuerza", genre: "Banda", rating: 4.6, reviewCount: 45, location: "Guadalajara", pricePerHour: 3500 },
-  { name: "Marco Jazz", genre: "Jazz", rating: 4.9, reviewCount: 312, location: "Monterrey", pricePerHour: 2500 },
+const palettes = [
+  "from-[#26133F] via-[#7B2CBF] to-[#C77DFF]",
+  "from-[#15203A] via-[#5E17EB] to-[#06D6A0]",
+  "from-[#2A1B12] via-[#C98B5F] to-[#FFE1A8]",
 ];
 
-export default function FeaturedListings() {
-  const reduced = useReducedMotion();
+async function getFeaturedProviders() {
+  const supabase = createStaticClient();
+  const { data } = await supabase
+    .from("providers")
+    .select("*, categories(id, name, slug)")
+    .in("status", ["published", "claimed"])
+    .order("status", { ascending: true })
+    .order("updated_at", { ascending: false })
+    .limit(3);
+
+  return (data ?? []) as ProviderWithCategory[];
+}
+
+export default async function FeaturedListings() {
+  const providers = await getFeaturedProviders();
 
   return (
-    <section id="buscar-musicos" className="py-20 lg:py-28 bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#111827] mb-4">
-            Músicos Destacados
-          </h2>
-          <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
-            Descubre el talento perfecto para tu próximo evento
-          </p>
+    <section className="bg-[#0E0B1A] px-4 py-20 text-[#F5F0FF] sm:px-6 lg:px-14 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// DESTACADOS"}</p>
+            <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+              En tendencia <span className="v4-shimmer-text">esta semana.</span>
+            </h2>
+          </div>
+          <Link href="/proveedores" className="text-sm font-semibold text-[#C77DFF] transition hover:text-white">
+            Ver todos →
+          </Link>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {LISTINGS.map((listing, index) => (
-            <motion.div
-              key={listing.name}
-              initial={reduced ? undefined : { opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={reduced ? undefined : { duration: 0.4, delay: index * 0.1 }}
-            >
-              <ListingCard {...listing} />
-            </motion.div>
-          ))}
-        </div>
+        {providers.length === 0 ? (
+          <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-8 text-white/60">
+            Publica tus primeros proveedores para que aparezcan en esta sección.
+          </div>
+        ) : (
+          <div className="grid gap-5 md:grid-cols-3">
+            {providers.map((provider, index) => {
+              const categorySlug = provider.categories?.slug ?? "proveedores";
+              return (
+                <article key={provider.id} className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04]">
+                  <div className={`relative h-72 overflow-hidden bg-gradient-to-br ${palettes[index % palettes.length]}`}>
+                    <div className="absolute inset-0 transition duration-700 group-hover:scale-105">
+                      <div className="absolute left-8 top-12 h-40 w-40 rounded-full border border-white/25 bg-white/10" />
+                      <div className="absolute bottom-12 right-8 h-36 w-28 rounded-t-full border border-white/20 bg-black/10" />
+                    </div>
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(14,11,26,.82))]" />
+                    {provider.status === "claimed" && (
+                      <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/25 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
+                        <span className="mr-2 inline-block size-2 rounded-full bg-[#06D6A0]" />
+                        Verificado
+                      </div>
+                    )}
+                    <div className="absolute bottom-5 left-5 right-5">
+                      <p className="v4-mono text-[10px] text-white/65">{provider.categories?.name ?? "Proveedor"}</p>
+                      <h3 className="v4-display mt-1 text-3xl font-bold tracking-[-0.04em] text-white">{provider.name}</h3>
+                    </div>
+                  </div>
+
+                  <div className="p-5">
+                    <div className="flex items-center justify-between gap-3 text-sm text-white/60">
+                      <span>{provider.zona ?? "Monterrey"}</span>
+                      {provider.price_range && <span>{provider.price_range}</span>}
+                    </div>
+                    {provider.event_types?.length ? (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {provider.event_types.slice(0, 3).map((tag) => (
+                          <span key={tag} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-[10px] text-white/55">{tag}</span>
+                        ))}
+                      </div>
+                    ) : null}
+                    <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-5">
+                      <p className="text-sm text-white/50">{provider.whatsapp ? "Cotización por WhatsApp" : "Perfil publicado"}</p>
+                      <Link href={`/${categorySlug}/${provider.slug}`} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1B2E] transition hover:bg-white/90">
+                        Ver perfil
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

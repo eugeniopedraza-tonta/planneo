@@ -26,19 +26,18 @@ export default function FloatingNavbar({ children, className }: FloatingNavbarPr
         scrolled
           ? {
               backdropFilter: "blur(12px)",
-              backgroundColor: "rgba(255,255,255,0.85)",
-              boxShadow: "0 1px 24px 0 rgba(124,58,237,0.08), 0 1px 4px 0 rgba(0,0,0,0.06)",
+              backgroundColor: "rgba(14,11,26,0.72)",
+              boxShadow: "0 18px 60px -32px rgba(0,0,0,0.8)",
             }
           : {
-              backdropFilter: "blur(0px)",
-              backgroundColor: "rgba(255,255,255,0)",
+              backdropFilter: "blur(18px)",
+              backgroundColor: "rgba(14,11,26,0.42)",
               boxShadow: "none",
             }
       }
       transition={{ duration: 0.25 }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 border-b border-transparent",
-        scrolled && "border-gray-100/60",
+        "fixed top-0 left-0 right-0 z-50 border-b border-white/10",
         className
       )}
     >

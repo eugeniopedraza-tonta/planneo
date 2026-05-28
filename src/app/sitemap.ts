@@ -3,16 +3,23 @@ import { createClient } from '@/lib/supabase/server'
 
 const BASE = 'https://planneo.mx'
 
+type ProviderSitemapRow = {
+  slug: string
+  updated_at: string
+  categories: { slug: string } | { slug: string }[] | null
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient()
 
   const { data: providers } = await supabase
     .from('providers')
     .select('slug, updated_at, categories(slug)')
-    .eq('status', 'published')
+    .in('status', ['published', 'claimed'])
 
-  const providerUrls = providers?.flatMap(p => {
-    const catSlug = (p.categories as any)?.slug
+  const providerUrls = (providers as ProviderSitemapRow[] | null)?.flatMap(p => {
+    const category = Array.isArray(p.categories) ? p.categories[0] : p.categories
+    const catSlug = category?.slug
     if (!catSlug) return []
     return [{
       url: `${BASE}/${catSlug}/${p.slug}`,
@@ -30,7 +37,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: BASE, changeFrequency: 'weekly', priority: 1 },
+    { url: `${BASE}/proveedores`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE}/buscar`, changeFrequency: 'daily', priority: 0.5 },
+    { url: `${BASE}/terminos`, changeFrequency: 'monthly', priority: 0.2 },
+    { url: `${BASE}/privacidad`, changeFrequency: 'monthly', priority: 0.2 },
     ...categoryUrls,
     ...providerUrls,
   ]

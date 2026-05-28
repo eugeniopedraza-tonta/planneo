@@ -3,7 +3,6 @@
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
 
 type Props = {
   providerId?: string

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,6 +12,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      const role = data.user?.app_metadata?.role
+      if (role === 'admin') window.location.href = '/admin'
+      if (role === 'provider') window.location.href = '/mi-perfil'
+    })
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -26,15 +36,22 @@ export default function LoginPage() {
       return
     }
 
-    window.location.href = '/admin'
+    const { data } = await supabase.auth.getUser()
+    const role = data.user?.app_metadata?.role
+
+    window.location.href = role === 'provider' ? '/mi-perfil' : '/admin'
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F9FAFB]">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 w-full max-w-sm">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0E0B1A] px-4 text-[#F5F0FF]">
+      <div className="absolute left-[12%] top-[12%] h-56 w-56 rounded-full bg-[#7B2CBF]/35 blur-3xl" />
+      <div className="absolute bottom-[15%] right-[10%] h-64 w-64 rounded-full bg-[#C77DFF]/20 blur-3xl" />
+      <div className="v4-glass relative w-full max-w-sm rounded-[24px] p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
         <div className="mb-8 text-center">
-          <span className="text-2xl font-bold text-[#7C3AED]">Planneo</span>
-          <p className="text-sm text-gray-500 mt-1">Acceso al panel de administración</p>
+          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+            Planneo
+          </span>
+          <p className="mt-2 text-sm text-white/55">Acceso para admins y proveedores</p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -47,6 +64,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="border-white/10 bg-white/10 text-white placeholder:text-white/35"
             />
           </div>
 
@@ -59,14 +77,20 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="border-white/10 bg-white/10 text-white placeholder:text-white/35"
             />
           </div>
 
           {error && <p className="text-sm text-red-500">{error}</p>}
 
-          <Button type="submit" disabled={loading} className="mt-2 w-full">
+          <Button type="submit" disabled={loading} className="v4-cta-glow mt-2 w-full rounded-xl bg-[#7B2CBF] text-white hover:bg-[#6B22AE]">
             {loading ? 'Entrando…' : 'Entrar'}
           </Button>
+
+          <p className="text-xs leading-relaxed text-white/45">
+            Si tu cuenta fue creada en Supabase y no recuerdas la contraseña,
+            restablécela desde Authentication &gt; Users antes de entrar.
+          </p>
         </form>
       </div>
     </div>

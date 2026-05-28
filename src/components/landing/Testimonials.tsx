@@ -1,87 +1,44 @@
 "use client";
 
-import { useReducedMotion, motion } from "framer-motion";
-import AnimatedCard from "@/components/ui/animated-card";
-
-interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  initials: string;
-}
-
-const TESTIMONIALS: Testimonial[] = [
+const TESTIMONIALS = [
   {
-    quote:
-      "Encontré al músico perfecto para la boda de mi hija en menos de 24 horas. El proceso fue increíblemente sencillo.",
+    quote: "Pude comparar foto, maquillaje y música sin brincar entre veinte chats distintos.",
     name: "María González",
-    role: "Organizadora de eventos",
-    initials: "MG",
+    role: "Boda en San Pedro",
   },
   {
-    quote:
-      "Como músico, Planneo me ha dado una visibilidad que nunca tuve. Mis reservas aumentaron un 300% en dos meses.",
+    quote: "Nos mostraron el perfil en una llamada y quedó listo para compartirlo con clientes.",
     name: "Carlos Méndez",
-    role: "Músico de Jazz",
-    initials: "CM",
+    role: "Proveedor de música",
   },
   {
-    quote:
-      "La garantía de reembolso me dio la confianza que necesitaba para reservar por primera vez. Totalmente recomendado.",
+    quote: "Me sirvió para ubicar proveedores regios por zona y escribirles directo.",
     name: "Roberto Sánchez",
-    role: "Empresario",
-    initials: "RS",
+    role: "Evento corporativo",
   },
 ];
 
 export default function Testimonials() {
-  const reduced = useReducedMotion();
-
   return (
-    <section id="testimonios" className="py-20 lg:py-28 bg-[#F9FAFB]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#111827] mb-4">
-            Lo que dicen nuestros usuarios
+    <section id="testimonios" className="bg-[#0E0B1A] px-4 py-20 text-[#F5F0FF] sm:px-6 lg:px-14 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12">
+          <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// TESTIMONIOS"}</p>
+          <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+            Quiénes ya lo usaron.
           </h2>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, index) => (
-            <motion.div
-              key={t.name}
-              initial={reduced ? undefined : { opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={reduced ? undefined : { duration: 0.45, delay: index * 0.12 }}
-            >
-              <AnimatedCard>
-                <div className="p-6 flex flex-col gap-4 h-full">
-                  {/* Quote mark */}
-                  <span className="text-5xl font-serif leading-none text-[#7C3AED] select-none" aria-hidden="true">
-                    "
-                  </span>
-
-                  {/* Quote text */}
-                  <p className="text-[#374151] text-sm leading-relaxed flex-1">
-                    {t.quote}
-                  </p>
-
-                  {/* Author */}
-                  <div className="flex items-center gap-3 pt-2 border-t border-gray-100">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#A855F7] flex items-center justify-center shrink-0">
-                      <span className="text-white text-xs font-bold">{t.initials}</span>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-[#111827] text-sm">{t.name}</p>
-                      <p className="text-[#6B7280] text-xs">{t.role}</p>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedCard>
-            </motion.div>
+        <div className="grid gap-5 md:grid-cols-3">
+          {TESTIMONIALS.map((t) => (
+            <article key={t.name} className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
+              <div className="mb-6 text-[#FFC727]" aria-label="5 estrellas">★★★★★</div>
+              <p className="v4-serif text-2xl leading-snug text-white/90">&ldquo;{t.quote}&rdquo;</p>
+              <div className="mt-8 border-t border-white/10 pt-5">
+                <p className="font-semibold text-white">{t.name}</p>
+                <p className="mt-1 text-sm text-white/50">{t.role}</p>
+              </div>
+            </article>
           ))}
         </div>
       </div>

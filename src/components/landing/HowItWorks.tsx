@@ -1,92 +1,80 @@
 "use client";
 
-import { useReducedMotion, motion } from "framer-motion";
+import Link from "next/link";
+import { useState } from "react";
 
-const STEPS = [
-  {
-    number: "1",
-    title: "Describe tu evento",
-    description:
-      "Cuéntanos qué tipo de evento tienes y qué estilo musical buscas.",
-  },
-  {
-    number: "2",
-    title: "Explora y compara",
-    description:
-      "Navega perfiles verificados, escucha demos y compara precios.",
-  },
-  {
-    number: "3",
-    title: "Reserva con confianza",
-    description:
-      "Contrata de forma segura con garantía de reembolso.",
-  },
-];
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.2 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+const eventTypes = ["Boda", "XV Años", "Cumpleaños", "Corporativo", "Bautizo", "Otro"];
 
 export default function HowItWorks() {
-  const reduced = useReducedMotion();
+  const [selected, setSelected] = useState("Boda");
 
   return (
-    <section id="como-funciona" className="py-20 lg:py-28 bg-[#F9FAFB]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#111827] mb-4">
-            Cómo Funciona Planneo
-          </h2>
-          <p className="text-lg text-[#6B7280] max-w-2xl mx-auto">
-            Nuestro proceso simplificado te lleva del concepto a la celebración
-          </p>
+    <section id="crear-evento" className="bg-[#0E0B1A] px-4 py-20 text-[#F5F0FF] sm:px-6 lg:px-14 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="relative min-h-[420px]">
+          <PaperCard className="left-3 top-8 rotate-[-8deg]" step="01" title="Tipo de evento" body={selected} />
+          <PaperCard className="left-16 top-24 rotate-[5deg]" step="02" title="Detalles" body="120 invitados · San Pedro" />
+          <PaperCard className="left-8 top-44 rotate-[-3deg]" step="03" title="Servicios" body="Foto · Música · Catering" />
+          <PaperCard className="left-20 top-64 rotate-[7deg]" step="✓" title="Listo" body="Te mostramos opciones para cotizar." />
         </div>
 
-        {/* Steps */}
-        <motion.div
-          variants={reduced ? undefined : containerVariants}
-          initial={reduced ? undefined : "hidden"}
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="relative grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0"
-        >
-          {STEPS.map((step, index) => (
-            <div key={step.number} className="relative flex flex-col items-center text-center">
-              {/* Connector line (between steps, desktop only) */}
-              {index < STEPS.length - 1 && (
-                <div
-                  className="hidden md:block absolute top-6 left-1/2 w-full h-0.5 bg-gradient-to-r from-[#7C3AED] to-[#A855F7] z-0"
-                  aria-hidden="true"
-                />
-              )}
+        <div>
+          <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// CREAR EVENTO"}</p>
+          <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+            ¿No sabes por dónde empezar? Mejor te lo resolvemos <span className="v4-shimmer-text">nosotros.</span>
+          </h2>
+          <p className="mt-6 max-w-xl text-base leading-7 text-white/60">
+            Elige tu tipo de evento y ve armando una lista corta de proveedores. El MVP mantiene la cotización simple: perfil claro y contacto por WhatsApp.
+          </p>
 
-              <motion.div
-                variants={reduced ? undefined : itemVariants}
-                className="relative z-10 flex flex-col items-center gap-4"
+          <div className="mt-8 flex flex-wrap gap-3">
+            {eventTypes.map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setSelected(type)}
+                className={`min-h-11 rounded-full border px-4 text-sm font-semibold transition ${
+                  selected === type
+                    ? "border-[#C77DFF] bg-[#7B2CBF] text-white"
+                    : "border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]"
+                }`}
               >
-                {/* Circle */}
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#7C3AED] to-[#A855F7] flex items-center justify-center shadow-lg shadow-[#7C3AED]/30">
-                  <span className="text-white font-bold text-lg">{step.number}</span>
-                </div>
+                {type}
+              </button>
+            ))}
+          </div>
 
-                <div className="px-4">
-                  <h3 className="font-semibold text-[#111827] text-lg mb-2">{step.title}</h3>
-                  <p className="text-[#6B7280] text-sm leading-relaxed max-w-xs">{step.description}</p>
-                </div>
-              </motion.div>
-            </div>
-          ))}
-        </motion.div>
+          <Link
+            href="/proveedores"
+            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-[14px] bg-[#7B2CBF] px-8 font-semibold text-white transition hover:bg-[#6B22AE]"
+          >
+            Empezar mi evento
+          </Link>
+        </div>
       </div>
     </section>
+  );
+}
+
+function PaperCard({
+  className,
+  step,
+  title,
+  body,
+}: {
+  className: string;
+  step: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className={`absolute w-[280px] rounded-[10px] border border-[#D9D2E8] bg-[#F8F6FB] p-5 text-[#1F1B2E] shadow-2xl shadow-black/30 sm:w-[340px] ${className}`}>
+      <div className="flex items-center justify-between">
+        <span className="v4-mono text-[10px] text-[#7B2CBF]">{step}</span>
+        <span className="size-2 rounded-full bg-[#06D6A0]" />
+      </div>
+      <h3 className="v4-display mt-5 text-2xl font-bold tracking-[-0.04em]">{title}</h3>
+      <p className="mt-2 text-sm text-[#6B6478]">{body}</p>
+    </div>
   );
 }

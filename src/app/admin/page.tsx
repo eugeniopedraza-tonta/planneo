@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function AdminDashboard() {
@@ -38,7 +39,7 @@ export default async function AdminDashboard() {
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <h2 className="text-base font-semibold text-gray-700 mb-2">Próximos pasos</h2>
         <ul className="text-sm text-gray-500 flex flex-col gap-1">
-          <li>→ Agrega proveedores desde <a href="/admin/proveedores" className="text-[#7C3AED] hover:underline">Proveedores</a></li>
+          <li>→ Agrega proveedores desde <Link href="/admin/proveedores" className="text-[#7C3AED] hover:underline">Proveedores</Link></li>
           <li>→ Importa el CSV de Gus para cargar en bloque</li>
           <li>→ Genera links de reclamación para las sales calls</li>
         </ul>

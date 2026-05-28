@@ -2,26 +2,33 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { createStaticClient } from '@/lib/supabase/server'
+import { createClient, createStaticClient } from '@/lib/supabase/server'
 
 export const revalidate = 3600
 export const dynamicParams = true
 import { CATEGORY_SLUGS } from '@/lib/constants'
 import WhatsAppButton from '@/components/whatsapp-button'
+import ProfileViewTracker from '@/components/profile-view-tracker'
+import Navbar from '@/components/landing/Navbar'
 import type { ProviderWithCategory } from '@/lib/types'
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>
+  searchParams: Promise<{ preview?: string }>
 }
 
-async function getProvider(slug: string): Promise<ProviderWithCategory | null> {
-  const supabase = createStaticClient()
-  const { data } = await supabase
+async function getProvider(slug: string, preview = false): Promise<ProviderWithCategory | null> {
+  const supabase = preview ? await createClient() : createStaticClient()
+  let query = supabase
     .from('providers')
     .select('*, categories(id, name, slug)')
     .eq('slug', slug)
-    .eq('status', 'published')
-    .single()
+
+  if (!preview) {
+    query = query.in('status', ['published', 'claimed'])
+  }
+
+  const { data } = await query.single()
 
   return (data as ProviderWithCategory) ?? null
 }
@@ -31,7 +38,7 @@ export async function generateStaticParams() {
   const { data } = await supabase
     .from('providers')
     .select('slug, categories(slug)')
-    .eq('status', 'published')
+    .in('status', ['published', 'claimed'])
     .limit(200)
 
   if (!data) return []
@@ -88,14 +95,16 @@ const PRICE_LABEL: Record<string, string> = {
   '$$$': '$$$ · Premium',
 }
 
-export default async function ProviderProfilePage({ params }: PageProps) {
+export default async function ProviderProfilePage({ params, searchParams }: PageProps) {
   const { category, slug } = await params
+  const { preview } = await searchParams
 
   if (!(CATEGORY_SLUGS as readonly string[]).includes(category)) {
     notFound()
   }
 
-  const provider = await getProvider(slug)
+  const isPreview = preview === 'true'
+  const provider = await getProvider(slug, isPreview)
   if (!provider) notFound()
 
   // Verify URL category matches actual category
@@ -127,16 +136,30 @@ export default async function ProviderProfilePage({ params }: PageProps) {
 
   return (
     <>
+      {!isPreview && (
+        <ProfileViewTracker
+          providerId={provider.id}
+          providerName={provider.name}
+          category={provider.categories?.slug}
+        />
+      )}
+
       <script
         type="application/ld+json"
         // Content is JSON.stringify output with </script> escaped — safe for inline use
-        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
 
       <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        {isPreview && (
+          <div className="bg-[#2F241D] px-4 py-2 pt-20 text-center text-sm font-medium text-white">
+            Vista previa admin. Este perfil puede no estar publicado.
+          </div>
+        )}
+
         {/* Breadcrumb */}
-        <div className="bg-white border-b border-gray-100">
+        <div className={`bg-white border-b border-gray-100 ${isPreview ? '' : 'pt-16'}`}>
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
             <nav className="text-sm text-[#6B7280]">
               <Link href="/" className="hover:text-[#7C3AED] transition-colors">
