@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Planneo — La plataforma #1 para eventos en México",
+  title: {
+    default: "Planneo — Proveedores para eventos en Monterrey",
+    template: "%s | Planneo",
+  },
   description:
-    "Conectamos a los mejores músicos con quienes crean momentos inolvidables.",
+    "Encuentra fotógrafos, DJ, salones, catering y más para tu boda, XV años o evento corporativo en Monterrey.",
+  metadataBase: new URL("https://planneo.mx"),
 };
 
 export default function RootLayout({
@@ -18,7 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={cn("h-full antialiased", inter.variable)}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Toaster richColors />
+      </body>
+      {process.env.NEXT_PUBLIC_GA4_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA4_ID} />
+      )}
     </html>
   );
 }
