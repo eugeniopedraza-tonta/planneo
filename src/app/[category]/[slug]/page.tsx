@@ -9,8 +9,10 @@ export const dynamicParams = true
 import { CATEGORY_SLUGS } from '@/lib/constants'
 import QuoteRequestForm from '@/components/quote-request-form'
 import ProfileViewTracker from '@/components/profile-view-tracker'
+import ProviderPackagesSection from '@/components/provider-packages-section'
+import PublicAvailabilityCalendar from '@/components/public-availability-calendar'
 import Navbar from '@/components/landing/Navbar'
-import type { ProviderWithCategory } from '@/lib/types'
+import type { ProviderWithCategory, PublicAvailability, ServicePackage } from '@/lib/types'
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>
@@ -106,6 +108,23 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
   const isPreview = preview === 'true'
   const provider = await getProvider(slug, isPreview)
   if (!provider) notFound()
+
+  const publicData = createStaticClient()
+  const [{ data: packages }, { data: availability }] = await Promise.all([
+    publicData
+      .from('service_packages')
+      .select('*')
+      .eq('provider_id', provider.id)
+      .order('is_featured', { ascending: false })
+      .order('sort_order')
+      .returns<ServicePackage[]>(),
+    publicData
+      .from('public_provider_availability')
+      .select('*')
+      .eq('provider_id', provider.id)
+      .gte('date', new Date().toISOString().slice(0, 10))
+      .returns<PublicAvailability[]>(),
+  ])
 
   // Verify URL category matches actual category
   if (provider.categories?.slug && provider.categories.slug !== category) {
@@ -260,6 +279,21 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                   </div>
                 </div>
               )}
+
+              {/* Paquetes con "Agregar a mi evento" */}
+              <ProviderPackagesSection
+                provider={{
+                  id: provider.id,
+                  name: provider.name,
+                  slug: provider.slug,
+                  categorySlug: provider.categories?.slug ?? category,
+                }}
+                packages={packages ?? []}
+                availability={availability ?? []}
+              />
+
+              {/* Calendario readonly */}
+              <PublicAvailabilityCalendar availability={availability ?? []} />
             </article>
 
             {/* Contact sidebar */}

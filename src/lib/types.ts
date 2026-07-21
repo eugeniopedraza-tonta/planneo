@@ -125,6 +125,13 @@ export type CateringMenuWithItems = CateringMenu & {
   catering_menu_items: CateringMenuItem[]
 }
 
+/** Fila de la vista public_provider_availability (sin nota privada). */
+export type PublicAvailability = {
+  provider_id: string
+  date: string
+  status: AvailabilityStatus
+}
+
 export type ProviderAvailability = {
   id: string
   provider_id: string

@@ -372,10 +372,10 @@ directamente — lo que necesita saber viaja en la inquiry. Admin todo.
 - [x] `/panel/menu` — constructor de menús de catering (solo categoría banquete)
 - [x] `/panel/salon` — form de venue_details (solo categoría salones, incl. plano como imagen)
 
-#### Sprint 7 — Perfil público: paquetes + calendario
-- [ ] Sección de paquetes en `/[category]/[slug]` (datos ya públicos vía RLS)
-- [ ] Calendario readonly (próximos meses; sin notas privadas)
-- [ ] Botón "Agregar a mi evento" por paquete
+#### Sprint 7 — Perfil público: paquetes + calendario ✅ (2026-07-21)
+- [x] Sección de paquetes en `/[category]/[slug]` (datos ya públicos vía RLS)
+- [x] Calendario readonly (vista `public_provider_availability`, sin notas privadas)
+- [x] Botón "Agregar a mi evento" por paquete (carrito en localStorage, `src/lib/cart.ts`)
 
 #### Sprint 8 — Carrito y envío
 - [ ] Migración: `events` + `inquiries.event_id` + `inquiries.package_id` + RLS

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { PRICE_UNITS } from '@/lib/constants'
+import { formatPackagePrice } from '@/lib/format'
 import type { ServicePackage } from '@/lib/types'
 import { createPackage, updatePackage, deletePackage, type State } from './_actions'
 
@@ -59,7 +60,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-[#7C3AED] font-medium mt-0.5">{formatPrice(pkg)}</p>
+                <p className="text-sm text-[#7C3AED] font-medium mt-0.5">{formatPackagePrice(pkg)}</p>
                 {pkg.description && (
                   <p className="text-sm text-gray-500 mt-1.5">{pkg.description}</p>
                 )}
@@ -244,12 +245,4 @@ function PackageForm({
       </div>
     </form>
   )
-}
-
-function formatPrice(pkg: ServicePackage): string {
-  const unit = PRICE_UNITS.find((u) => u.value === pkg.price_unit)?.label.toLowerCase() ?? ''
-  const fmt = (n: number) => `$${n.toLocaleString('es-MX')}`
-  if (pkg.price_from && pkg.price_to) return `${fmt(pkg.price_from)} – ${fmt(pkg.price_to)} ${unit}`.trim()
-  if (pkg.price_from) return `Desde ${fmt(pkg.price_from)} ${unit}`.trim()
-  return 'Precio a consultar'
 }
