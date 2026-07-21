@@ -3,7 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-import { EVENT_TYPES, MENU_COURSES } from '@/lib/constants'
+import { CATERING_CATEGORY_SLUG, EVENT_TYPES, MENU_COURSES } from '@/lib/constants'
+import { getOwnedProviderWithCategory } from '../../_lib/owned-provider'
 
 export type State = { error?: string; fieldErrors?: Record<string, string[]>; success?: boolean }
 
@@ -38,6 +39,7 @@ function parseMenuForm(formData: FormData) {
       .filter(Boolean)
       .forEach((line, i) => {
         const [name, ...rest] = line.split('—')
+        if (!name.trim()) return
         items.push({
           course: course.value,
           name: name.trim(),
@@ -61,15 +63,11 @@ function parseMenuForm(formData: FormData) {
 
 export async function createMenu(_prev: State, formData: FormData): Promise<State> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Unauthorized')
-
-  const { data: provider } = await supabase
-    .from('providers')
-    .select('id')
-    .eq('claimed_by', user.id)
-    .maybeSingle()
+  const provider = await getOwnedProviderWithCategory(supabase)
   if (!provider) return { error: 'Sin perfil vinculado' }
+  if (provider.categories?.slug !== CATERING_CATEGORY_SLUG) {
+    return { error: 'Los menús son solo para la categoría Banquete / Catering' }
+  }
 
   const parsed = parseMenuForm(formData)
   if ('fieldErrors' in parsed) return { fieldErrors: parsed.fieldErrors }
@@ -111,17 +109,27 @@ export async function updateMenu(menuId: string, _prev: State, formData: FormDat
   if (error) return { error: error.message }
   if (!updated || updated.length === 0) return { error: 'Menú no encontrado' }
 
-  const { error: deleteError } = await supabase
+  // Insertar los platillos nuevos ANTES de borrar los anteriores: si el insert
+  // falla, el menú conserva sus platillos y no hay pérdida de datos.
+  const { data: oldItems } = await supabase
     .from('catering_menu_items')
-    .delete()
+    .select('id')
     .eq('menu_id', menuId)
-  if (deleteError) return { error: deleteError.message }
 
   if (parsed.items.length > 0) {
     const { error: itemsError } = await supabase
       .from('catering_menu_items')
       .insert(parsed.items.map((item) => ({ menu_id: menuId, ...item })))
     if (itemsError) return { error: itemsError.message }
+  }
+
+  const oldIds = oldItems?.map((i) => i.id) ?? []
+  if (oldIds.length > 0) {
+    const { error: deleteError } = await supabase
+      .from('catering_menu_items')
+      .delete()
+      .in('id', oldIds)
+    if (deleteError) return { error: deleteError.message }
   }
 
   revalidatePath('/panel/menu')
@@ -133,8 +141,13 @@ export async function deleteMenu(menuId: string): Promise<{ error?: string }> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'No autorizado' }
 
-  const { error } = await supabase.from('catering_menus').delete().eq('id', menuId)
+  const { data: deleted, error } = await supabase
+    .from('catering_menus')
+    .delete()
+    .eq('id', menuId)
+    .select('id')
   if (error) return { error: error.message }
+  if (!deleted || deleted.length === 0) return { error: 'Menú no encontrado' }
 
   revalidatePath('/panel/menu')
   return {}

@@ -112,12 +112,16 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
   )
 }
 
+function itemsForCourse(menu: CateringMenuWithItems, courseValue: string) {
+  return menu.catering_menu_items
+    .filter((item) => item.course === courseValue)
+    .sort((a, b) => a.sort_order - b.sort_order)
+}
+
 function MenuItemsSummary({ menu }: { menu: CateringMenuWithItems }) {
   const courses = MENU_COURSES.map((course) => ({
     label: course.label,
-    items: menu.catering_menu_items
-      .filter((item) => item.course === course.value)
-      .sort((a, b) => a.sort_order - b.sort_order),
+    items: itemsForCourse(menu, course.value),
   })).filter((c) => c.items.length > 0)
 
   if (courses.length === 0) return null
@@ -249,11 +253,13 @@ function MenuForm({
               rows={2}
               placeholder={course.value === 'plato_principal' ? 'Filete en salsa de champiñones — con guarnición de temporada' : ''}
               defaultValue={
-                menu?.catering_menu_items
-                  .filter((item) => item.course === course.value)
-                  .sort((a, b) => a.sort_order - b.sort_order)
-                  .map((item) => (item.description ? `${item.name} — ${item.description}` : item.name))
-                  .join('\n') ?? ''
+                menu
+                  ? itemsForCourse(menu, course.value)
+                      .map((item) =>
+                        item.description ? `${item.name} — ${item.description}` : item.name
+                      )
+                      .join('\n')
+                  : ''
               }
             />
           </div>

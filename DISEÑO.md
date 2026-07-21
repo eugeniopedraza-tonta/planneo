@@ -219,7 +219,7 @@ Información específica del salón:
 - Estacionamiento propio
 - Permite catering externo
 - Amenidades disponibles (audio, iluminación, proyector, terraza, jardín, etc.)
-- Plano del salón (archivo PDF o imagen)
+- Plano del salón (imagen JPEG/PNG/WebP — el bucket de fotos no admite PDF)
 
 ---
 

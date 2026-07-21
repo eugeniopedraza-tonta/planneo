@@ -1,7 +1,8 @@
 'use client'
 
-import { useActionState, useEffect } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,8 +10,16 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { VENUE_AMENITIES } from '@/lib/constants'
+import { ALLOWED_IMAGE_ACCEPT } from '@/lib/media'
+import { uploadToSignedUrlWithProgress } from '@/lib/upload-client'
 import type { VenueDetails } from '@/lib/types'
-import { saveVenueDetails, type State } from './_actions'
+import {
+  saveVenueDetails,
+  requestFloorPlanUpload,
+  confirmFloorPlanUpload,
+  deleteFloorPlan,
+  type State,
+} from './_actions'
 
 export default function VenueForm({ details }: { details: VenueDetails | null }) {
   const router = useRouter()
@@ -115,5 +124,106 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
         </Button>
       </div>
     </form>
+  )
+}
+
+export function FloorPlanSection({ floorPlanUrl }: { floorPlanUrl: string | null }) {
+  const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [progress, setProgress] = useState<number | null>(null)
+
+  async function handleFile(file: File) {
+    setProgress(0)
+    try {
+      const ticket = await requestFloorPlanUpload({ fileType: file.type, fileSize: file.size })
+      if ('error' in ticket) {
+        toast.error(ticket.error)
+        return
+      }
+      await uploadToSignedUrlWithProgress({
+        signedUrl: ticket.signedUrl,
+        file,
+        onProgress: setProgress,
+      })
+      const confirmed = await confirmFloorPlanUpload({ path: ticket.path })
+      if (confirmed.error) {
+        toast.error(confirmed.error)
+        return
+      }
+      toast.success('Plano guardado.')
+      router.refresh()
+    } catch {
+      toast.error('La carga falló. Intenta de nuevo.')
+    } finally {
+      setProgress(null)
+      if (inputRef.current) inputRef.current.value = ''
+    }
+  }
+
+  async function handleDelete() {
+    if (!confirm('¿Eliminar el plano del salón?')) return
+    const res = await deleteFloorPlan()
+    if (res.error) toast.error(res.error)
+    else {
+      toast.success('Plano eliminado.')
+      router.refresh()
+    }
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col gap-4">
+      <div>
+        <h2 className="text-sm font-semibold text-gray-900">Plano del salón</h2>
+        <p className="text-xs text-gray-500 mt-0.5">
+          Una imagen del plano ayuda al cliente a planear la distribución (JPEG, PNG o WebP, máx 10MB).
+        </p>
+      </div>
+
+      {floorPlanUrl && (
+        <div className="relative w-full max-w-md h-56 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
+          <Image
+            src={floorPlanUrl}
+            alt="Plano del salón"
+            fill
+            sizes="(max-width: 640px) 100vw, 448px"
+            className="object-contain"
+          />
+        </div>
+      )}
+
+      <div className="flex items-center gap-3">
+        <input
+          ref={inputRef}
+          type="file"
+          accept={ALLOWED_IMAGE_ACCEPT}
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0]
+            if (file) void handleFile(file)
+          }}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          disabled={progress !== null}
+          onClick={() => inputRef.current?.click()}
+        >
+          {progress !== null
+            ? `Subiendo… ${progress}%`
+            : floorPlanUrl
+              ? 'Reemplazar plano'
+              : 'Subir plano'}
+        </Button>
+        {floorPlanUrl && progress === null && (
+          <button
+            type="button"
+            onClick={() => void handleDelete()}
+            className="text-xs font-medium text-red-500 hover:underline"
+          >
+            Eliminar
+          </button>
+        )}
+      </div>
+    </div>
   )
 }

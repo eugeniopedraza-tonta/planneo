@@ -1,20 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { CATERING_CATEGORY_SLUG } from '@/lib/constants'
 import type { CateringMenuWithItems } from '@/lib/types'
+import { getOwnedProviderWithCategory } from '../../_lib/owned-provider'
 import MenusManager from './_menus-manager'
 
 export const dynamic = 'force-dynamic'
 
 export default async function MenuPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-
-  const { data: provider } = await supabase
-    .from('providers')
-    .select('id, categories(slug)')
-    .eq('claimed_by', user.id)
-    .maybeSingle<{ id: string; categories: { slug: string } | null }>()
+  const provider = await getOwnedProviderWithCategory(supabase)
 
   if (!provider) {
     return (

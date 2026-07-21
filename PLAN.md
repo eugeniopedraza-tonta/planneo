@@ -368,9 +368,9 @@ directamente — lo que necesita saber viaja en la inquiry. Admin todo.
 
 ### 6.4 Sprints
 
-#### Sprint 6 — Cerrar Fase 1 (panel proveedor 100%)
-- [ ] `/panel/menu` — constructor de menús de catering (solo categoría banquete)
-- [ ] `/panel/salon` — form de venue_details (solo categoría salones)
+#### Sprint 6 — Cerrar Fase 1 (panel proveedor 100%) ✅ (2026-07-21)
+- [x] `/panel/menu` — constructor de menús de catering (solo categoría banquete)
+- [x] `/panel/salon` — form de venue_details (solo categoría salones, incl. plano como imagen)
 
 #### Sprint 7 — Perfil público: paquetes + calendario
 - [ ] Sección de paquetes en `/[category]/[slug]` (datos ya públicos vía RLS)

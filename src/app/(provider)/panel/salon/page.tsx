@@ -1,20 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { VENUE_CATEGORY_SLUG } from '@/lib/constants'
 import type { VenueDetails } from '@/lib/types'
-import VenueForm from './_venue-form'
+import { getOwnedProviderWithCategory } from '../../_lib/owned-provider'
+import VenueForm, { FloorPlanSection } from './_venue-form'
 
 export const dynamic = 'force-dynamic'
 
 export default async function SalonPage() {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-
-  const { data: provider } = await supabase
-    .from('providers')
-    .select('id, categories(slug)')
-    .eq('claimed_by', user.id)
-    .maybeSingle<{ id: string; categories: { slug: string } | null }>()
+  const provider = await getOwnedProviderWithCategory(supabase)
 
   if (!provider) {
     return (
@@ -48,7 +42,10 @@ export default async function SalonPage() {
           Capacidad, ubicación y amenidades. Esta información aparece en tu perfil público.
         </p>
       </div>
-      <VenueForm details={details ?? null} />
+      <div className="flex flex-col gap-4">
+        <VenueForm details={details ?? null} />
+        <FloorPlanSection floorPlanUrl={details?.floor_plan_url ?? null} />
+      </div>
     </div>
   )
 }
