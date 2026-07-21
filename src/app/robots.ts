@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: ['/', '/fotografia', '/belleza', '/musica', '/banquete', '/decoracion', '/buscar'],
-        disallow: ['/admin', '/reclamar', '/mi-perfil', '/api', '/login'],
+        disallow: ['/admin', '/reclamar', '/mi-perfil', '/api', '/login', '/consulta', '/panel'],
       },
     ],
     sitemap: 'https://planneo.mx/sitemap.xml',

@@ -25,11 +25,11 @@ export default function PhotoUploader({ providerId, initialPhotos = [], onPhotos
 
     for (const file of files) {
       const ext = file.name.split('.').pop()
-      const path = `${providerId ?? 'new'}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+      const path = `${providerId ?? 'admin-nuevos'}/${crypto.randomUUID()}.${ext}`
 
       const { error } = await supabase.storage
         .from('provider-photos')
-        .upload(path, file, { upsert: true })
+        .upload(path, file)
 
       if (!error) {
         const { data } = supabase.storage.from('provider-photos').getPublicUrl(path)

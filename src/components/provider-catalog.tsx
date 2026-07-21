@@ -19,14 +19,12 @@ export default async function ProviderCatalog({
   action = '/proveedores',
   lockedCategory,
   title = 'Proveedores para eventos en Monterrey.',
-  eyebrow = '// CATÁLOGO',
   description = 'Filtra por categoría, zona, tipo de evento y precio. No necesitas iniciar sesión para pedir cotización.',
 }: {
   searchParams: CatalogParams
   action?: string
   lockedCategory?: string
   title?: string
-  eyebrow?: string
   description?: string
 }) {
   const supabase = createStaticClient()
@@ -60,7 +58,6 @@ export default async function ProviderCatalog({
       <Navbar />
       <div className="border-b border-white/10 bg-[#15101F] pt-24">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{eyebrow}</p>
           <h1 className="v4-display max-w-4xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
             {title}
           </h1>

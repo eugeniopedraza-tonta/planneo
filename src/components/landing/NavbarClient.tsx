@@ -20,8 +20,14 @@ const NAV_LINKS = [
 
 function dashboardHref(user: NavUser) {
   if (user?.role === "admin") return "/admin";
-  if (user?.role === "provider") return "/mi-perfil";
-  return "/login";
+  if (user?.role === "provider" || user?.role === "provider_pending") return "/panel";
+  return "/mis-consultas";
+}
+
+function dashboardLabel(user: NavUser) {
+  if (user?.role === "admin") return "Admin";
+  if (user?.role === "provider" || user?.role === "provider_pending") return "Mi perfil";
+  return "Mis consultas";
 }
 
 export default function NavbarClient({ user }: { user: NavUser }) {
@@ -38,7 +44,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
 
   return (
     <FloatingNavbar>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto px-12 lg:px-24">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="shrink-0" aria-label="Planneo inicio">
             <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-[28px] font-bold text-transparent sm:text-[32px]">
@@ -46,7 +52,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
+          <nav className="hidden md:flex items-center gap-25" aria-label="Navegación principal">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -62,9 +68,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
             {signedIn ? (
               <>
                 <Button variant="ghost" size="sm" className="text-white/75 hover:bg-white/10 hover:text-white" asChild>
-                  <Link href={dashboardHref(user)}>
-                    {user.role === "admin" ? "Admin" : "Mi perfil"}
-                  </Link>
+                  <Link href={dashboardHref(user)}>{dashboardLabel(user)}</Link>
                 </Button>
                 <Button
                   variant="ghost"
@@ -124,7 +128,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
               {signedIn ? (
                 <>
                   <Button variant="ghost" className="w-full justify-center text-white hover:bg-white/10" asChild>
-                    <Link href={dashboardHref(user)}>{user.role === "admin" ? "Admin" : "Mi perfil"}</Link>
+                    <Link href={dashboardHref(user)}>{dashboardLabel(user)}</Link>
                   </Button>
                   <Button variant="ghost" className="w-full justify-center text-white/70 hover:bg-white/10" onClick={handleLogout}>
                     {loggingOut ? "Saliendo..." : "Cerrar sesión"}

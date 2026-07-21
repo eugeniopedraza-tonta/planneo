@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { CATEGORY_SLUGS } from '@/lib/constants'
 
 const BASE = 'https://planneo.mx'
 
@@ -29,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }]
   }) ?? []
 
-  const categoryUrls = ['fotografia', 'belleza', 'musica', 'banquete', 'decoracion'].map(slug => ({
+  const categoryUrls = CATEGORY_SLUGS.map(slug => ({
     url: `${BASE}/${slug}`,
     changeFrequency: 'daily' as const,
     priority: 0.9,

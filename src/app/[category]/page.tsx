@@ -60,7 +60,6 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       searchParams={filters}
       action={`/${slug}`}
       lockedCategory={slug}
-      eyebrow={`// ${category.name.toUpperCase()}`}
       title={`${category.name} para eventos en Monterrey.`}
       description={`Encuentra proveedores de ${category.name.toLowerCase()} para bodas, XV años, graduaciones y eventos corporativos.`}
     />

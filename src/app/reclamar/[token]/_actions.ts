@@ -105,5 +105,5 @@ export async function redeemToken(
     }
   }
 
-  redirect('/mi-perfil')
+  redirect('/panel')
 }

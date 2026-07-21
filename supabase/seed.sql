@@ -3,5 +3,6 @@ insert into categories (name, slug) values
   ('Belleza / Maquillaje', 'belleza'),
   ('DJ / Música', 'musica'),
   ('Banquete / Catering', 'banquete'),
-  ('Decoración', 'decoracion')
+  ('Decoración', 'decoracion'),
+  ('Salones de eventos', 'salones')
 on conflict (slug) do nothing;

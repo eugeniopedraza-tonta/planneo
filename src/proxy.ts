@@ -14,14 +14,18 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith('/mi-perfil')) {
+  if (pathname.startsWith('/mi-perfil') || pathname.startsWith('/panel')) {
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
     const role = user.app_metadata?.role
-    if (role !== 'provider' && role !== 'admin') {
+    if (role !== 'provider' && role !== 'provider_pending' && role !== 'admin') {
       return NextResponse.redirect(new URL('/', request.url))
     }
+  }
+
+  if (pathname.startsWith('/mis-consultas') && !user) {
+    return NextResponse.redirect(new URL('/login?next=/mis-consultas', request.url))
   }
 
   return response

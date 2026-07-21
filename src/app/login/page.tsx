@@ -2,10 +2,22 @@
 
 import { useState } from 'react'
 import { useEffect } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+
+function homeForRole(role: unknown): string {
+  if (role === 'admin') return '/admin'
+  if (role === 'provider' || role === 'provider_pending') return '/panel'
+  return '/mis-consultas'
+}
+
+function safeNext(): string | null {
+  const next = new URLSearchParams(window.location.search).get('next')
+  return next && next.startsWith('/') ? next : null
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -16,9 +28,8 @@ export default function LoginPage() {
   useEffect(() => {
     const supabase = createClient()
     supabase.auth.getUser().then(({ data }) => {
-      const role = data.user?.app_metadata?.role
-      if (role === 'admin') window.location.href = '/admin'
-      if (role === 'provider') window.location.href = '/mi-perfil'
+      if (!data.user) return
+      window.location.href = safeNext() ?? homeForRole(data.user.app_metadata?.role)
     })
   }, [])
 
@@ -37,9 +48,7 @@ export default function LoginPage() {
     }
 
     const { data } = await supabase.auth.getUser()
-    const role = data.user?.app_metadata?.role
-
-    window.location.href = role === 'provider' ? '/mi-perfil' : '/admin'
+    window.location.href = safeNext() ?? homeForRole(data.user?.app_metadata?.role)
   }
 
   return (
@@ -51,7 +60,7 @@ export default function LoginPage() {
           <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
             Planneo
           </span>
-          <p className="mt-2 text-sm text-white/55">Acceso para admins y proveedores</p>
+          <p className="mt-2 text-sm text-white/55">Inicia sesión en tu cuenta</p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -83,14 +92,33 @@ export default function LoginPage() {
 
           {error && <p className="text-sm text-red-500">{error}</p>}
 
+          <div className="-mt-2 text-right">
+            <Link
+              href="/recuperar"
+              className="text-xs text-white/45 hover:text-[#C77DFF] transition-colors"
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
+
           <Button type="submit" disabled={loading} className="v4-cta-glow mt-2 w-full rounded-xl bg-[#7B2CBF] text-white hover:bg-[#6B22AE]">
             {loading ? 'Entrando…' : 'Entrar'}
           </Button>
 
-          <p className="text-xs leading-relaxed text-white/45">
-            Si tu cuenta fue creada en Supabase y no recuerdas la contraseña,
-            restablécela desde Authentication &gt; Users antes de entrar.
-          </p>
+          <div className="mt-2 flex flex-col gap-1.5 text-center text-xs text-white/45">
+            <p>
+              ¿Organizas un evento?{' '}
+              <Link href="/crear-cuenta" className="text-[#C77DFF] hover:text-white transition-colors">
+                Crea tu cuenta
+              </Link>
+            </p>
+            <p>
+              ¿Ofreces servicios?{' '}
+              <Link href="/registrarme" className="text-[#C77DFF] hover:text-white transition-colors">
+                Registra tu negocio
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>

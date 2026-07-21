@@ -7,7 +7,7 @@ import { createClient, createStaticClient } from '@/lib/supabase/server'
 export const revalidate = 3600
 export const dynamicParams = true
 import { CATEGORY_SLUGS } from '@/lib/constants'
-import WhatsAppButton from '@/components/whatsapp-button'
+import QuoteRequestForm from '@/components/quote-request-form'
 import ProfileViewTracker from '@/components/profile-view-tracker'
 import Navbar from '@/components/landing/Navbar'
 import type { ProviderWithCategory } from '@/lib/types'
@@ -267,17 +267,13 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-4 space-y-4">
                 <h2 className="font-semibold text-[#111827]">Contactar</h2>
 
-                {provider.whatsapp ? (
-                  <WhatsAppButton
-                    providerId={provider.id}
-                    whatsapp={provider.whatsapp}
-                    providerName={provider.name}
-                  />
-                ) : (
-                  <p className="text-sm text-[#6B7280]">
-                    Este proveedor aún no ha añadido su contacto.
-                  </p>
-                )}
+                {/* Todo el contacto y la cotización viven dentro de Planneo:
+                    no exponemos WhatsApp ni email directo del proveedor. */}
+                <QuoteRequestForm providerId={provider.id} />
+
+                <p className="text-xs text-[#6B7280]">
+                  Recibirás la cotización y podrás conversar con el proveedor directamente en Planneo, sin salir de la plataforma.
+                </p>
 
                 {provider.instagram_handle && (
                   <a
@@ -288,16 +284,6 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                   >
                     <span aria-hidden="true">📸</span>
                     @{provider.instagram_handle}
-                  </a>
-                )}
-
-                {provider.email && (
-                  <a
-                    href={`mailto:${provider.email}`}
-                    className="flex items-center gap-2 text-sm text-[#6B7280] hover:text-[#7C3AED] transition-colors"
-                  >
-                    <span aria-hidden="true">✉️</span>
-                    {provider.email}
                   </a>
                 )}
 
