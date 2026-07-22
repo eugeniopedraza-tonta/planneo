@@ -14,10 +14,10 @@ export default async function NuevoProveedorPage() {
         <Button variant="ghost" size="sm" asChild>
           <Link href="/admin/proveedores">← Volver</Link>
         </Button>
-        <h1 className="text-2xl font-bold text-gray-900">Nuevo proveedor</h1>
+        <h1 className="text-2xl font-bold text-white">Nuevo proveedor</h1>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="bg-planneo-900 rounded-xl border border-white/10 p-6">
         <ProviderForm categories={categories ?? []} action={createProvider} />
       </div>
     </div>

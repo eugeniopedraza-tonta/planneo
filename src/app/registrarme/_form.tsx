@@ -35,7 +35,7 @@ export default function RegisterForm({ categories, zonas }: Props) {
           que sigan enviándose con el formulario. */}
       <div className={codeStep ? 'hidden' : 'contents'}>
       <section className="flex flex-col gap-4">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40">Tu negocio</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/50">Tu negocio</h2>
 
         <Field label="Nombre del negocio *" error={state.fieldErrors?.business_name}>
           <input
@@ -84,7 +84,7 @@ export default function RegisterForm({ categories, zonas }: Props) {
       </section>
 
       <section className="flex flex-col gap-4 border-t border-white/10 pt-4">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/40">Tu cuenta</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-white/50">Tu cuenta</h2>
 
         <Field label="Nombre de contacto *" error={state.fieldErrors?.contact_name}>
           <input
@@ -143,7 +143,7 @@ export default function RegisterForm({ categories, zonas }: Props) {
       <button
         type="submit"
         disabled={isPending}
-        className="mt-2 w-full rounded-xl bg-[#7B2CBF] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#6B22AE] disabled:opacity-60"
+        className="mt-2 w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
       >
         {isPending
           ? codeStep ? 'Verificando…' : 'Enviando código…'
@@ -184,7 +184,7 @@ export default function RegisterForm({ categories, zonas }: Props) {
 }
 
 const inputCls =
-  'h-10 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#C77DFF] focus:bg-white/[0.07] transition-colors'
+  'h-10 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus:bg-white/[0.07] transition-colors'
 
 function Field({
   label,

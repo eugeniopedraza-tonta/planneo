@@ -41,14 +41,14 @@ export default function ProvidersTableActions({ provider }: { provider: Provider
         size="xs"
         onClick={handleToggle}
         disabled={loading}
-        className={provider.status === 'published' ? 'text-orange-600 hover:text-orange-700' : 'text-green-600 hover:text-green-700'}
+        className={provider.status === 'published' ? 'text-orange-600 hover:text-orange-700' : 'text-planneo-mint hover:text-planneo-mint'}
       >
         {provider.status === 'published' ? 'Despublicar' : 'Publicar'}
       </Button>
 
       <ClaimLinkButton providerId={provider.id} />
 
-      <Button variant="ghost" size="xs" onClick={handleDelete} disabled={loading} className="text-red-500 hover:text-red-600">
+      <Button variant="ghost" size="xs" onClick={handleDelete} disabled={loading} className="text-red-300 hover:text-red-300">
         Eliminar
       </Button>
     </div>

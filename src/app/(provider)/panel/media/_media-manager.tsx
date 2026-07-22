@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { MusicIcon, VideoIcon } from '@/components/icons'
 import {
   ALLOWED_AUDIO_TYPES,
   ALLOWED_MEDIA_ACCEPT,
@@ -167,21 +168,21 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
           addFiles(Array.from(e.dataTransfer.files))
         }}
         className={`rounded-2xl border-2 border-dashed p-8 text-center transition-colors ${
-          dragging ? 'border-[#7C3AED] bg-[#7C3AED]/5' : 'border-gray-300 bg-white'
+          dragging ? 'border-planneo-300 bg-planneo-600/10' : 'border-white/15 bg-planneo-900'
         }`}
       >
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-white/60">
           Arrastra tus archivos aquí o{' '}
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={full}
-            className="font-medium text-[#7C3AED] hover:underline disabled:opacity-50 disabled:no-underline"
+            className="font-medium text-planneo-300 hover:underline disabled:opacity-50 disabled:no-underline"
           >
             selecciónalos
           </button>
         </p>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-white/50 mt-1">
           MP3, M4A, WAV o MP4 · máx. {Math.round(MAX_MEDIA_BYTES / 1024 / 1024)}MB por archivo
         </p>
         <input
@@ -203,29 +204,29 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
           {uploads.map((u) => (
             <li
               key={u.id}
-              className="flex items-center gap-3 bg-white rounded-2xl border border-gray-200 p-3"
+              className="flex items-center gap-3 bg-planneo-900 rounded-2xl border border-white/10 p-3"
             >
-              <span className="size-10 rounded-lg bg-[#7C3AED]/10 text-[#7C3AED] flex items-center justify-center text-lg shrink-0">
-                {u.file.type.startsWith('video/') ? '🎬' : '🎵'}
+              <span className="size-10 rounded-lg bg-planneo-600/20 text-planneo-300 flex items-center justify-center text-lg shrink-0">
+                {u.file.type.startsWith('video/') ? <VideoIcon className="size-5" /> : <MusicIcon className="size-5" />}
               </span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-800 truncate">{u.file.name}</p>
+                <p className="text-sm text-white/90 truncate">{u.file.name}</p>
                 {u.status === 'error' ? (
-                  <p className="text-xs text-red-600 mt-0.5">{u.error}</p>
+                  <p className="text-xs text-red-300 mt-0.5">{u.error}</p>
                 ) : (
-                  <div className="mt-1.5 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="mt-1.5 h-1.5 rounded-full bg-white/10 overflow-hidden">
                     <div
                       role="progressbar"
                       aria-valuenow={u.progress}
                       aria-valuemin={0}
                       aria-valuemax={100}
-                      className="h-full bg-[#7C3AED] transition-[width] duration-200"
+                      className="h-full bg-planneo-600 transition-[width] duration-200"
                       style={{ width: `${u.status === 'confirmando' ? 100 : u.progress}%` }}
                     />
                   </div>
                 )}
               </div>
-              <span className="text-xs text-gray-400 w-20 text-right shrink-0">
+              <span className="text-xs text-white/50 w-20 text-right shrink-0">
                 {u.status === 'subiendo' && `${u.progress}%`}
                 {u.status === 'confirmando' && 'Guardando…'}
               </span>
@@ -233,7 +234,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
                 <button
                   type="button"
                   onClick={() => void startUpload(u)}
-                  className="text-xs font-medium text-[#7C3AED] hover:underline shrink-0"
+                  className="text-xs font-medium text-planneo-300 hover:underline shrink-0"
                 >
                   Reintentar
                 </button>
@@ -242,7 +243,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
                 type="button"
                 onClick={() => removeUpload(u.id)}
                 aria-label={`Cancelar carga de ${u.file.name}`}
-                className="text-gray-400 hover:text-gray-600 shrink-0 px-1"
+                className="text-white/50 hover:text-white/80 shrink-0 px-1"
               >
                 ✕
               </button>
@@ -252,16 +253,16 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
       )}
 
       {media.length === 0 && uploads.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
-          <p className="text-3xl mb-2">🎵</p>
-          <p className="text-sm text-gray-500">
+        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+          <div className="mb-3 flex justify-center text-planneo-300"><MusicIcon className="size-8" /></div>
+          <p className="text-sm text-white/55">
             Aún no tienes archivos. Los músicos y DJs con demos reciben más consultas.
           </p>
         </div>
       ) : (
         <ul className="flex flex-col gap-3" aria-label="Archivos de audio y video">
           {media.map((item) => (
-            <li key={item.id} className="bg-white rounded-2xl border border-gray-200 p-4">
+            <li key={item.id} className="bg-planneo-900 rounded-2xl border border-white/10 p-4">
               <div className="flex items-center gap-3 mb-3">
                 <input
                   type="text"
@@ -270,15 +271,15 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
                   maxLength={120}
                   aria-label="Título del archivo"
                   onBlur={(e) => void handleTitleBlur(item, e.target.value)}
-                  className="flex-1 text-sm font-medium border border-transparent hover:border-gray-200 focus:border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
+                  className="flex-1 text-sm font-medium border border-transparent hover:border-white/20 focus:border-planneo-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
                 />
-                <span className="text-xs text-gray-400 shrink-0">
+                <span className="text-xs text-white/50 shrink-0">
                   {formatSize(item.size_bytes)}
                 </span>
                 <button
                   type="button"
                   onClick={() => void handleDelete(item)}
-                  className="text-xs font-medium text-red-500 hover:underline shrink-0"
+                  className="text-xs font-medium text-red-300 hover:underline shrink-0"
                 >
                   Eliminar
                 </button>

@@ -75,8 +75,8 @@ export default function CodeInput({
 
   const boxCls = [
     'h-13 w-full min-w-0 rounded-xl border bg-white/10 text-center text-xl font-semibold text-white',
-    'caret-[#C77DFF] outline-none transition-colors',
-    'focus:border-[#C77DFF] focus:bg-white/[0.07] focus:ring-2 focus:ring-[#C77DFF]/25',
+    'caret-planneo-300 outline-none transition-colors',
+    'focus:border-planneo-300 focus:bg-white/[0.07] focus:ring-2 focus:ring-planneo-300/25',
     'disabled:opacity-60',
     error ? 'border-red-500/50' : 'border-white/10',
   ].join(' ')

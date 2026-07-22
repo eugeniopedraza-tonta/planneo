@@ -20,7 +20,7 @@ export default async function ProviderLayout({ children }: { children: React.Rea
     .maybeSingle()
 
   return (
-    <div className="min-h-screen flex bg-[#F9FAFB]">
+    <div className="min-h-screen flex bg-planneo-950">
       <PanelSidebar provider={provider as Parameters<typeof PanelSidebar>[0]['provider']} role={role} />
       <main className="flex-1 overflow-auto">{children}</main>
     </div>

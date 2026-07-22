@@ -43,17 +43,17 @@ export default function Hero() {
   );
 
   return (
-    <Spotlight className="relative min-h-[760px] overflow-hidden bg-[#0E0B1A] pt-16 text-[#F5F0FF] lg:min-h-[820px]">
+    <Spotlight className="relative min-h-[760px] overflow-hidden bg-planneo-950 pt-16 text-planneo-ink lg:min-h-[820px]">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(199,125,255,0.26),transparent_34%),linear-gradient(180deg,rgba(14,11,26,0.20),#0E0B1A_86%)]" />
         <VenueBackdrop />
-        <div className="absolute left-[8%] top-[18%] h-52 w-52 rounded-full bg-[#7B2CBF]/35 blur-3xl [animation:v4-blob_18s_ease-in-out_infinite]" />
-        <div className="absolute bottom-[18%] right-[10%] h-64 w-64 rounded-full bg-[#C77DFF]/25 blur-3xl [animation:v4-blob_18s_ease-in-out_infinite_-6s]" />
+        <div className="absolute left-[8%] top-[18%] h-52 w-52 rounded-full bg-planneo-600/35 blur-3xl [animation:v4-blob_18s_ease-in-out_infinite]" />
+        <div className="absolute bottom-[18%] right-[10%] h-64 w-64 rounded-full bg-planneo-300/25 blur-3xl [animation:v4-blob_18s_ease-in-out_infinite_-6s]" />
       </div>
 
       <div className="relative mx-auto flex min-h-[calc(760px-4rem)] max-w-7xl flex-col items-center justify-center px-4 py-10 text-center sm:px-6 lg:min-h-[calc(820px-4rem)] lg:px-8 lg:py-16">
         <div className="v4-glass v4-rise mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/80 [animation:v4-rise_.9s_cubic-bezier(.2,.8,.2,1)_both] lg:mb-8">
-          <span className="size-2 rounded-full bg-[#06D6A0] [animation:v4-pulse_1.8s_ease-in-out_infinite]" />
+          <span className="size-2 rounded-full bg-planneo-mint [animation:v4-pulse_1.8s_ease-in-out_infinite]" />
           En vivo · cotizando ahora en MTY
         </div>
 
@@ -78,7 +78,7 @@ export default function Hero() {
         <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:mt-9">
           <Link
             href="/proveedores"
-            className="v4-cta-glow inline-flex min-h-14 items-center justify-center rounded-[14px] bg-[#7B2CBF] px-8 text-base font-semibold text-white transition hover:bg-[#6B22AE]"
+            className="v4-cta-glow inline-flex min-h-14 items-center justify-center rounded-[14px] bg-planneo-600 px-8 text-base font-semibold text-white transition hover:bg-planneo-500"
           >
             Crear mi evento
           </Link>
@@ -100,7 +100,7 @@ export default function Hero() {
           <SearchField label="Zona" name="zona" placeholder="San Pedro" />
           <SearchField label="Fecha" name="fecha" placeholder="Junio 2026" />
           <SearchField label="Invitados" name="invitados" placeholder="120" />
-          <button className="min-h-14 rounded-[18px] bg-[#7B2CBF] px-7 font-semibold text-white transition hover:bg-[#6B22AE]" type="submit">
+          <button className="min-h-14 rounded-[18px] bg-planneo-600 px-7 font-semibold text-white transition hover:bg-planneo-500" type="submit">
             Buscar
           </button>
         </form>
@@ -108,7 +108,7 @@ export default function Hero() {
         <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm text-white/55">
           {trust.map((item) => (
             <span key={item} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">
-              <span className="size-1.5 rounded-full bg-[#06D6A0]" />
+              <span className="size-1.5 rounded-full bg-planneo-mint" />
               {item}
             </span>
           ))}
@@ -129,7 +129,7 @@ function SearchField({
 }) {
   return (
     <label className="flex min-h-14 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
-      <span className="v4-mono text-[10px] text-[#C77DFF]">{label}</span>
+      <span className="v4-mono text-[10px] text-planneo-300">{label}</span>
       <input
         name={name}
         placeholder={placeholder}

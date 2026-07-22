@@ -3,8 +3,8 @@ import { createStaticClient } from "@/lib/supabase/server";
 import type { ProviderWithCategory } from "@/lib/types";
 
 const palettes = [
-  "from-[#26133F] via-[#7B2CBF] to-[#C77DFF]",
-  "from-[#15203A] via-[#5E17EB] to-[#06D6A0]",
+  "from-[#26133F] via-planneo-600 to-planneo-300",
+  "from-[#15203A] via-[#5E17EB] to-planneo-mint",
   "from-[#2A1B12] via-[#C98B5F] to-[#FFE1A8]",
 ];
 
@@ -25,16 +25,16 @@ export default async function FeaturedListings() {
   const providers = await getFeaturedProviders();
 
   return (
-    <section className="bg-[#0E0B1A] px-4 py-20 text-[#F5F0FF] sm:px-6 lg:px-14 lg:py-28">
+    <section className="bg-planneo-950 px-4 py-20 text-planneo-ink sm:px-6 lg:px-14 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// DESTACADOS"}</p>
+            <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// DESTACADOS"}</p>
             <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
               En tendencia <span className="v4-shimmer-text">esta semana.</span>
             </h2>
           </div>
-          <Link href="/proveedores" className="text-sm font-semibold text-[#C77DFF] transition hover:text-white">
+          <Link href="/proveedores" className="text-sm font-semibold text-planneo-300 transition hover:text-white">
             Ver todos →
           </Link>
         </div>
@@ -57,7 +57,7 @@ export default async function FeaturedListings() {
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(14,11,26,.82))]" />
                     {provider.status === "claimed" && (
                       <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/25 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
-                        <span className="mr-2 inline-block size-2 rounded-full bg-[#06D6A0]" />
+                        <span className="mr-2 inline-block size-2 rounded-full bg-planneo-mint" />
                         Verificado
                       </div>
                     )}

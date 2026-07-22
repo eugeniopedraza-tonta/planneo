@@ -18,7 +18,7 @@ export default async function DisponibilidadPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -33,8 +33,8 @@ export default async function DisponibilidadPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Disponibilidad</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Disponibilidad</h1>
+        <p className="text-sm text-white/55 mt-0.5">
           Marca tus fechas libres, reservadas o tentativas. Las notas son privadas: solo tú las ves.
         </p>
       </div>

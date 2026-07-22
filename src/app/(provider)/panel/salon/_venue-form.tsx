@@ -33,9 +33,9 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
   }, [state.success, router])
 
   return (
-    <form action={formAction} className="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col gap-5">
+    <form action={formAction} className="bg-planneo-900 rounded-2xl border border-white/10 p-5 flex flex-col gap-5">
       {state.error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -61,7 +61,7 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
             defaultValue={details?.capacity_max ?? ''}
           />
           {state.fieldErrors?.capacity_max && (
-            <p className="text-xs text-red-600">{state.fieldErrors.capacity_max[0]}</p>
+            <p className="text-xs text-red-300">{state.fieldErrors.capacity_max[0]}</p>
           )}
         </div>
       </div>
@@ -78,21 +78,21 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
       </div>
 
       <fieldset className="flex flex-col gap-2.5">
-        <legend className="text-sm font-medium text-gray-900 mb-1">Espacio</legend>
+        <legend className="text-sm font-medium text-white mb-1">Espacio</legend>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-white/75 cursor-pointer">
             <Checkbox name="indoor" defaultChecked={details?.indoor ?? false} />
             Interior
           </label>
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-white/75 cursor-pointer">
             <Checkbox name="outdoor" defaultChecked={details?.outdoor ?? false} />
             Exterior
           </label>
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-white/75 cursor-pointer">
             <Checkbox name="parking" defaultChecked={details?.parking ?? false} />
             Estacionamiento propio
           </label>
-          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-white/75 cursor-pointer">
             <Checkbox name="catering_allowed" defaultChecked={details?.catering_allowed ?? false} />
             Permite catering externo
           </label>
@@ -100,12 +100,12 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
       </fieldset>
 
       <fieldset className="flex flex-col gap-2.5">
-        <legend className="text-sm font-medium text-gray-900 mb-1">Amenidades</legend>
+        <legend className="text-sm font-medium text-white mb-1">Amenidades</legend>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {VENUE_AMENITIES.map((amenity) => (
             <label
               key={amenity}
-              className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"
+              className="flex items-center gap-2 text-sm text-white/75 cursor-pointer"
             >
               <Checkbox
                 name="amenities"
@@ -118,7 +118,7 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
         </div>
       </fieldset>
 
-      <div className="flex justify-end pt-2 border-t border-gray-100">
+      <div className="flex justify-end pt-2 border-t border-white/10">
         <Button type="submit" disabled={isPending}>
           {isPending ? 'Guardando…' : 'Guardar detalles'}
         </Button>
@@ -171,16 +171,16 @@ export function FloorPlanSection({ floorPlanUrl }: { floorPlanUrl: string | null
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col gap-4">
+    <div className="bg-planneo-900 rounded-2xl border border-white/10 p-5 flex flex-col gap-4">
       <div>
-        <h2 className="text-sm font-semibold text-gray-900">Plano del salón</h2>
-        <p className="text-xs text-gray-500 mt-0.5">
+        <h2 className="text-sm font-semibold text-white">Plano del salón</h2>
+        <p className="text-xs text-white/55 mt-0.5">
           Una imagen del plano ayuda al cliente a planear la distribución (JPEG, PNG o WebP, máx 10MB).
         </p>
       </div>
 
       {floorPlanUrl && (
-        <div className="relative w-full max-w-md h-56 bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
+        <div className="relative w-full max-w-md h-56 bg-white/[0.04] rounded-lg overflow-hidden border border-white/10">
           <Image
             src={floorPlanUrl}
             alt="Plano del salón"
@@ -218,7 +218,7 @@ export function FloorPlanSection({ floorPlanUrl }: { floorPlanUrl: string | null
           <button
             type="button"
             onClick={() => void handleDelete()}
-            className="text-xs font-medium text-red-500 hover:underline"
+            className="text-xs font-medium text-red-300 hover:underline"
           >
             Eliminar
           </button>

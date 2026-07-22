@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <main className="min-h-screen bg-[#0E0B1A] px-4 py-24 text-[#F5F0FF] sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-planneo-950 px-4 py-24 text-planneo-ink sm:px-6 lg:px-8">
       <Navbar />
       <article className="mx-auto max-w-3xl">
-        <Link href="/" className="text-sm font-semibold text-[#C77DFF]">← Volver</Link>
+        <Link href="/" className="text-sm font-semibold text-planneo-300">← Volver</Link>
         <h1 className="v4-display mt-8 text-5xl font-bold tracking-[-0.04em]">Privacidad</h1>
         <div className="mt-8 space-y-6 text-sm leading-7 text-white/65">
           <p>

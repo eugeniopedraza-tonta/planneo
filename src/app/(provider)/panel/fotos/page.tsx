@@ -19,7 +19,7 @@ export default async function FotosPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -35,8 +35,8 @@ export default async function FotosPage() {
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Fotos</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Fotos</h1>
+        <p className="text-sm text-white/55 mt-0.5">
           Muestra tu trabajo. La primera foto es la portada de tu perfil público.
           Máximo {MAX_PHOTOS_PER_PROVIDER} fotos.
         </p>

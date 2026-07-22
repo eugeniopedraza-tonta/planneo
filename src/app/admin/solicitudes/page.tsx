@@ -36,28 +36,28 @@ export default async function SolicitudesPage() {
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-gray-900">Solicitudes de registro</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{rows.length} proveedor{rows.length === 1 ? '' : 'es'} pendiente{rows.length === 1 ? '' : 's'}</p>
+          <h1 className="text-xl font-semibold text-white">Solicitudes de registro</h1>
+          <p className="text-sm text-white/55 mt-0.5">{rows.length} proveedor{rows.length === 1 ? '' : 'es'} pendiente{rows.length === 1 ? '' : 's'}</p>
         </div>
       </div>
 
       {rows.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-12 text-center">
-          <p className="text-sm text-gray-400">No hay solicitudes pendientes.</p>
+        <div className="rounded-2xl border border-dashed border-white/10 bg-planneo-900 p-12 text-center">
+          <p className="text-sm text-white/50">No hay solicitudes pendientes.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
           {rows.map((p) => (
-            <div key={p.id} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+            <div key={p.id} className="bg-planneo-900 rounded-2xl border border-white/10 shadow-sm p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-base font-semibold text-gray-900">{p.name}</h2>
-                    <span className="text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-medium">
+                    <h2 className="text-base font-semibold text-white">{p.name}</h2>
+                    <span className="text-xs bg-amber-300/10 text-amber-200 border border-amber-300/30 px-2 py-0.5 rounded-full font-medium">
                       Pendiente
                     </span>
                   </div>
-                  <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
+                  <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-white/55">
                     {/* @ts-expect-error categories is a join */}
                     {p.categories?.name && <span>{p.categories.name}</span>}
                     {p.zona && <span>{p.zona}</span>}
@@ -65,9 +65,9 @@ export default async function SolicitudesPage() {
                     {p.whatsapp && <span>{p.whatsapp}</span>}
                   </div>
                   {p.description && (
-                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">{p.description}</p>
+                    <p className="mt-2 text-sm text-white/60 line-clamp-2">{p.description}</p>
                   )}
-                  <p className="mt-1 text-xs text-gray-400">
+                  <p className="mt-1 text-xs text-white/50">
                     Enviado el {new Date(p.created_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </p>
                 </div>
@@ -79,7 +79,7 @@ export default async function SolicitudesPage() {
                   }}>
                     <button
                       type="submit"
-                      className="rounded-xl bg-[#7C3AED] px-4 py-2 text-sm font-medium text-white hover:bg-[#6D28D9] transition-colors"
+                      className="rounded-xl bg-planneo-600 px-4 py-2 text-sm font-medium text-white hover:bg-planneo-500 transition-colors"
                     >
                       Aprobar
                     </button>
@@ -90,7 +90,7 @@ export default async function SolicitudesPage() {
                   }}>
                     <button
                       type="submit"
-                      className="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                      className="rounded-xl border border-white/10 px-4 py-2 text-sm font-medium text-white/60 hover:bg-white/[0.07] transition-colors"
                     >
                       Rechazar
                     </button>

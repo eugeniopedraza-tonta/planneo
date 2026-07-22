@@ -5,6 +5,7 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import FloatingNavbar from "@/components/ui/floating-navbar";
 import { Button } from "@/components/ui/button";
+import EventCart from "@/components/event-cart";
 
 type NavUser = {
   email: string | null;
@@ -12,10 +13,10 @@ type NavUser = {
 } | null;
 
 const NAV_LINKS = [
-  { label: "Explorar", href: "#categorias" },
-  { label: "Crear evento", href: "#crear-evento" },
-  { label: "Diario", href: "#diario" },
-  { label: "Para proveedores", href: "#proveedores" },
+  { label: "Explorar", href: "/proveedores" },
+  { label: "Crear evento", href: "/#crear-evento" },
+  { label: "Diario", href: "/#diario" },
+  { label: "Para proveedores", href: "/#proveedores" },
 ];
 
 function dashboardHref(user: NavUser) {
@@ -65,6 +66,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
+            <EventCart />
             {signedIn ? (
               <>
                 <Button variant="ghost" size="sm" className="text-white/75 hover:bg-white/10 hover:text-white" asChild>
@@ -85,15 +87,17 @@ export default function NavbarClient({ user }: { user: NavUser }) {
                 <Button variant="ghost" size="sm" className="text-white/75 hover:bg-white/10 hover:text-white" asChild>
                   <Link href="/login">Iniciar sesión</Link>
                 </Button>
-                <Button size="sm" className="v4-cta-glow rounded-xl border-transparent bg-[#7B2CBF] text-white hover:bg-[#6B22AE]" asChild>
+                <Button size="sm" className="v4-cta-glow rounded-xl border-transparent bg-planneo-600 text-white hover:bg-planneo-500" asChild>
                   <Link href="/proveedores">Buscar proveedor</Link>
                 </Button>
               </>
             )}
           </div>
 
+          <div className="flex items-center gap-2 md:hidden">
+            <EventCart />
           <button
-            className="md:hidden min-h-11 min-w-11 rounded-xl p-2 text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+            className="min-h-11 min-w-11 rounded-xl p-2 text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
@@ -108,11 +112,12 @@ export default function NavbarClient({ user }: { user: NavUser }) {
               </svg>
             )}
           </button>
+          </div>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#0E0B1A]/95 px-4 pb-4 pt-2 backdrop-blur-md">
+        <div className="md:hidden border-t border-white/10 bg-planneo-950/95 px-4 pb-4 pt-2 backdrop-blur-md">
           <nav className="flex flex-col gap-1" aria-label="Navegación móvil">
             {NAV_LINKS.map((link) => (
               <Link
@@ -139,7 +144,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
                   <Button variant="ghost" className="w-full justify-center text-white hover:bg-white/10" asChild>
                     <Link href="/login">Iniciar sesión</Link>
                   </Button>
-                  <Button className="w-full justify-center rounded-xl bg-[#7B2CBF] text-white hover:bg-[#6B22AE]" asChild>
+                  <Button className="w-full justify-center rounded-xl bg-planneo-600 text-white hover:bg-planneo-500" asChild>
                     <Link href="/proveedores">Buscar proveedor</Link>
                   </Button>
                 </>

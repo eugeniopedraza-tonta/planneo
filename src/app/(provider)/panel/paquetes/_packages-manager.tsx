@@ -12,6 +12,7 @@ import { PRICE_UNITS } from '@/lib/constants'
 import { formatPackagePrice } from '@/lib/format'
 import type { ServicePackage } from '@/lib/types'
 import { createPackage, updatePackage, deletePackage, type State } from './_actions'
+import { PackageIcon } from '@/components/icons'
 
 export default function PackagesManager({ packages }: { packages: ServicePackage[] }) {
   const router = useRouter()
@@ -28,9 +29,9 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
   return (
     <div className="flex flex-col gap-4">
       {packages.length === 0 && !creating && (
-        <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
-          <p className="text-3xl mb-2">📦</p>
-          <p className="text-sm text-gray-500">
+        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+          <div className="mb-3 flex justify-center text-planneo-300"><PackageIcon className="size-8" /></div>
+          <p className="text-sm text-white/55">
             Aún no tienes paquetes. Los perfiles con precios claros generan más confianza.
           </p>
         </div>
@@ -38,7 +39,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
 
       {packages.map((pkg) =>
         editingId === pkg.id ? (
-          <div key={pkg.id} className="bg-white rounded-2xl border border-[#7C3AED]/30 p-5">
+          <div key={pkg.id} className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
             <PackageForm
               pkg={pkg}
               onDone={() => {
@@ -49,26 +50,26 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
             />
           </div>
         ) : (
-          <div key={pkg.id} className="bg-white rounded-2xl border border-gray-200 p-5">
+          <div key={pkg.id} className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-sm font-semibold text-gray-900">{pkg.name}</h2>
+                  <h2 className="text-sm font-semibold text-white">{pkg.name}</h2>
                   {pkg.is_featured && (
-                    <span className="text-[11px] font-medium bg-[#7C3AED]/10 text-[#7C3AED] px-2 py-0.5 rounded-full">
+                    <span className="text-[11px] font-medium bg-planneo-gold/10 border border-planneo-gold/40 text-planneo-gold px-2 py-0.5 rounded-full">
                       Destacado
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-[#7C3AED] font-medium mt-0.5">{formatPackagePrice(pkg)}</p>
+                <p className="text-sm text-planneo-300 font-medium mt-0.5">{formatPackagePrice(pkg)}</p>
                 {pkg.description && (
-                  <p className="text-sm text-gray-500 mt-1.5">{pkg.description}</p>
+                  <p className="text-sm text-white/55 mt-1.5">{pkg.description}</p>
                 )}
                 {(pkg.includes?.length ?? 0) > 0 && (
                   <ul className="mt-2 flex flex-col gap-1">
                     {pkg.includes!.map((item, i) => (
-                      <li key={i} className="text-xs text-gray-600 flex items-start gap-1.5">
-                        <span className="text-[#7C3AED] mt-px">✓</span>
+                      <li key={i} className="text-xs text-white/60 flex items-start gap-1.5">
+                        <span className="text-planneo-300 mt-px">✓</span>
                         {item}
                       </li>
                     ))}
@@ -79,14 +80,14 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
                 <button
                   type="button"
                   onClick={() => { setCreating(false); setEditingId(pkg.id) }}
-                  className="text-xs font-medium text-[#7C3AED] hover:underline"
+                  className="text-xs font-medium text-planneo-300 hover:underline"
                 >
                   Editar
                 </button>
                 <button
                   type="button"
                   onClick={() => void handleDelete(pkg)}
-                  className="text-xs font-medium text-red-500 hover:underline"
+                  className="text-xs font-medium text-red-300 hover:underline"
                 >
                   Eliminar
                 </button>
@@ -97,7 +98,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
       )}
 
       {creating ? (
-        <div className="bg-white rounded-2xl border border-[#7C3AED]/30 p-5">
+        <div className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
           <PackageForm
             onDone={() => {
               setCreating(false)
@@ -110,7 +111,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
         <button
           type="button"
           onClick={() => { setEditingId(null); setCreating(true) }}
-          className="rounded-2xl border-2 border-dashed border-gray-300 hover:border-[#7C3AED] text-gray-500 hover:text-[#7C3AED] transition-colors p-4 text-sm font-medium"
+          className="rounded-2xl border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/55 hover:text-planneo-300 transition-colors p-4 text-sm font-medium"
         >
           + Nuevo paquete
         </button>
@@ -140,12 +141,12 @@ function PackageForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-900">
+      <h2 className="text-sm font-semibold text-white">
         {pkg ? `Editar "${pkg.name}"` : 'Nuevo paquete'}
       </h2>
 
       {state.error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -160,7 +161,7 @@ function PackageForm({
           defaultValue={pkg?.name ?? ''}
         />
         {state.fieldErrors?.name && (
-          <p className="text-xs text-red-600">{state.fieldErrors.name[0]}</p>
+          <p className="text-xs text-red-300">{state.fieldErrors.name[0]}</p>
         )}
       </div>
 
@@ -235,7 +236,7 @@ function PackageForm({
         </Label>
       </div>
 
-      <div className="flex justify-end gap-2 pt-2 border-t border-gray-100">
+      <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
         <Button type="button" variant="ghost" onClick={onCancel} disabled={isPending}>
           Cancelar
         </Button>

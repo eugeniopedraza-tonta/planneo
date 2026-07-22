@@ -13,7 +13,7 @@ export default async function SalonPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -21,7 +21,7 @@ export default async function SalonPage() {
   if (provider.categories?.slug !== VENUE_CATEGORY_SLUG) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-white/55">
           Esta sección es solo para proveedores de la categoría Salones de Eventos.
         </p>
       </div>
@@ -37,8 +37,8 @@ export default async function SalonPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Mi salón</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Mi salón</h1>
+        <p className="text-sm text-white/55 mt-0.5">
           Capacidad, ubicación y amenidades. Esta información aparece en tu perfil público.
         </p>
       </div>

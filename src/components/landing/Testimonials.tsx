@@ -20,10 +20,10 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonios" className="bg-[#0E0B1A] px-4 py-20 text-[#F5F0FF] sm:px-6 lg:px-14 lg:py-28">
+    <section id="testimonios" className="bg-planneo-950 px-4 py-20 text-planneo-ink sm:px-6 lg:px-14 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-12">
-          <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// TESTIMONIOS"}</p>
+          <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// TESTIMONIOS"}</p>
           <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
             Quiénes ya lo usaron.
           </h2>
@@ -32,7 +32,7 @@ export default function Testimonials() {
         <div className="grid gap-5 md:grid-cols-3">
           {TESTIMONIALS.map((t) => (
             <article key={t.name} className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
-              <div className="mb-6 text-[#FFC727]" aria-label="5 estrellas">★★★★★</div>
+              <div className="mb-6 text-planneo-gold" aria-label="5 estrellas">★★★★★</div>
               <p className="v4-serif text-2xl leading-snug text-white/90">&ldquo;{t.quote}&rdquo;</p>
               <div className="mt-8 border-t border-white/10 pt-5">
                 <p className="font-semibold text-white">{t.name}</p>

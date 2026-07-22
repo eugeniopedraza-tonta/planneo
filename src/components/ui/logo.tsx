@@ -10,8 +10,8 @@ export default function Logo() {
     >
       <defs>
         <linearGradient id="planneo-gradient" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#7C3AED" />
-          <stop offset="100%" stopColor="#A855F7" />
+          <stop offset="0%" stopColor="#7B2CBF" />
+          <stop offset="100%" stopColor="#C77DFF" />
         </linearGradient>
       </defs>
       <rect width="64" height="64" rx="14" fill="url(#planneo-gradient)" />

@@ -14,15 +14,15 @@ const MONTHS = [
 ]
 
 const STATUS_STYLES: Record<AvailabilityStatus, string> = {
-  available: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+  available: 'bg-planneo-mint/15 text-planneo-mint border-planneo-mint/40',
   booked: 'bg-rose-100 text-rose-800 border-rose-300',
-  tentative: 'bg-amber-100 text-amber-800 border-amber-300',
+  tentative: 'bg-amber-300/15 text-amber-200 border-amber-300/40',
 }
 
 const STATUS_DOTS: Record<AvailabilityStatus, string> = {
-  available: 'bg-emerald-500',
+  available: 'bg-planneo-mint/100',
   booked: 'bg-rose-500',
-  tentative: 'bg-amber-500',
+  tentative: 'bg-amber-300/100',
 }
 
 function toKey(year: number, month: number, day: number): string {
@@ -76,25 +76,25 @@ export default function AvailabilityCalendar({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <div className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
         {/* Navegación de mes */}
         <div className="flex items-center justify-between mb-4">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
             aria-label="Mes anterior"
-            className="size-8 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50"
+            className="size-8 rounded-lg border border-white/10 text-white/55 hover:bg-white/[0.07]"
           >
             ←
           </button>
-          <h2 className="text-sm font-semibold text-gray-900">
+          <h2 className="text-sm font-semibold text-white">
             {MONTHS[viewMonth]} {viewYear}
           </h2>
           <button
             type="button"
             onClick={() => shiftMonth(1)}
             aria-label="Mes siguiente"
-            className="size-8 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50"
+            className="size-8 rounded-lg border border-white/10 text-white/55 hover:bg-white/[0.07]"
           >
             →
           </button>
@@ -103,7 +103,7 @@ export default function AvailabilityCalendar({
         {/* Grid del calendario */}
         <div className="grid grid-cols-7 gap-1 text-center">
           {WEEKDAYS.map((d) => (
-            <span key={d} className="text-[11px] font-medium text-gray-400 py-1">{d}</span>
+            <span key={d} className="text-[11px] font-medium text-white/50 py-1">{d}</span>
           ))}
           {Array.from({ length: firstWeekday }).map((_, i) => (
             <span key={`pad-${i}`} />
@@ -124,8 +124,8 @@ export default function AvailabilityCalendar({
                 className={`relative aspect-square rounded-lg border text-sm flex flex-col items-center justify-center transition-colors ${
                   entry
                     ? STATUS_STYLES[entry.status]
-                    : 'border-transparent text-gray-700 hover:bg-gray-50'
-                } ${isSelected ? 'ring-2 ring-[#7C3AED]' : ''} ${isToday && !entry ? 'font-bold text-[#7C3AED]' : ''}`}
+                    : 'border-transparent text-white/75 hover:bg-white/[0.07]'
+                } ${isSelected ? 'ring-2 ring-planneo-300' : ''} ${isToday && !entry ? 'font-bold text-planneo-300' : ''}`}
               >
                 {day}
                 {entry?.note && (
@@ -137,9 +137,9 @@ export default function AvailabilityCalendar({
         </div>
 
         {/* Leyenda */}
-        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100 flex-wrap">
+        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-white/10 flex-wrap">
           {(Object.keys(STATUS_DOTS) as AvailabilityStatus[]).map((s) => (
-            <span key={s} className="flex items-center gap-1.5 text-xs text-gray-500">
+            <span key={s} className="flex items-center gap-1.5 text-xs text-white/55">
               <span className={`size-2 rounded-full ${STATUS_DOTS[s]}`} aria-hidden />
               {AVAILABILITY_STATUS_LABELS[s]}
             </span>
@@ -149,11 +149,11 @@ export default function AvailabilityCalendar({
 
       {/* Panel del día seleccionado */}
       {selected && (
-        <div className="bg-white rounded-2xl border border-[#7C3AED]/30 p-5">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+        <div className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
+          <h3 className="text-sm font-semibold text-white mb-3">
             {formatSelected(selected)}
             {selectedEntry && (
-              <span className="ml-2 text-xs font-medium text-gray-500">
+              <span className="ml-2 text-xs font-medium text-white/55">
                 · {AVAILABILITY_STATUS_LABELS[selectedEntry.status]}
               </span>
             )}
@@ -169,7 +169,7 @@ export default function AvailabilityCalendar({
                 className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 ${
                   selectedEntry?.status === s
                     ? STATUS_STYLES[s]
-                    : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                    : 'border-white/10 text-white/60 hover:bg-white/[0.07]'
                 }`}
               >
                 {AVAILABILITY_STATUS_LABELS[s]}
@@ -180,14 +180,14 @@ export default function AvailabilityCalendar({
                 type="button"
                 disabled={isPending}
                 onClick={() => save('none')}
-                className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-400 hover:text-red-500 hover:border-red-200 transition-colors disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg border border-white/10 text-xs font-medium text-white/50 hover:text-red-300 hover:border-red-400/40 transition-colors disabled:opacity-50"
               >
                 Quitar marca
               </button>
             )}
           </div>
 
-          <label htmlFor="availability-note" className="text-xs font-medium text-gray-500">
+          <label htmlFor="availability-note" className="text-xs font-medium text-white/55">
             Nota privada (opcional)
           </label>
           <div className="flex gap-2 mt-1">
@@ -198,21 +198,21 @@ export default function AvailabilityCalendar({
               maxLength={300}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Ej. boda García, anticipo recibido…"
-              className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
+              className="flex-1 text-sm border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
             />
             {selectedEntry && (
               <button
                 type="button"
                 disabled={isPending}
                 onClick={() => save(selectedEntry.status)}
-                className="px-3 py-2 rounded-lg bg-[#7C3AED] text-white text-xs font-medium hover:bg-[#6B2FD6] disabled:opacity-50"
+                className="px-3 py-2 rounded-lg bg-planneo-600 text-white text-xs font-medium hover:bg-planneo-500 disabled:opacity-50"
               >
                 Guardar nota
               </button>
             )}
           </div>
           {!selectedEntry && (
-            <p className="text-xs text-gray-400 mt-1.5">
+            <p className="text-xs text-white/50 mt-1.5">
               La nota se guarda al elegir un estado para el día.
             </p>
           )}

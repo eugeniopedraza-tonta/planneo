@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { EVENT_TYPES, MENU_COURSES } from '@/lib/constants'
 import type { CateringMenuWithItems } from '@/lib/types'
 import { createMenu, updateMenu, deleteMenu, type State } from './_actions'
+import { UtensilsIcon } from '@/components/icons'
 
 export default function MenusManager({ menus }: { menus: CateringMenuWithItems[] }) {
   const router = useRouter()
@@ -27,9 +28,9 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
   return (
     <div className="flex flex-col gap-4">
       {menus.length === 0 && !creating && (
-        <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
-          <p className="text-3xl mb-2">🍽️</p>
-          <p className="text-sm text-gray-500">
+        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+          <div className="mb-3 flex justify-center text-planneo-300"><UtensilsIcon className="size-8" /></div>
+          <p className="text-sm text-white/55">
             Aún no tienes menús. Un menú detallado ayuda al cliente a imaginar su evento.
           </p>
         </div>
@@ -37,7 +38,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
 
       {menus.map((menu) =>
         editingId === menu.id ? (
-          <div key={menu.id} className="bg-white rounded-2xl border border-[#7C3AED]/30 p-5">
+          <div key={menu.id} className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
             <MenuForm
               menu={menu}
               onDone={() => {
@@ -48,23 +49,23 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
             />
           </div>
         ) : (
-          <div key={menu.id} className="bg-white rounded-2xl border border-gray-200 p-5">
+          <div key={menu.id} className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-sm font-semibold text-gray-900">{menu.name}</h2>
+                  <h2 className="text-sm font-semibold text-white">{menu.name}</h2>
                   {menu.event_types?.map((t) => (
                     <span
                       key={t}
-                      className="text-[11px] font-medium bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full"
+                      className="text-[11px] font-medium bg-white/10 text-white/60 px-2 py-0.5 rounded-full"
                     >
                       {EVENT_TYPES.find((e) => e.value === t)?.label ?? t}
                     </span>
                   ))}
                 </div>
-                <p className="text-sm text-[#7C3AED] font-medium mt-0.5">{formatMenuPrice(menu)}</p>
+                <p className="text-sm text-planneo-300 font-medium mt-0.5">{formatMenuPrice(menu)}</p>
                 {menu.description && (
-                  <p className="text-sm text-gray-500 mt-1.5">{menu.description}</p>
+                  <p className="text-sm text-white/55 mt-1.5">{menu.description}</p>
                 )}
                 <MenuItemsSummary menu={menu} />
               </div>
@@ -72,14 +73,14 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
                 <button
                   type="button"
                   onClick={() => { setCreating(false); setEditingId(menu.id) }}
-                  className="text-xs font-medium text-[#7C3AED] hover:underline"
+                  className="text-xs font-medium text-planneo-300 hover:underline"
                 >
                   Editar
                 </button>
                 <button
                   type="button"
                   onClick={() => void handleDelete(menu)}
-                  className="text-xs font-medium text-red-500 hover:underline"
+                  className="text-xs font-medium text-red-300 hover:underline"
                 >
                   Eliminar
                 </button>
@@ -90,7 +91,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
       )}
 
       {creating ? (
-        <div className="bg-white rounded-2xl border border-[#7C3AED]/30 p-5">
+        <div className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
           <MenuForm
             onDone={() => {
               setCreating(false)
@@ -103,7 +104,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
         <button
           type="button"
           onClick={() => { setEditingId(null); setCreating(true) }}
-          className="rounded-2xl border-2 border-dashed border-gray-300 hover:border-[#7C3AED] text-gray-500 hover:text-[#7C3AED] transition-colors p-4 text-sm font-medium"
+          className="rounded-2xl border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/55 hover:text-planneo-300 transition-colors p-4 text-sm font-medium"
         >
           + Nuevo menú
         </button>
@@ -129,8 +130,8 @@ function MenuItemsSummary({ menu }: { menu: CateringMenuWithItems }) {
   return (
     <div className="mt-2 flex flex-col gap-1.5">
       {courses.map((course) => (
-        <div key={course.label} className="text-xs text-gray-600">
-          <span className="font-medium text-gray-700">{course.label}:</span>{' '}
+        <div key={course.label} className="text-xs text-white/60">
+          <span className="font-medium text-white/75">{course.label}:</span>{' '}
           {course.items.map((item) => item.name).join(' · ')}
         </div>
       ))}
@@ -159,12 +160,12 @@ function MenuForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-900">
+      <h2 className="text-sm font-semibold text-white">
         {menu ? `Editar "${menu.name}"` : 'Nuevo menú'}
       </h2>
 
       {state.error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -179,7 +180,7 @@ function MenuForm({
           defaultValue={menu?.name ?? ''}
         />
         {state.fieldErrors?.name && (
-          <p className="text-xs text-red-600">{state.fieldErrors.name[0]}</p>
+          <p className="text-xs text-red-300">{state.fieldErrors.name[0]}</p>
         )}
       </div>
 
@@ -218,14 +219,14 @@ function MenuForm({
       </div>
 
       <fieldset className="flex flex-col gap-2">
-        <legend className="text-sm font-medium text-gray-900 mb-1">
+        <legend className="text-sm font-medium text-white mb-1">
           Tipos de evento para los que aplica
         </legend>
         <div className="grid grid-cols-2 gap-2.5">
           {EVENT_TYPES.map((type) => (
             <label
               key={type.value}
-              className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"
+              className="flex items-center gap-2 text-sm text-white/75 cursor-pointer"
             >
               <Checkbox
                 name="event_types"
@@ -239,12 +240,12 @@ function MenuForm({
       </fieldset>
 
       <fieldset className="flex flex-col gap-3">
-        <legend className="text-sm font-medium text-gray-900 mb-1">
+        <legend className="text-sm font-medium text-white mb-1">
           Platillos por tiempo — uno por línea, con &quot;—&quot; para agregar descripción
         </legend>
         {MENU_COURSES.map((course) => (
           <div key={course.value} className="flex flex-col gap-1.5">
-            <Label htmlFor={`menu-items-${course.value}`} className="text-xs text-gray-600">
+            <Label htmlFor={`menu-items-${course.value}`} className="text-xs text-white/60">
               {course.label}
             </Label>
             <Textarea
@@ -266,7 +267,7 @@ function MenuForm({
         ))}
       </fieldset>
 
-      <div className="flex justify-end gap-2 pt-2 border-t border-gray-100">
+      <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
         <Button type="button" variant="ghost" onClick={onCancel} disabled={isPending}>
           Cancelar
         </Button>

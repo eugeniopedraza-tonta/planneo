@@ -23,7 +23,7 @@ export default function AnimatedCard({ children, className }: AnimatedCardProps)
           ? undefined
           : {
               background:
-                "linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #7C3AED 100%)",
+                "linear-gradient(135deg, #7B2CBF 0%, #C77DFF 50%, #7B2CBF 100%)",
             }
       }
       transition={{ duration: 0.3 }}

@@ -39,11 +39,11 @@ export default async function CategoriesSection() {
   const categories = await getCategoriesWithCounts()
 
   return (
-    <section id="categorias" className="overflow-hidden bg-[#0E0B1A] py-20 text-[#F5F0FF] lg:py-28">
+    <section id="categorias" className="overflow-hidden bg-planneo-950 py-20 text-planneo-ink lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-14">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// CATEGORÍAS"}</p>
+            <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// CATEGORÍAS"}</p>
             <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
               Todo lo que tu evento necesita. <span className="v4-shimmer-text">En un solo lugar.</span>
             </h2>
@@ -83,7 +83,7 @@ export default async function CategoriesSection() {
             href="/buscar"
             className="flex h-[430px] w-[78vw] max-w-[412px] shrink-0 snap-start flex-col justify-end rounded-[24px] border border-dashed border-white/20 bg-white/[0.03] p-6 text-white transition hover:bg-white/[0.06] sm:w-[412px] lg:h-[520px]"
           >
-            <p className="v4-mono text-[11px] text-[#C77DFF]">VER TODAS</p>
+            <p className="v4-mono text-[11px] text-planneo-300">VER TODAS</p>
             <p className="v4-display mt-3 text-4xl font-bold tracking-[-0.04em]">Explora el catálogo completo.</p>
           </Link>
         </div>
@@ -94,9 +94,9 @@ export default async function CategoriesSection() {
 
 function CategoryArt({ kind, seed }: { kind: string; seed: string }) {
   const palettes: Record<string, string> = {
-    fotografia: 'from-[#20133A] via-[#7B2CBF] to-[#C77DFF]',
+    fotografia: 'from-[#20133A] via-planneo-600 to-planneo-300',
     belleza: 'from-[#3A1330] via-[#D8709B] to-[#F5C8D8]',
-    musica: 'from-[#130F2F] via-[#5E17EB] to-[#06D6A0]',
+    musica: 'from-[#130F2F] via-[#5E17EB] to-planneo-mint',
     banquete: 'from-[#2A1B12] via-[#C98B5F] to-[#FFE1A8]',
     decoracion: 'from-[#123025] via-[#6AA884] to-[#E1F0C4]',
   }

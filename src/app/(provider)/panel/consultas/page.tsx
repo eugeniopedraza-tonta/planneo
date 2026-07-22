@@ -18,7 +18,7 @@ export default async function ConsultasPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -36,15 +36,15 @@ export default async function ConsultasPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">
+        <h1 className="text-xl font-semibold text-white">
           Consultas
           {newCount > 0 && (
-            <span className="ml-2 text-xs font-medium bg-[#7C3AED] text-white px-2 py-0.5 rounded-full align-middle">
+            <span className="ml-2 text-xs font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full align-middle">
               {newCount} nueva{newCount > 1 ? 's' : ''}
             </span>
           )}
         </h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <p className="text-sm text-white/55 mt-0.5">
           Personas interesadas en tus servicios. Cotiza y responde directamente desde Planneo.
         </p>
       </div>

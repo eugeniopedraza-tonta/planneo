@@ -54,7 +54,7 @@ export default function PhotoUploader({ providerId, initialPhotos = [], onPhotos
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap gap-2">
         {photos.map((url) => (
-          <div key={url} className="relative size-20 rounded-lg overflow-hidden border border-gray-200 group">
+          <div key={url} className="relative size-20 rounded-lg overflow-hidden border border-white/10 group">
             <Image src={url} alt="foto proveedor" fill className="object-cover" />
             <button
               type="button"
@@ -70,7 +70,7 @@ export default function PhotoUploader({ providerId, initialPhotos = [], onPhotos
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading}
-          className="size-20 rounded-lg border-2 border-dashed border-gray-300 hover:border-[#7C3AED] text-gray-400 hover:text-[#7C3AED] transition-colors flex flex-col items-center justify-center gap-1 text-xs disabled:opacity-50"
+          className="size-20 rounded-lg border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/50 hover:text-planneo-300 transition-colors flex flex-col items-center justify-center gap-1 text-xs disabled:opacity-50"
         >
           {uploading ? (
             <span>…</span>

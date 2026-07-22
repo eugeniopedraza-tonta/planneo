@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { CameraIcon } from '@/components/icons'
 import {
   ALLOWED_IMAGE_ACCEPT,
   ALLOWED_IMAGE_TYPES,
@@ -211,21 +212,21 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
           addFiles(Array.from(e.dataTransfer.files))
         }}
         className={`rounded-2xl border-2 border-dashed p-8 text-center transition-colors ${
-          dragging ? 'border-[#7C3AED] bg-[#7C3AED]/5' : 'border-gray-300 bg-white'
+          dragging ? 'border-planneo-300 bg-planneo-600/10' : 'border-white/15 bg-planneo-900'
         }`}
       >
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-white/60">
           Arrastra tus fotos aquí o{' '}
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={full}
-            className="font-medium text-[#7C3AED] hover:underline disabled:opacity-50 disabled:no-underline"
+            className="font-medium text-planneo-300 hover:underline disabled:opacity-50 disabled:no-underline"
           >
             selecciónalas
           </button>
         </p>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-white/50 mt-1">
           JPEG, PNG, WebP o AVIF · máx. {Math.round(MAX_PHOTO_BYTES / 1024 / 1024)}MB por foto
         </p>
         <input
@@ -248,33 +249,33 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
           {uploads.map((u) => (
             <li
               key={u.id}
-              className="flex items-center gap-3 bg-white rounded-2xl border border-gray-200 p-3"
+              className="flex items-center gap-3 bg-planneo-900 rounded-2xl border border-white/10 p-3"
             >
               {/* Vista previa local (blob:) — next/image no aplica aquí */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={u.previewUrl}
                 alt=""
-                className="size-12 rounded-lg object-cover border border-gray-100"
+                className="size-12 rounded-lg object-cover border border-white/10"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-800 truncate">{u.file.name}</p>
+                <p className="text-sm text-white/90 truncate">{u.file.name}</p>
                 {u.status === 'error' ? (
-                  <p className="text-xs text-red-600 mt-0.5">{u.error}</p>
+                  <p className="text-xs text-red-300 mt-0.5">{u.error}</p>
                 ) : (
-                  <div className="mt-1.5 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="mt-1.5 h-1.5 rounded-full bg-white/10 overflow-hidden">
                     <div
                       role="progressbar"
                       aria-valuenow={u.progress}
                       aria-valuemin={0}
                       aria-valuemax={100}
-                      className="h-full bg-[#7C3AED] transition-[width] duration-200"
+                      className="h-full bg-planneo-600 transition-[width] duration-200"
                       style={{ width: `${u.status === 'confirmando' ? 100 : u.progress}%` }}
                     />
                   </div>
                 )}
               </div>
-              <span className="text-xs text-gray-400 w-20 text-right shrink-0">
+              <span className="text-xs text-white/50 w-20 text-right shrink-0">
                 {u.status === 'subiendo' && `${u.progress}%`}
                 {u.status === 'confirmando' && 'Guardando…'}
               </span>
@@ -282,7 +283,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                 <button
                   type="button"
                   onClick={() => void startUpload(u)}
-                  className="text-xs font-medium text-[#7C3AED] hover:underline shrink-0"
+                  className="text-xs font-medium text-planneo-300 hover:underline shrink-0"
                 >
                   Reintentar
                 </button>
@@ -291,7 +292,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                 type="button"
                 onClick={() => removeUpload(u.id)}
                 aria-label={`Cancelar carga de ${u.file.name}`}
-                className="text-gray-400 hover:text-gray-600 shrink-0 px-1"
+                className="text-white/50 hover:text-white/80 shrink-0 px-1"
               >
                 ✕
               </button>
@@ -302,9 +303,9 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
 
       {/* Galería */}
       {photos.length === 0 && uploads.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
-          <p className="text-3xl mb-2">📸</p>
-          <p className="text-sm text-gray-500">
+        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+          <div className="mb-3 flex justify-center text-planneo-300"><CameraIcon className="size-8" /></div>
+          <p className="text-sm text-white/55">
             Aún no tienes fotos. Los perfiles con fotos reciben muchas más consultas.
           </p>
         </div>
@@ -313,9 +314,9 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
           {photos.map((media, index) => (
             <li
               key={media.id}
-              className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col"
+              className="bg-planneo-900 rounded-2xl border border-white/10 overflow-hidden flex flex-col"
             >
-              <div className="relative aspect-[4/3] bg-gray-50">
+              <div className="relative aspect-[4/3] bg-white/[0.04]">
                 <Image
                   src={media.url}
                   alt={media.alt_text ?? `Foto ${index + 1}`}
@@ -324,7 +325,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                   className="object-cover"
                 />
                 {index === 0 && (
-                  <span className="absolute top-2 left-2 text-[11px] font-medium bg-[#7C3AED] text-white px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 left-2 text-[11px] font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full">
                     Principal
                   </span>
                 )}
@@ -337,7 +338,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                   maxLength={300}
                   aria-label={`Texto alternativo de la foto ${index + 1}`}
                   onBlur={(e) => void handleAltBlur(media, e.target.value)}
-                  className="w-full text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
+                  className="w-full text-xs border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
                 />
                 <div className="flex items-center gap-1">
                   <IconButton
@@ -359,7 +360,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                       type="button"
                       disabled={savingOrder}
                       onClick={() => void makePrimary(index)}
-                      className="text-[11px] font-medium text-[#7C3AED] hover:underline disabled:opacity-50 ml-1"
+                      className="text-[11px] font-medium text-planneo-300 hover:underline disabled:opacity-50 ml-1"
                     >
                       Hacer principal
                     </button>
@@ -368,7 +369,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                     type="button"
                     onClick={() => void handleDelete(media)}
                     aria-label={`Eliminar foto ${index + 1}`}
-                    className="ml-auto text-[11px] font-medium text-red-500 hover:underline"
+                    className="ml-auto text-[11px] font-medium text-red-300 hover:underline"
                   >
                     Eliminar
                   </button>
@@ -399,7 +400,7 @@ function IconButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="size-7 rounded-lg border border-gray-200 text-gray-500 text-sm hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-transparent"
+      className="size-7 rounded-lg border border-white/10 text-white/55 text-sm hover:bg-white/[0.07] disabled:opacity-40 disabled:hover:bg-transparent"
     >
       {children}
     </button>

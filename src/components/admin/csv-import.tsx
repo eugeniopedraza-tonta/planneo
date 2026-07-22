@@ -61,12 +61,12 @@ export default function CsvImport() {
 
       {result && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={() => setResult(null)}>
-          <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="font-semibold text-gray-900 mb-3">Resultado de importación</h3>
-            <p className="text-sm text-green-600 mb-2">✓ {result.created} proveedores creados</p>
+          <div className="bg-planneo-900 rounded-xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-semibold text-white mb-3">Resultado de importación</h3>
+            <p className="text-sm text-planneo-mint mb-2">✓ {result.created} proveedores creados</p>
             {result.errors.length > 0 && (
               <div className="mt-2">
-                <p className="text-sm text-red-500 mb-1">{result.errors.length} errores:</p>
+                <p className="text-sm text-red-300 mb-1">{result.errors.length} errores:</p>
                 <ul className="text-xs text-red-400 max-h-40 overflow-auto flex flex-col gap-1">
                   {result.errors.map((e) => (
                     <li key={e.row}>Fila {e.row}: {e.message}</li>

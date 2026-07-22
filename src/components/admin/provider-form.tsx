@@ -24,7 +24,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
   return (
     <form action={formAction} className="flex flex-col gap-5">
       {state.error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -41,7 +41,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             required
           />
           {state.fieldErrors?.name && (
-            <p className="text-xs text-red-500">{state.fieldErrors.name[0]}</p>
+            <p className="text-xs text-red-300">{state.fieldErrors.name[0]}</p>
           )}
         </div>
 
@@ -61,7 +61,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             ))}
           </select>
           {state.fieldErrors?.category_id && (
-            <p className="text-xs text-red-500">{state.fieldErrors.category_id[0]}</p>
+            <p className="text-xs text-red-300">{state.fieldErrors.category_id[0]}</p>
           )}
         </div>
 
@@ -81,7 +81,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             ))}
           </select>
           {state.fieldErrors?.zona && (
-            <p className="text-xs text-red-500">{state.fieldErrors.zona[0]}</p>
+            <p className="text-xs text-red-300">{state.fieldErrors.zona[0]}</p>
           )}
         </div>
 
@@ -107,7 +107,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             aria-invalid={!!state.fieldErrors?.email}
           />
           {state.fieldErrors?.email && (
-            <p className="text-xs text-red-500">{state.fieldErrors.email[0]}</p>
+            <p className="text-xs text-red-300">{state.fieldErrors.email[0]}</p>
           )}
         </div>
 
@@ -182,7 +182,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 pt-2 border-t border-gray-100">
+      <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
         <Button type="button" variant="outline" onClick={() => history.back()}>
           Cancelar
         </Button>

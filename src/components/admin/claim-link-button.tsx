@@ -34,7 +34,7 @@ export default function ClaimLinkButton({ providerId }: { providerId: string }) 
       size="xs"
       onClick={handleGenerate}
       disabled={loading}
-      className="text-[#7C3AED] hover:text-purple-700"
+      className="text-planneo-300 hover:text-planneo-300"
     >
       {loading ? '…' : copied ? '✓ Copiado' : 'Claim link'}
     </Button>

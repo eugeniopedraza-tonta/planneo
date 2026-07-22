@@ -46,19 +46,19 @@ export default async function PanelPage() {
   return (
     <div className="p-8 max-w-4xl">
       {isPending && (
-        <div className="mb-6 rounded-2xl bg-amber-50 border border-amber-200 px-5 py-4">
-          <p className="text-sm font-medium text-amber-800">Tu perfil está en revisión</p>
-          <p className="text-sm text-amber-700 mt-0.5">
+        <div className="mb-6 rounded-2xl bg-amber-300/10 border border-amber-300/30 px-5 py-4">
+          <p className="text-sm font-medium text-amber-200">Tu perfil está en revisión</p>
+          <p className="text-sm text-amber-200 mt-0.5">
             Lo revisaremos en las próximas 24–48 horas. Mientras tanto, puedes completar tu información.
           </p>
         </div>
       )}
 
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">
-          Hola, <span className="text-[#7C3AED]">{provider?.name ?? 'proveedor'}</span>
+        <h1 className="text-xl font-semibold text-white">
+          Hola, <span className="text-planneo-300">{provider?.name ?? 'proveedor'}</span>
         </h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <p className="text-sm text-white/55 mt-0.5">
           {isPending ? 'Completa tu perfil mientras esperamos la aprobación.' : 'Aquí puedes gestionar todo tu perfil.'}
         </p>
       </div>
@@ -72,7 +72,7 @@ export default async function PanelPage() {
       </div>
 
       {/* Accesos rápidos */}
-      <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Completar perfil</h2>
+      <h2 className="text-sm font-semibold text-white/55 uppercase tracking-wide mb-3">Completar perfil</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <QuickLink href="/panel/perfil" title="Editar información" desc="Nombre, descripción, zona, precio, eventos" />
         <QuickLink href="/panel/fotos" title="Subir fotos" desc="Muestra tu trabajo con imágenes" />
@@ -88,9 +88,9 @@ export default async function PanelPage() {
 
 function StatCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
   return (
-    <div className={`bg-white rounded-2xl border p-4 ${accent ? 'border-[#7C3AED]/30' : 'border-gray-200'}`}>
-      <p className={`text-2xl font-bold ${accent ? 'text-[#7C3AED]' : 'text-gray-900'}`}>{value}</p>
-      <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+    <div className={`bg-planneo-900 rounded-2xl border p-4 ${accent ? 'border-planneo-300/40' : 'border-white/10'}`}>
+      <p className={`text-2xl font-bold ${accent ? 'text-planneo-300' : 'text-white'}`}>{value}</p>
+      <p className="text-xs text-white/55 mt-0.5">{label}</p>
     </div>
   )
 }
@@ -99,13 +99,13 @@ function QuickLink({ href, title, desc, accent }: { href: string; title: string;
   return (
     <Link
       href={href}
-      className={`flex items-center justify-between bg-white rounded-2xl border p-4 hover:shadow-sm transition-shadow ${accent ? 'border-[#7C3AED]/30' : 'border-gray-200'}`}
+      className={`flex items-center justify-between bg-planneo-900 rounded-2xl border p-4 hover:shadow-sm transition-shadow ${accent ? 'border-planneo-300/40' : 'border-white/10'}`}
     >
       <div>
-        <p className={`text-sm font-medium ${accent ? 'text-[#7C3AED]' : 'text-gray-900'}`}>{title}</p>
-        <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+        <p className={`text-sm font-medium ${accent ? 'text-planneo-300' : 'text-white'}`}>{title}</p>
+        <p className="text-xs text-white/55 mt-0.5">{desc}</p>
       </div>
-      <svg className="size-4 text-gray-400 shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="size-4 text-white/50 shrink-0 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
       </svg>
     </Link>

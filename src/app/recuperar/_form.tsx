@@ -5,7 +5,7 @@ import CodeInput from '@/components/code-input'
 import { recoverPassword, type State } from './_actions'
 
 const inputCls =
-  'h-10 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#C77DFF] focus:bg-white/[0.07] transition-colors'
+  'h-10 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus:bg-white/[0.07] transition-colors'
 
 export default function RecoverPasswordForm() {
   const [state, formAction, isPending] = useActionState<State, FormData>(recoverPassword, {})
@@ -77,7 +77,7 @@ export default function RecoverPasswordForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="mt-2 w-full rounded-xl bg-[#7B2CBF] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#6B22AE] disabled:opacity-60"
+        className="mt-2 w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
       >
         {isPending
           ? codeStep ? 'Restableciendo…' : 'Enviando código…'

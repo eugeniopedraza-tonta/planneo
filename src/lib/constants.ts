@@ -78,6 +78,13 @@ export const AVAILABILITY_STATUS_LABELS: Record<string, string> = {
   tentative: 'Tentativo',
 }
 
+/** Paleta compartida de disponibilidad (calendario público, badges de paquetes). */
+export const AVAILABILITY_STATUS_STYLE = {
+  available: 'bg-planneo-mint/15 text-planneo-mint',
+  booked: 'bg-red-400/15 text-red-300',
+  tentative: 'bg-amber-300/15 text-amber-200',
+} as const satisfies Record<string, string>
+
 export const INQUIRY_STATUS_LABELS: Record<string, string> = {
   new: 'Nueva',
   read: 'Leída',

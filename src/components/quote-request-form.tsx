@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { createInquiry, type State } from '@/app/[category]/[slug]/_actions'
 
 const inputCls =
-  'w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#7C3AED] placeholder:text-gray-400'
+  'w-full min-h-11 text-sm text-white bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 outline-none placeholder:text-white/35 focus:border-planneo-300 [&>option]:bg-[#211A30] [&>option]:text-white'
 
 export default function QuoteRequestForm({ providerId }: { providerId: string }) {
   const [state, formAction, isPending] = useActionState<State, FormData>(createInquiry, {})
@@ -29,7 +29,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl bg-[#7C3AED] py-3 text-sm font-semibold text-white hover:bg-[#6B2FD6] transition-colors"
+        className="v4-cta-glow w-full cursor-pointer rounded-[14px] bg-planneo-600 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
       >
         Solicitar cotización
       </button>
@@ -38,10 +38,10 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
-      <p className="text-sm font-medium text-[#111827]">Solicitar cotización</p>
+      <p className="text-sm font-semibold text-white">Solicitar cotización</p>
 
       {state.error && (
-        <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+        <p className="rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs text-red-300">
           {state.error}
         </p>
       )}
@@ -67,7 +67,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
           onChange={(e) => setName(e.target.value)}
           className={inputCls}
         />
-        {state.fieldErrors?.name && <p className="text-xs text-red-600 mt-1">{state.fieldErrors.name[0]}</p>}
+        {state.fieldErrors?.name && <p className="text-xs text-red-300 mt-1">{state.fieldErrors.name[0]}</p>}
       </div>
 
       <div>
@@ -80,7 +80,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
           onChange={(e) => setEmail(e.target.value)}
           className={inputCls}
         />
-        {state.fieldErrors?.email && <p className="text-xs text-red-600 mt-1">{state.fieldErrors.email[0]}</p>}
+        {state.fieldErrors?.email && <p className="text-xs text-red-300 mt-1">{state.fieldErrors.email[0]}</p>}
       </div>
 
       <input name="phone" placeholder="Tu teléfono (opcional)" aria-label="Tu teléfono" className={inputCls} />
@@ -103,7 +103,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
       </div>
 
       <div>
-        <label htmlFor="inquiry-date" className="text-xs text-gray-500">Fecha del evento (opcional)</label>
+        <label htmlFor="inquiry-date" className="text-xs text-white/50">Fecha del evento (opcional)</label>
         <input id="inquiry-date" name="event_date" type="date" className={inputCls} />
       </div>
 
@@ -124,17 +124,17 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
           aria-label="Mensaje"
           className={inputCls}
         />
-        {state.fieldErrors?.message && <p className="text-xs text-red-600 mt-1">{state.fieldErrors.message[0]}</p>}
+        {state.fieldErrors?.message && <p className="text-xs text-red-300 mt-1">{state.fieldErrors.message[0]}</p>}
       </div>
 
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-xl bg-[#7C3AED] py-2.5 text-sm font-semibold text-white hover:bg-[#6B2FD6] transition-colors disabled:opacity-60"
+        className="w-full cursor-pointer rounded-[14px] bg-planneo-600 py-3 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors disabled:opacity-60"
       >
         {isPending ? 'Enviando…' : 'Enviar solicitud'}
       </button>
-      <p className="text-[11px] text-gray-400 text-center">
+      <p className="text-[11px] text-white/50 text-center">
         Recibirás la cotización aquí mismo en Planneo.
       </p>
     </form>

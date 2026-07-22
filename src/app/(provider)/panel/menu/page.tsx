@@ -13,7 +13,7 @@ export default async function MenuPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -21,7 +21,7 @@ export default async function MenuPage() {
   if (provider.categories?.slug !== CATERING_CATEGORY_SLUG) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-white/55">
           Esta sección es solo para proveedores de la categoría Banquete / Catering.
         </p>
       </div>
@@ -38,8 +38,8 @@ export default async function MenuPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Mis menús</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Mis menús</h1>
+        <p className="text-sm text-white/55 mt-0.5">
           Arma tus menús por tiempos. Aparecen en tu perfil público para que el cliente
           sepa qué esperar.
         </p>

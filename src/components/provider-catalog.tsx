@@ -54,9 +54,9 @@ export default async function ProviderCatalog({
   )
 
   return (
-    <div className="min-h-screen bg-[#0E0B1A] text-[#F5F0FF]">
+    <div className="min-h-screen bg-planneo-950 text-planneo-ink">
       <Navbar />
-      <div className="border-b border-white/10 bg-[#15101F] pt-24">
+      <div className="border-b border-white/10 bg-planneo-900 pt-24">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <h1 className="v4-display max-w-4xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
             {title}
@@ -81,7 +81,7 @@ export default async function ProviderCatalog({
                   name="q"
                   defaultValue={searchParams.q ?? ''}
                   placeholder="Fotografía, DJ, catering..."
-                  className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#C77DFF]"
+                  className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300"
                 />
               </div>
 
@@ -97,7 +97,7 @@ export default async function ProviderCatalog({
               <Select label="Tipo de evento" name="evento" value={searchParams.evento ?? ''} options={EVENT_TYPES.map((e) => ({ value: e.value, label: e.label }))} />
               <Select label="Precio" name="precio" value={searchParams.precio ?? ''} options={PRICE_RANGES.map((p) => ({ value: p.value, label: p.label }))} />
 
-              <button type="submit" className="min-h-11 w-full rounded-xl bg-[#7B2CBF] font-semibold text-white transition hover:bg-[#6B22AE]">
+              <button type="submit" className="min-h-11 w-full rounded-xl bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500">
                 Aplicar filtros
               </button>
               {hasFilters && (
@@ -113,7 +113,7 @@ export default async function ProviderCatalog({
               <div>
                 <p className="text-sm text-white/55">{providers.length} proveedor{providers.length === 1 ? '' : 'es'} encontrado{providers.length === 1 ? '' : 's'}</p>
                 {searchParams.q && (
-                  <p className="mt-1 text-sm text-white/40">Resultados para &ldquo;{searchParams.q}&rdquo;</p>
+                  <p className="mt-1 text-sm text-white/50">Resultados para &ldquo;{searchParams.q}&rdquo;</p>
                 )}
               </div>
             </div>
@@ -159,7 +159,7 @@ function Select({
         id={`catalog-${name}`}
         name={name}
         defaultValue={value}
-        className="h-11 w-full rounded-xl border border-white/10 bg-[#211A30] px-3 text-sm text-white outline-none focus:border-[#C77DFF]"
+        className="h-11 w-full rounded-xl border border-white/10 bg-[#211A30] px-3 text-sm text-white outline-none focus:border-planneo-300"
       >
         <option value="">Todos</option>
         {options.map((option) => (

@@ -22,7 +22,7 @@ export default async function CrearCuentaPage({
   if (user) redirect(safeNext ?? '/mis-consultas')
 
   return (
-    <div className="min-h-screen bg-[#0E0B1A] px-4 py-16">
+    <div className="min-h-screen bg-planneo-950 px-4 py-16">
       <div className="mx-auto max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block mb-6">
@@ -42,16 +42,16 @@ export default async function CrearCuentaPage({
           <ClientRegisterForm next={safeNext} />
         </div>
 
-        <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/40">
+        <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/50">
           <p>
             ¿Ya tienes cuenta?{' '}
-            <Link href="/login" className="text-[#C77DFF] hover:text-white transition-colors">
+            <Link href="/login" className="text-planneo-300 hover:text-white transition-colors">
               Inicia sesión
             </Link>
           </p>
           <p>
             ¿Ofreces servicios para eventos?{' '}
-            <Link href="/registrarme" className="text-[#C77DFF] hover:text-white transition-colors">
+            <Link href="/registrarme" className="text-planneo-300 hover:text-white transition-colors">
               Registra tu negocio
             </Link>
           </p>

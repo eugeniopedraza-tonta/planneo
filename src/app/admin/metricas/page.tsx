@@ -59,8 +59,8 @@ export default async function MetricasPage() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Métricas</h1>
-        <p className="mt-1 text-sm text-gray-500">Leads y actividad de los últimos 30 días.</p>
+        <h1 className="text-2xl font-bold text-white">Métricas</h1>
+        <p className="mt-1 text-sm text-white/55">Leads y actividad de los últimos 30 días.</p>
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -70,30 +70,30 @@ export default async function MetricasPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <section className="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-base font-semibold text-gray-900">Top proveedores</h2>
-          <div className="overflow-hidden rounded-lg border border-gray-100">
+        <section className="rounded-xl border border-white/10 bg-planneo-900 p-6">
+          <h2 className="mb-4 text-base font-semibold text-white">Top proveedores</h2>
+          <div className="overflow-hidden rounded-lg border border-white/10">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+              <thead className="bg-white/[0.04] text-left text-xs uppercase tracking-wide text-white/55">
                 <tr>
                   <th className="px-3 py-2">Proveedor</th>
                   <th className="px-3 py-2">Vistas</th>
                   <th className="px-3 py-2">WhatsApp</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-white/10">
                 {topProviders.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="px-3 py-8 text-center text-gray-400">
+                    <td colSpan={3} className="px-3 py-8 text-center text-white/50">
                       Todavía no hay leads.
                     </td>
                   </tr>
                 ) : (
                   topProviders.map((provider) => (
                     <tr key={provider.name}>
-                      <td className="px-3 py-2 font-medium text-gray-900">{provider.name}</td>
-                      <td className="px-3 py-2 text-gray-600">{provider.views}</td>
-                      <td className="px-3 py-2 text-gray-600">{provider.clicks}</td>
+                      <td className="px-3 py-2 font-medium text-white">{provider.name}</td>
+                      <td className="px-3 py-2 text-white/60">{provider.views}</td>
+                      <td className="px-3 py-2 text-white/60">{provider.clicks}</td>
                     </tr>
                   ))
                 )}
@@ -102,21 +102,21 @@ export default async function MetricasPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-base font-semibold text-gray-900">Leads por categoría</h2>
+        <section className="rounded-xl border border-white/10 bg-planneo-900 p-6">
+          <h2 className="mb-4 text-base font-semibold text-white">Leads por categoría</h2>
           <div className="space-y-3">
             {categoryRows.length === 0 ? (
-              <p className="py-8 text-center text-sm text-gray-400">Sin actividad por categoría.</p>
+              <p className="py-8 text-center text-sm text-white/50">Sin actividad por categoría.</p>
             ) : (
               categoryRows.map((row) => (
                 <div key={row.name}>
                   <div className="mb-1 flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-700">{row.name}</span>
-                    <span className="text-gray-500">{row.count}</span>
+                    <span className="font-medium text-white/75">{row.name}</span>
+                    <span className="text-white/55">{row.count}</span>
                   </div>
-                  <div className="h-2 rounded-full bg-gray-100">
+                  <div className="h-2 rounded-full bg-white/10">
                     <div
-                      className="h-2 rounded-full bg-[#7B2CBF]"
+                      className="h-2 rounded-full bg-planneo-600"
                       style={{ width: `${Math.max(8, (row.count / Math.max(categoryRows[0].count, 1)) * 100)}%` }}
                     />
                   </div>
@@ -132,9 +132,9 @@ export default async function MetricasPage() {
 
 function MetricCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <p className="mb-1 text-sm text-gray-500">{label}</p>
-      <p className="text-3xl font-bold text-gray-900">{value}</p>
+    <div className="rounded-xl border border-white/10 bg-planneo-900 p-5">
+      <p className="mb-1 text-sm text-white/55">{label}</p>
+      <p className="text-3xl font-bold text-white">{value}</p>
     </div>
   )
 }

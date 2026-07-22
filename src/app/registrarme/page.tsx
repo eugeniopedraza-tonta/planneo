@@ -17,7 +17,7 @@ export default async function RegistrarmePage() {
     .order('name')
 
   return (
-    <div className="min-h-screen bg-[#0E0B1A] px-4 py-16">
+    <div className="min-h-screen bg-planneo-950 px-4 py-16">
       <div className="mx-auto max-w-lg">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block mb-6">
@@ -37,16 +37,16 @@ export default async function RegistrarmePage() {
           <RegisterForm categories={categories ?? []} zonas={[...ZONAS_MTY]} />
         </div>
 
-        <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/40">
+        <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/50">
           <p>
             ¿Ya tienes cuenta?{' '}
-            <Link href="/login" className="text-[#C77DFF] hover:text-white transition-colors">
+            <Link href="/login" className="text-planneo-300 hover:text-white transition-colors">
               Inicia sesión
             </Link>
           </p>
           <p>
             ¿Organizas un evento y buscas proveedores?{' '}
-            <Link href="/crear-cuenta" className="text-[#C77DFF] hover:text-white transition-colors">
+            <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
               Crea tu cuenta de cliente
             </Link>
           </p>

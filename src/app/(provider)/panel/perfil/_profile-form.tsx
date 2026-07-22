@@ -16,12 +16,12 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
   return (
     <form action={formAction} className="flex flex-col gap-5">
       {state.error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
       {state.success && (
-        <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-sm text-green-700">
+        <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-lg px-4 py-3 text-sm text-planneo-mint">
           Perfil actualizado correctamente.
         </div>
       )}
@@ -125,7 +125,7 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
         </div>
       </div>
 
-      <div className="flex justify-end pt-2 border-t border-gray-100">
+      <div className="flex justify-end pt-2 border-t border-white/10">
         <Button type="submit" disabled={isPending}>
           {isPending ? 'Guardando…' : 'Guardar cambios'}
         </Button>
@@ -136,5 +136,5 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
 
 function FieldError({ errors }: { errors?: string[] }) {
   if (!errors?.length) return null
-  return <p className="text-xs text-red-600">{errors[0]}</p>
+  return <p className="text-xs text-red-300">{errors[0]}</p>
 }

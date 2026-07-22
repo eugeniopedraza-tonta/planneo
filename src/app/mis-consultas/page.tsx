@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import Navbar from '@/components/landing/Navbar'
 import { EVENT_TYPES, INQUIRY_STATUS_LABELS } from '@/lib/constants'
 import type { Category, InquiryWithMessages, Provider } from '@/lib/types'
+import { CalendarIcon, MapPinIcon, InboxIcon } from '@/components/icons'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,25 +32,25 @@ export default async function MisConsultasPage() {
     .returns<InquiryRow[]>()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-planneo-950 text-planneo-ink">
       <Navbar />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <div className="mb-6">
-          <h1 className="text-xl font-semibold text-gray-900">Mis consultas</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="v4-display text-3xl font-bold tracking-[-0.04em] text-white">Mis consultas</h1>
+          <p className="text-sm text-white/55 mt-0.5">
             Tus solicitudes de cotización y las respuestas de los proveedores.
           </p>
         </div>
 
         {(inquiries ?? []).length === 0 ? (
-          <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
-            <p className="text-3xl mb-2">📬</p>
-            <p className="text-sm text-gray-500 mb-4">
+          <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+            <div className="mb-3 flex justify-center text-planneo-300"><InboxIcon className="size-8" /></div>
+            <p className="text-sm text-white/55 mb-4">
               Aún no has enviado consultas. Explora el catálogo y pide cotización al proveedor que te interese.
             </p>
             <Link
               href="/proveedores"
-              className="inline-block rounded-xl bg-[#7C3AED] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#6B2FD6] transition-colors"
+              className="inline-block rounded-xl bg-planneo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors"
             >
               Buscar proveedores
             </Link>
@@ -75,43 +76,43 @@ function InquiryCard({ inquiry }: { inquiry: InquiryRow }) {
     <li>
       <Link
         href={`/consulta/${inquiry.access_token}`}
-        className={`block bg-white rounded-2xl border p-5 hover:shadow-sm transition-shadow ${
-          isConfirmed ? 'border-emerald-200' : 'border-gray-200'
+        className={`block bg-planneo-900 rounded-2xl border p-5 hover:shadow-sm transition-shadow ${
+          isConfirmed ? 'border-planneo-mint/30' : 'border-white/10'
         }`}
       >
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="min-w-0">
-            <h2 className="text-sm font-semibold text-gray-900">
+            <h2 className="text-sm font-semibold text-white">
               {inquiry.providers?.name ?? 'Proveedor'}
             </h2>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-white/50 mt-0.5">
               {inquiry.providers?.categories?.name ?? ''}
               {eventLabel ? ` · ${eventLabel}` : ''}
             </p>
           </div>
           <span
             className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-              isConfirmed ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-500'
+              isConfirmed ? 'bg-planneo-mint text-planneo-950' : 'bg-white/10 text-white/55'
             }`}
           >
             {INQUIRY_STATUS_LABELS[inquiry.status]}
           </span>
         </div>
 
-        <div className="flex items-center gap-3 mt-3 flex-wrap text-xs text-gray-600">
+        <div className="flex items-center gap-3 mt-3 flex-wrap text-xs text-white/60">
           {inquiry.event_date && (
-            <span className="bg-gray-50 border border-gray-100 rounded-lg px-2 py-1">
-              📅 {formatDateOnly(inquiry.event_date)}
+            <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <CalendarIcon /> {formatDateOnly(inquiry.event_date)}
             </span>
           )}
           {inquiry.event_location && (
-            <span className="bg-gray-50 border border-gray-100 rounded-lg px-2 py-1">
-              📍 {inquiry.event_location}
+            <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <MapPinIcon /> {inquiry.event_location}
             </span>
           )}
         </div>
 
-        <p className="text-xs text-gray-500 mt-3 line-clamp-2">
+        <p className="text-xs text-white/55 mt-3 line-clamp-2">
           {lastMessage
             ? `${lastMessage.sender === 'provider' ? 'Proveedor' : 'Tú'}: ${lastMessage.body}`
             : inquiry.message}

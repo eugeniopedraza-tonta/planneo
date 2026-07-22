@@ -17,10 +17,10 @@ export default function ClientReplyForm({ token }: { token: string }) {
 
   return (
     <form ref={formRef} action={formAction} className="flex flex-col gap-2">
-      <label htmlFor="client-reply" className="text-sm font-medium text-gray-900">
+      <label htmlFor="client-reply" className="text-sm font-medium text-white">
         Responder
       </label>
-      {state.error && <p className="text-xs text-red-600">{state.error}</p>}
+      {state.error && <p className="text-xs text-red-300">{state.error}</p>}
       <textarea
         id="client-reply"
         name="body"
@@ -28,13 +28,13 @@ export default function ClientReplyForm({ token }: { token: string }) {
         rows={3}
         maxLength={2000}
         placeholder="Escribe tu mensaje al proveedor…"
-        className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#7C3AED]"
+        className="w-full text-sm border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
       />
       <div className="flex justify-end">
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-xl bg-[#7C3AED] px-4 py-2 text-sm font-semibold text-white hover:bg-[#6B2FD6] transition-colors disabled:opacity-60"
+          className="rounded-xl bg-planneo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors disabled:opacity-60"
         >
           {isPending ? 'Enviando…' : 'Enviar mensaje'}
         </button>

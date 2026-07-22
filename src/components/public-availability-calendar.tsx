@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { PublicAvailability } from '@/lib/types'
 
 const WEEKDAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
@@ -9,10 +9,11 @@ const MONTHS = [
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
 ]
 
+/** Estados sobre fondo oscuro; los de constants son para el panel (claro). */
 const STATUS_STYLE: Record<string, string> = {
-  available: 'bg-green-100 text-green-800',
-  booked: 'bg-red-100 text-red-700',
-  tentative: 'bg-amber-100 text-amber-800',
+  available: 'bg-planneo-mint/20 text-planneo-mint font-semibold',
+  booked: 'bg-red-400/15 text-red-300 font-semibold',
+  tentative: 'bg-amber-300/15 text-amber-200 font-semibold',
 }
 
 /** Calendario readonly del perfil público. Sin notas — solo fecha y estado. */
@@ -21,11 +22,30 @@ export default function PublicAvailabilityCalendar({
 }: {
   availability: PublicAvailability[]
 }) {
-  const today = new Date()
-  const [year, setYear] = useState(today.getFullYear())
-  const [month, setMonth] = useState(today.getMonth())
+  // "Hoy" solo existe tras montar: el HTML viene de un prerender ISR de hasta
+  // una hora antes y usar new Date() en el render causaría mismatch de hidratación.
+  const [today, setToday] = useState<Date | null>(null)
+  const [year, setYear] = useState(0)
+  const [month, setMonth] = useState(0)
+
+  useEffect(() => {
+    const now = new Date()
+    setToday(now)
+    setYear(now.getFullYear())
+    setMonth(now.getMonth())
+  }, [])
 
   const byDate = new Map(availability.map((a) => [a.date, a.status]))
+
+  if (!today) {
+    return (
+      <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
+        <p className="v4-mono text-[10px] text-planneo-300">AGENDA</p>
+        <h2 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
+        <div className="mt-4 h-64 animate-pulse rounded-2xl bg-white/[0.05]" />
+      </div>
+    )
+  }
 
   const firstDay = new Date(year, month, 1)
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -46,38 +66,43 @@ export default function PublicAvailabilityCalendar({
   const atCurrentMonth = year === today.getFullYear() && month === today.getMonth()
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-      <h2 className="font-semibold text-[#111827] mb-1">Disponibilidad</h2>
-      <p className="text-xs text-[#6B7280] mb-4">
+    <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
+      <p className="v4-mono text-[10px] text-planneo-300">AGENDA</p>
+      <h2 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
+      <p className="mb-4 mt-2 text-xs text-white/50">
         Los días sin marcar están por confirmar con el proveedor.
       </p>
 
-      <div className="flex items-center justify-between mb-3">
+      <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
           onClick={() => shiftMonth(-1)}
           disabled={atCurrentMonth}
-          className="text-sm text-[#6B7280] hover:text-[#7C3AED] disabled:opacity-30 disabled:cursor-not-allowed px-2 py-1"
+          className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
           aria-label="Mes anterior"
         >
-          ←
+          <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
         </button>
-        <p className="text-sm font-medium text-[#111827]">
+        <p className="text-sm font-semibold text-white">
           {MONTHS[month]} {year}
         </p>
         <button
           type="button"
           onClick={() => shiftMonth(1)}
-          className="text-sm text-[#6B7280] hover:text-[#7C3AED] px-2 py-1"
+          className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white"
           aria-label="Mes siguiente"
         >
-          →
+          <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
         </button>
       </div>
 
       <div className="grid grid-cols-7 gap-1 text-center">
         {WEEKDAYS.map((d, i) => (
-          <div key={i} className="text-[11px] font-medium text-[#9CA3AF] py-1">
+          <div key={i} className="v4-mono py-1 text-[9px] text-white/50">
             {d}
           </div>
         ))}
@@ -90,12 +115,12 @@ export default function PublicAvailabilityCalendar({
           return (
             <div
               key={iso}
-              className={`text-xs rounded-lg py-1.5 ${
+              className={`rounded-lg py-1.5 text-xs ${
                 isPast
-                  ? 'text-gray-300'
+                  ? 'text-white/20'
                   : status
                     ? STATUS_STYLE[status]
-                    : 'text-[#374151]'
+                    : 'text-white/70'
               }`}
             >
               {day}
@@ -104,15 +129,15 @@ export default function PublicAvailabilityCalendar({
         })}
       </div>
 
-      <div className="flex flex-wrap gap-3 mt-4 text-[11px] text-[#6B7280]">
+      <div className="mt-4 flex flex-wrap gap-3 text-[11px] text-white/55">
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-green-300 inline-block" /> Disponible
+          <span className="inline-block size-2.5 rounded-full bg-planneo-mint" /> Disponible
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-red-300 inline-block" /> Reservado
+          <span className="inline-block size-2.5 rounded-full bg-red-400" /> Reservado
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-300 inline-block" /> Tentativo
+          <span className="inline-block size-2.5 rounded-full bg-amber-300" /> Tentativo
         </span>
       </div>
     </div>

@@ -38,8 +38,8 @@ export default async function ProvidersPage({
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Proveedores</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{count ?? 0} total</p>
+          <h1 className="text-2xl font-bold text-white">Proveedores</h1>
+          <p className="text-sm text-white/55 mt-0.5">{count ?? 0} total</p>
         </div>
         <div className="flex items-center gap-2">
           <CsvImport />
@@ -54,7 +54,7 @@ export default async function ProvidersPage({
         <select
           name="status"
           defaultValue={params.status ?? ''}
-          className="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700"
+          className="h-9 rounded-lg border border-white/10 bg-planneo-900 px-3 text-sm text-white/75"
         >
           <option value="">Todos los estados</option>
           <option value="draft">Borrador</option>
@@ -65,7 +65,7 @@ export default async function ProvidersPage({
         <select
           name="category"
           defaultValue={params.category ?? ''}
-          className="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700"
+          className="h-9 rounded-lg border border-white/10 bg-planneo-900 px-3 text-sm text-white/75"
         >
           <option value="">Todas las categorías</option>
           {categories?.map((c) => (
@@ -80,38 +80,38 @@ export default async function ProvidersPage({
       </form>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-planneo-900 rounded-xl border border-white/10 overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-white/[0.04] border-b border-white/10">
             <tr>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Nombre</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Categoría</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Zona</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Estado</th>
-              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Creado</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-white/55 uppercase tracking-wide">Nombre</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-white/55 uppercase tracking-wide">Categoría</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-white/55 uppercase tracking-wide">Zona</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-white/55 uppercase tracking-wide">Estado</th>
+              <th className="text-left px-4 py-3 text-xs font-semibold text-white/55 uppercase tracking-wide">Creado</th>
               <th className="px-4 py-3" />
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-white/10">
             {!providers?.length && (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-gray-400">
+                <td colSpan={6} className="px-4 py-12 text-center text-white/50">
                   Sin proveedores. Crea uno o importa un CSV.
                 </td>
               </tr>
             )}
             {(providers as ProviderWithCategory[])?.map((p) => (
-              <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 font-medium text-gray-900">
+              <tr key={p.id} className="hover:bg-white/[0.07] transition-colors">
+                <td className="px-4 py-3 font-medium text-white">
                   {p.name}
-                  <span className="block text-xs text-gray-400 font-normal">{p.slug}</span>
+                  <span className="block text-xs text-white/50 font-normal">{p.slug}</span>
                 </td>
-                <td className="px-4 py-3 text-gray-600">{p.categories?.name ?? '—'}</td>
-                <td className="px-4 py-3 text-gray-600">{p.zona ?? '—'}</td>
+                <td className="px-4 py-3 text-white/60">{p.categories?.name ?? '—'}</td>
+                <td className="px-4 py-3 text-white/60">{p.zona ?? '—'}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={p.status} />
                 </td>
-                <td className="px-4 py-3 text-gray-500">
+                <td className="px-4 py-3 text-white/55">
                   {new Date(p.created_at).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: '2-digit' })}
                 </td>
                 <td className="px-4 py-3">
@@ -126,7 +126,7 @@ export default async function ProvidersPage({
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4">
-          <p className="text-sm text-gray-500">Página {page} de {totalPages}</p>
+          <p className="text-sm text-white/55">Página {page} de {totalPages}</p>
           <div className="flex gap-2">
             {page > 1 && (
               <Button variant="outline" size="sm" asChild>
@@ -151,12 +151,12 @@ export default async function ProvidersPage({
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
-    draft: 'bg-gray-100 text-gray-600',
-    published: 'bg-green-100 text-green-700',
-    claimed: 'bg-purple-100 text-purple-700',
+    draft: 'bg-white/10 text-white/60',
+    published: 'bg-planneo-mint/15 text-planneo-mint',
+    claimed: 'bg-planneo-600/20 text-planneo-300',
   }
   return (
-    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${colors[status] ?? 'bg-gray-100 text-gray-600'}`}>
+    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${colors[status] ?? 'bg-white/10 text-white/60'}`}>
       {STATUS_LABELS[status] ?? status}
     </span>
   )

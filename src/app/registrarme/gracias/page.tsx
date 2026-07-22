@@ -2,11 +2,11 @@ import Link from 'next/link'
 
 export default function GraciasPage() {
   return (
-    <div className="min-h-screen bg-[#0E0B1A] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-planneo-950 flex items-center justify-center px-4">
       <div className="max-w-md w-full text-center">
         <div className="mb-6 flex justify-center">
-          <div className="rounded-full bg-[#7B2CBF]/20 p-5">
-            <svg className="w-10 h-10 text-[#C77DFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="rounded-full bg-planneo-600/20 p-5">
+            <svg className="w-10 h-10 text-planneo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
@@ -24,7 +24,7 @@ export default function GraciasPage() {
 
         <Link
           href="/proveedores"
-          className="inline-flex items-center gap-2 rounded-xl bg-[#7B2CBF] px-6 py-3 text-sm font-semibold text-white hover:bg-[#6B22AE] transition-colors"
+          className="inline-flex items-center gap-2 rounded-xl bg-planneo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors"
         >
           Ver el catálogo
         </Link>

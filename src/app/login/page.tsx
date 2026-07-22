@@ -52,9 +52,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0E0B1A] px-4 text-[#F5F0FF]">
-      <div className="absolute left-[12%] top-[12%] h-56 w-56 rounded-full bg-[#7B2CBF]/35 blur-3xl" />
-      <div className="absolute bottom-[15%] right-[10%] h-64 w-64 rounded-full bg-[#C77DFF]/20 blur-3xl" />
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-planneo-950 px-4 text-planneo-ink">
+      <div className="absolute left-[12%] top-[12%] h-56 w-56 rounded-full bg-planneo-600/35 blur-3xl" />
+      <div className="absolute bottom-[15%] right-[10%] h-64 w-64 rounded-full bg-planneo-300/20 blur-3xl" />
       <div className="v4-glass relative w-full max-w-sm rounded-[24px] p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
         <div className="mb-8 text-center">
           <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
@@ -95,26 +95,26 @@ export default function LoginPage() {
           <div className="-mt-2 text-right">
             <Link
               href="/recuperar"
-              className="text-xs text-white/45 hover:text-[#C77DFF] transition-colors"
+              className="text-xs text-white/45 hover:text-planneo-300 transition-colors"
             >
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
 
-          <Button type="submit" disabled={loading} className="v4-cta-glow mt-2 w-full rounded-xl bg-[#7B2CBF] text-white hover:bg-[#6B22AE]">
+          <Button type="submit" disabled={loading} className="v4-cta-glow mt-2 w-full rounded-xl bg-planneo-600 text-white hover:bg-planneo-500">
             {loading ? 'Entrando…' : 'Entrar'}
           </Button>
 
           <div className="mt-2 flex flex-col gap-1.5 text-center text-xs text-white/45">
             <p>
               ¿Organizas un evento?{' '}
-              <Link href="/crear-cuenta" className="text-[#C77DFF] hover:text-white transition-colors">
+              <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
                 Crea tu cuenta
               </Link>
             </p>
             <p>
               ¿Ofreces servicios?{' '}
-              <Link href="/registrarme" className="text-[#C77DFF] hover:text-white transition-colors">
+              <Link href="/registrarme" className="text-planneo-300 hover:text-white transition-colors">
                 Registra tu negocio
               </Link>
             </p>

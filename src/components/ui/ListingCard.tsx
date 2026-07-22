@@ -62,7 +62,7 @@ export default function ListingCard({
         <div className="p-4 flex flex-col gap-2 flex-1">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-[#111827] text-base leading-tight">{name}</h3>
-            <span className="shrink-0 inline-flex items-center rounded-full bg-[#7C3AED]/10 text-[#7C3AED] text-xs font-medium px-2.5 py-0.5">
+            <span className="shrink-0 inline-flex items-center rounded-full bg-planneo-600/10 text-planneo-600 text-xs font-medium px-2.5 py-0.5">
               {genre}
             </span>
           </div>
@@ -96,7 +96,7 @@ export default function ListingCard({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={reduced ? undefined : { opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="rounded-full bg-[#7C3AED] text-white text-xs font-medium px-3 py-1.5 hover:bg-[#6D28D9] transition-colors cursor-pointer"
+                  className="rounded-full bg-planneo-600 text-white text-xs font-medium px-3 py-1.5 hover:bg-planneo-500 transition-colors cursor-pointer"
                 >
                   Ver Perfil
                 </motion.button>

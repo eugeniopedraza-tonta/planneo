@@ -19,7 +19,7 @@ export default async function MediaPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -35,8 +35,8 @@ export default async function MediaPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Audio / Video</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Audio / Video</h1>
+        <p className="text-sm text-white/55 mt-0.5">
           Snippets de tu trabajo: demos musicales, mezclas, clips de eventos.
           Máximo {MAX_MEDIA_PER_PROVIDER} archivos.
         </p>

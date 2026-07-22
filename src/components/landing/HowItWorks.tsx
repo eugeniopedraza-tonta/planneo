@@ -9,7 +9,7 @@ export default function HowItWorks() {
   const [selected, setSelected] = useState("Boda");
 
   return (
-    <section id="crear-evento" className="bg-[#0E0B1A] px-4 py-20 text-[#F5F0FF] sm:px-6 lg:px-14 lg:py-28">
+    <section id="crear-evento" className="bg-planneo-950 px-4 py-20 text-planneo-ink sm:px-6 lg:px-14 lg:py-28">
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="relative min-h-[420px]">
           <PaperCard className="left-3 top-8 rotate-[-8deg]" step="01" title="Tipo de evento" body={selected} />
@@ -19,7 +19,7 @@ export default function HowItWorks() {
         </div>
 
         <div>
-          <p className="v4-mono mb-4 text-[11px] text-[#C77DFF]">{"// CREAR EVENTO"}</p>
+          <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// CREAR EVENTO"}</p>
           <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
             ¿No sabes por dónde empezar? Mejor te lo resolvemos <span className="v4-shimmer-text">nosotros.</span>
           </h2>
@@ -35,7 +35,7 @@ export default function HowItWorks() {
                 onClick={() => setSelected(type)}
                 className={`min-h-11 rounded-full border px-4 text-sm font-semibold transition ${
                   selected === type
-                    ? "border-[#C77DFF] bg-[#7B2CBF] text-white"
+                    ? "border-planneo-300 bg-planneo-600 text-white"
                     : "border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08]"
                 }`}
               >
@@ -46,7 +46,7 @@ export default function HowItWorks() {
 
           <Link
             href="/proveedores"
-            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-[14px] bg-[#7B2CBF] px-8 font-semibold text-white transition hover:bg-[#6B22AE]"
+            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-[14px] bg-planneo-600 px-8 font-semibold text-white transition hover:bg-planneo-500"
           >
             Empezar mi evento
           </Link>
@@ -70,8 +70,8 @@ function PaperCard({
   return (
     <div className={`absolute w-[280px] rounded-[10px] border border-[#D9D2E8] bg-[#F8F6FB] p-5 text-[#1F1B2E] shadow-2xl shadow-black/30 sm:w-[340px] ${className}`}>
       <div className="flex items-center justify-between">
-        <span className="v4-mono text-[10px] text-[#7B2CBF]">{step}</span>
-        <span className="size-2 rounded-full bg-[#06D6A0]" />
+        <span className="v4-mono text-[10px] text-planneo-600">{step}</span>
+        <span className="size-2 rounded-full bg-planneo-mint" />
       </div>
       <h3 className="v4-display mt-5 text-2xl font-bold tracking-[-0.04em]">{title}</h3>
       <p className="mt-2 text-sm text-[#6B6478]">{body}</p>

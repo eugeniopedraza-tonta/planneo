@@ -18,7 +18,7 @@ export default async function PerfilPage() {
   if (!provider) {
     return (
       <div className="p-8">
-        <p className="text-sm text-gray-500">Tu cuenta no tiene un perfil vinculado.</p>
+        <p className="text-sm text-white/55">Tu cuenta no tiene un perfil vinculado.</p>
       </div>
     )
   }
@@ -26,13 +26,13 @@ export default async function PerfilPage() {
   return (
     <div className="p-8 max-w-2xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">Mi perfil</h1>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <h1 className="text-xl font-semibold text-white">Mi perfil</h1>
+        <p className="text-sm text-white/55 mt-0.5">
           Esta información aparece en tu perfil público
           {provider.categories?.name ? ` de ${provider.categories.name}` : ''}.
         </p>
       </div>
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
+      <div className="bg-planneo-900 rounded-2xl border border-white/10 p-6">
         <ProfileForm provider={provider} />
       </div>
     </div>

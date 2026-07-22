@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function RecuperarPage() {
   return (
-    <div className="min-h-screen bg-[#0E0B1A] px-4 py-16">
+    <div className="min-h-screen bg-planneo-950 px-4 py-16">
       <div className="mx-auto max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block mb-6">
@@ -28,9 +28,9 @@ export default function RecuperarPage() {
           <RecoverPasswordForm />
         </div>
 
-        <p className="mt-6 text-center text-sm text-white/40">
+        <p className="mt-6 text-center text-sm text-white/50">
           ¿La recordaste?{' '}
-          <Link href="/login" className="text-[#C77DFF] hover:text-white transition-colors">
+          <Link href="/login" className="text-planneo-300 hover:text-white transition-colors">
             Inicia sesión
           </Link>
         </p>

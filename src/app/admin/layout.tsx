@@ -12,14 +12,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen flex bg-[#F9FAFB]">
+    <div className="min-h-screen flex bg-planneo-950">
       {/* Sidebar */}
-      <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col">
-        <div className="h-16 flex items-center px-5 border-b border-gray-200">
-          <Link href="/admin" className="text-lg font-bold text-[#7C3AED]">
-            Planneo
+      <aside className="w-56 shrink-0 bg-planneo-900 border-r border-white/10 flex flex-col">
+        <div className="h-16 flex items-center px-5 border-b border-white/10">
+          <Link href="/admin">
+            <span className="v4-display bg-[linear-gradient(120deg,#9D4EDD_0%,#C77DFF_100%)] bg-clip-text text-lg font-bold text-transparent">Planneo</span>
           </Link>
-          <span className="ml-2 text-xs bg-[#7C3AED]/10 text-[#7C3AED] px-2 py-0.5 rounded-full font-medium">
+          <span className="ml-2 text-xs bg-planneo-600/20 text-planneo-300 px-2 py-0.5 rounded-full font-medium">
             Admin
           </span>
         </div>
@@ -43,7 +43,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </NavLink>
         </nav>
 
-        <div className="p-3 border-t border-gray-200">
+        <div className="p-3 border-t border-white/10">
           <AdminLogout />
         </div>
       </aside>
@@ -64,7 +64,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors font-medium"
+      className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/60 hover:bg-white/15 hover:text-white transition-colors font-medium"
     >
       {children}
     </Link>
