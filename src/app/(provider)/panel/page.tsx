@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { getProviderReadiness } from '@/lib/provider-readiness'
 import type { ProviderWithCategory } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
@@ -41,7 +42,29 @@ export default async function PanelPage() {
       .eq('provider_id', provider?.id ?? ''),
   ])
 
-  const isPending = provider?.status === 'pending'
+  const { data: progress } = await supabase
+    .from('provider_onboarding_progress')
+    .select('terms_version, privacy_version')
+    .eq('provider_id', provider?.id ?? '')
+    .maybeSingle()
+
+  const isPending = provider?.status === 'pending_review'
+  // El progreso se recalcula aquí para que el banner nunca contradiga al hub.
+  const readiness = provider
+    ? getProviderReadiness({
+        name: provider.name,
+        category_id: provider.category_id,
+        zona: provider.zona,
+        phone: provider.phone,
+        description: provider.description,
+        event_types: provider.event_types,
+        photos: provider.photos,
+        termsAcceptedVersion: progress?.terms_version ?? null,
+        privacyAcceptedVersion: progress?.privacy_version ?? null,
+      })
+    : null
+
+  const needsActivation = provider && provider.status !== 'published' && !isPending
 
   return (
     <div className="p-8 max-w-4xl">
@@ -52,6 +75,37 @@ export default async function PanelPage() {
             Lo revisaremos en las próximas 24–48 horas. Mientras tanto, puedes completar tu información.
           </p>
         </div>
+      )}
+
+      {needsActivation && readiness && (
+        <Link
+          href="/panel/onboarding"
+          className="mb-6 block rounded-2xl border border-planneo-300/30 bg-planneo-600/10 px-5 py-4 transition-colors hover:border-planneo-300/60"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-white">
+                {provider.status === 'rejected'
+                  ? 'Tu perfil necesita cambios'
+                  : `Tu perfil está al ${readiness.percent}%`}
+              </p>
+              <p className="mt-0.5 text-sm text-white/60">
+                {readiness.isReady
+                  ? 'Ya puedes publicarlo y empezar a recibir cotizaciones.'
+                  : `Faltan ${readiness.missing.length} tareas para publicarlo.`}
+              </p>
+            </div>
+            <span className="shrink-0 rounded-xl bg-planneo-600 px-4 py-2 text-xs font-semibold text-white">
+              Continuar
+            </span>
+          </div>
+          <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-planneo-mint"
+              style={{ width: `${readiness.percent}%` }}
+            />
+          </div>
+        </Link>
       )}
 
       <div className="mb-6">

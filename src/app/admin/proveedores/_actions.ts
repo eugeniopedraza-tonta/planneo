@@ -5,7 +5,9 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateProviderSlug } from '@/lib/slug'
+import { CATEGORY_SLUGS, EVENT_TYPE_VALUES } from '@/lib/constants'
 import type { EventType, PriceRange } from '@/lib/types'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 async function requireAdmin() {
   const supabase = await createClient()
@@ -20,12 +22,13 @@ const ProviderSchema = z.object({
   name: z.string().min(1, 'Requerido'),
   category_id: z.string().uuid('Selecciona una categoría'),
   zona: z.string().min(1, 'Requerido'),
-  whatsapp: z.string().optional(),
+  phone: z.string().optional(),
   email: z.string().email('Email inválido').optional().or(z.literal('')),
   description: z.string().optional(),
-  event_types: z.array(z.enum(['bodas', 'xv', 'corporativo', 'graduacion'])).optional(),
+  event_types: z.array(z.enum(EVENT_TYPE_VALUES)).optional(),
   price_range: z.enum(['$', '$$', '$$$']).optional(),
   instagram_handle: z.string().optional(),
+  birth_date: z.string().optional(),
 })
 
 export type ProviderActionState = {
@@ -41,12 +44,13 @@ export async function createProvider(
     name: formData.get('name'),
     category_id: formData.get('category_id'),
     zona: formData.get('zona'),
-    whatsapp: formData.get('whatsapp'),
+    phone: formData.get('phone'),
     email: formData.get('email'),
     description: formData.get('description'),
     event_types: formData.getAll('event_types'),
     price_range: formData.get('price_range'),
     instagram_handle: formData.get('instagram_handle'),
+    birth_date: formData.get('birth_date'),
   }
 
   const parsed = ProviderSchema.safeParse(raw)
@@ -81,12 +85,13 @@ export async function createProvider(
     name: parsed.data.name,
     category_id: parsed.data.category_id,
     zona: parsed.data.zona,
-    whatsapp: parsed.data.whatsapp || null,
+    phone: parsed.data.phone || null,
     email: parsed.data.email || null,
     description: parsed.data.description || null,
     event_types: (parsed.data.event_types as EventType[]) ?? null,
     price_range: (parsed.data.price_range as PriceRange) ?? null,
     instagram_handle: parsed.data.instagram_handle || null,
+    birth_date: parsed.data.birth_date || null,
     photos: photos.length ? photos : null,
   })
 
@@ -105,12 +110,13 @@ export async function updateProvider(
     name: formData.get('name'),
     category_id: formData.get('category_id'),
     zona: formData.get('zona'),
-    whatsapp: formData.get('whatsapp'),
+    phone: formData.get('phone'),
     email: formData.get('email'),
     description: formData.get('description'),
     event_types: formData.getAll('event_types'),
     price_range: formData.get('price_range'),
     instagram_handle: formData.get('instagram_handle'),
+    birth_date: formData.get('birth_date'),
   }
 
   const parsed = ProviderSchema.safeParse(raw)
@@ -128,12 +134,13 @@ export async function updateProvider(
       name: parsed.data.name,
       category_id: parsed.data.category_id,
       zona: parsed.data.zona,
-      whatsapp: parsed.data.whatsapp || null,
+      phone: parsed.data.phone || null,
       email: parsed.data.email || null,
       description: parsed.data.description || null,
       event_types: (parsed.data.event_types as EventType[]) ?? null,
       price_range: (parsed.data.price_range as PriceRange) ?? null,
       instagram_handle: parsed.data.instagram_handle || null,
+      birth_date: parsed.data.birth_date || null,
       photos: photos.length ? photos : null,
     })
     .eq('id', id)
@@ -146,9 +153,45 @@ export async function updateProvider(
 
 export async function toggleProviderStatus(id: string, currentStatus: string) {
   const supabase = await requireAdmin()
-  const newStatus = currentStatus === 'published' ? 'draft' : 'published'
-  await supabase.from('providers').update({ status: newStatus }).eq('id', id)
+  // Despublicar es pausar, no volver a borrador: 'draft' significa "nunca se
+  // publicó" y el proveedor conserva su historial y sus datos al pausarse.
+  const publishing = currentStatus !== 'published'
+  const now = new Date().toISOString()
+
+  await supabase
+    .from('providers')
+    .update(
+      publishing
+        ? { status: 'published', published_at: now, paused_at: null }
+        : { status: 'paused', paused_at: now }
+    )
+    .eq('id', id)
+
   revalidatePath('/admin/proveedores')
+  await revalidateProviderPublicPage(supabase, id)
+}
+
+/**
+ * El perfil público se sirve con ISR (`revalidate = 3600`), así que sin esto un
+ * perfil pausado seguiría visible hasta una hora después.
+ */
+async function revalidateProviderPublicPage(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: SupabaseClient<any>,
+  providerId: string
+) {
+  const { data } = await supabase
+    .from('providers')
+    .select('slug, categories(slug)')
+    .eq('id', providerId)
+    .maybeSingle()
+
+  const categorySlug = (data?.categories as unknown as { slug: string } | null)?.slug
+  if (data?.slug && categorySlug) {
+    revalidatePath(`/${categorySlug}/${data.slug}`)
+  }
+  revalidatePath('/proveedores')
+  revalidatePath('/sitemap.xml')
 }
 
 export async function deleteProvider(id: string) {
@@ -159,8 +202,8 @@ export async function deleteProvider(id: string) {
 
 const CsvRowSchema = z.object({
   nombre: z.string().min(1),
-  categoria_slug: z.enum(['fotografia', 'belleza', 'musica', 'banquete', 'decoracion']),
-  whatsapp: z.string().optional(),
+  categoria_slug: z.enum(CATEGORY_SLUGS),
+  phone: z.string().optional(),
   zona: z.string().min(1),
   instagram: z.string().optional(),
 })
@@ -186,7 +229,7 @@ export async function importProvidersCsv(rows: unknown[]): Promise<{
       continue
     }
 
-    const { nombre, categoria_slug, whatsapp, zona, instagram } = parsed.data
+    const { nombre, categoria_slug, phone, zona, instagram } = parsed.data
     const category_id = categoryMap.get(categoria_slug)
     if (!category_id) {
       results.errors.push({ row: i + 1, message: `Categoría inválida: ${categoria_slug}` })
@@ -212,7 +255,7 @@ export async function importProvidersCsv(rows: unknown[]): Promise<{
       name: nombre,
       category_id,
       zona,
-      whatsapp: whatsapp || null,
+      phone: phone || null,
       instagram_handle: instagram || null,
     })
 

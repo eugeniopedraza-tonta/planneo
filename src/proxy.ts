@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
+import { canAccessProviderPanel } from '@/lib/auth-routes'
 
 export async function proxy(request: NextRequest) {
   const { response, user } = await updateSession(request)
@@ -18,8 +19,7 @@ export async function proxy(request: NextRequest) {
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
-    const role = user.app_metadata?.role
-    if (role !== 'provider' && role !== 'provider_pending' && role !== 'admin') {
+    if (!canAccessProviderPanel(user.app_metadata?.role)) {
       return NextResponse.redirect(new URL('/', request.url))
     }
   }

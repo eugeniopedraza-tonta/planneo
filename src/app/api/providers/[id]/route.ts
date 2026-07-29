@@ -16,7 +16,7 @@ export async function GET(request: NextRequest, { params }: Props) {
     .eq('id', id)
 
   if (!preview) {
-    query = query.in('status', ['published', 'claimed'])
+    query = query.eq('status', 'published')
   }
 
   const { data, error } = await query.maybeSingle()

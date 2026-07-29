@@ -39,11 +39,10 @@ export default function PublicAvailabilityCalendar({
 
   if (!today) {
     return (
-      <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
-        <p className="v4-mono text-[10px] text-planneo-300">AGENDA</p>
-        <h2 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
-        <div className="mt-4 h-64 animate-pulse rounded-2xl bg-white/[0.05]" />
-      </div>
+      <section className="py-8">
+        <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
+        <div className="mt-4 h-64 max-w-md animate-pulse rounded-2xl bg-white/[0.05]" />
+      </section>
     )
   }
 
@@ -66,80 +65,81 @@ export default function PublicAvailabilityCalendar({
   const atCurrentMonth = year === today.getFullYear() && month === today.getMonth()
 
   return (
-    <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
-      <p className="v4-mono text-[10px] text-planneo-300">AGENDA</p>
-      <h2 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
-      <p className="mb-4 mt-2 text-xs text-white/50">
+    <section className="py-8">
+      <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
+      <p className="mb-4 mt-2 text-sm text-white/50">
         Los días sin marcar están por confirmar con el proveedor.
       </p>
 
-      <div className="mb-3 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => shiftMonth(-1)}
-          disabled={atCurrentMonth}
-          className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
-          aria-label="Mes anterior"
-        >
-          <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-        </button>
-        <p className="text-sm font-semibold text-white">
-          {MONTHS[month]} {year}
-        </p>
-        <button
-          type="button"
-          onClick={() => shiftMonth(1)}
-          className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white"
-          aria-label="Mes siguiente"
-        >
-          <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </button>
-      </div>
+      <div className="max-w-md">
+        <div className="mb-3 flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => shiftMonth(-1)}
+            disabled={atCurrentMonth}
+            className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Mes anterior"
+          >
+            <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <p className="text-sm font-semibold text-white">
+            {MONTHS[month]} {year}
+          </p>
+          <button
+            type="button"
+            onClick={() => shiftMonth(1)}
+            className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white"
+            aria-label="Mes siguiente"
+          >
+            <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
 
-      <div className="grid grid-cols-7 gap-1 text-center">
-        {WEEKDAYS.map((d, i) => (
-          <div key={i} className="v4-mono py-1 text-[9px] text-white/50">
-            {d}
-          </div>
-        ))}
-        {cells.map((day, i) => {
-          if (day === null) return <div key={`b-${i}`} />
-          const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-          const status = byDate.get(iso)
-          const isPast =
-            new Date(year, month, day) < new Date(today.getFullYear(), today.getMonth(), today.getDate())
-          return (
-            <div
-              key={iso}
-              className={`rounded-lg py-1.5 text-xs ${
-                isPast
-                  ? 'text-white/20'
-                  : status
-                    ? STATUS_STYLE[status]
-                    : 'text-white/70'
-              }`}
-            >
-              {day}
+        <div className="grid grid-cols-7 gap-1 text-center">
+          {WEEKDAYS.map((d, i) => (
+            <div key={i} className="v4-mono py-1 text-[9px] text-white/50">
+              {d}
             </div>
-          )
-        })}
-      </div>
+          ))}
+          {cells.map((day, i) => {
+            if (day === null) return <div key={`b-${i}`} />
+            const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+            const status = byDate.get(iso)
+            const isPast =
+              new Date(year, month, day) < new Date(today.getFullYear(), today.getMonth(), today.getDate())
+            return (
+              <div
+                key={iso}
+                className={`rounded-lg py-1.5 text-xs ${
+                  isPast
+                    ? 'text-white/20'
+                    : status
+                      ? STATUS_STYLE[status]
+                      : 'text-white/70'
+                }`}
+              >
+                {day}
+              </div>
+            )
+          })}
+        </div>
 
-      <div className="mt-4 flex flex-wrap gap-3 text-[11px] text-white/55">
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block size-2.5 rounded-full bg-planneo-mint" /> Disponible
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block size-2.5 rounded-full bg-red-400" /> Reservado
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="inline-block size-2.5 rounded-full bg-amber-300" /> Tentativo
-        </span>
+        <div className="mt-4 flex flex-wrap gap-3 text-[11px] text-white/55">
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block size-2.5 rounded-full bg-planneo-mint" /> Disponible
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block size-2.5 rounded-full bg-red-400" /> Reservado
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="inline-block size-2.5 rounded-full bg-amber-300" /> Tentativo
+          </span>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 type LeadRow = {
   id: string
   provider_id: string | null
-  type: 'whatsapp_click' | 'profile_view'
+  type: 'contact_click' | 'profile_view'
   referrer: string | null
   created_at: string
   providers: { name: string; categories: { name: string } | null } | null
@@ -15,10 +15,10 @@ export default async function MetricasPage() {
   // eslint-disable-next-line react-hooks/purity
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
-  const [{ count: totalLeads }, { count: whatsappClicks }, { count: profileViews }, { data: leads }] =
+  const [{ count: totalLeads }, { count: contactClicks }, { count: profileViews }, { data: leads }] =
     await Promise.all([
       supabase.from('leads').select('id', { count: 'exact', head: true }).gte('created_at', since),
-      supabase.from('leads').select('id', { count: 'exact', head: true }).eq('type', 'whatsapp_click').gte('created_at', since),
+      supabase.from('leads').select('id', { count: 'exact', head: true }).eq('type', 'contact_click').gte('created_at', since),
       supabase.from('leads').select('id', { count: 'exact', head: true }).eq('type', 'profile_view').gte('created_at', since),
       supabase
         .from('leads')
@@ -41,7 +41,7 @@ export default async function MetricasPage() {
     }
 
     if (lead.type === 'profile_view') current.views++
-    if (lead.type === 'whatsapp_click') current.clicks++
+    if (lead.type === 'contact_click') current.clicks++
     byProvider.set(key, current)
 
     const category = lead.providers?.categories?.name ?? 'Sin categoría'
@@ -66,7 +66,7 @@ export default async function MetricasPage() {
       <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
         <MetricCard label="Leads totales" value={totalLeads ?? 0} />
         <MetricCard label="Vistas de perfil" value={profileViews ?? 0} />
-        <MetricCard label="Clicks a WhatsApp" value={whatsappClicks ?? 0} />
+        <MetricCard label="Clicks de contacto" value={contactClicks ?? 0} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -78,7 +78,7 @@ export default async function MetricasPage() {
                 <tr>
                   <th className="px-3 py-2">Proveedor</th>
                   <th className="px-3 py-2">Vistas</th>
-                  <th className="px-3 py-2">WhatsApp</th>
+                  <th className="px-3 py-2">Contacto</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">

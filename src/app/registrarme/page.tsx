@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { createStaticClient } from '@/lib/supabase/server'
-import { CATEGORY_SLUGS, ZONAS_MTY } from '@/lib/constants'
+import { CATEGORY_SLUGS, ZONA_OPTIONS } from '@/lib/constants'
 import RegisterForm from './_form'
 
 export const metadata = {
@@ -18,7 +18,7 @@ export default async function RegistrarmePage() {
 
   return (
     <div className="min-h-screen bg-planneo-950 px-4 py-16">
-      <div className="mx-auto max-w-lg">
+      <div className="mx-auto max-w-xl">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block mb-6">
             <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
@@ -26,15 +26,15 @@ export default async function RegistrarmePage() {
             </span>
           </Link>
           <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
-            Registra tu negocio
+            Crea tu perfil profesional en Planneo
           </h1>
           <p className="text-white/55">
-            Llega a miles de parejas y familias que organizan eventos en Monterrey.
+            Es gratis. Empieza en 2 minutos y completa lo demás cuando quieras.
           </p>
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
-          <RegisterForm categories={categories ?? []} zonas={[...ZONAS_MTY]} />
+          <RegisterForm categories={categories ?? []} zonas={[...ZONA_OPTIONS]} />
         </div>
 
         <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/50">
@@ -42,6 +42,12 @@ export default async function RegistrarmePage() {
             ¿Ya tienes cuenta?{' '}
             <Link href="/login" className="text-planneo-300 hover:text-white transition-colors">
               Inicia sesión
+            </Link>
+          </p>
+          <p>
+            ¿Planneo te envió una invitación?{' '}
+            <Link href="/para-proveedores" className="text-planneo-300 hover:text-white transition-colors">
+              Úsala aquí
             </Link>
           </p>
           <p>

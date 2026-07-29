@@ -23,14 +23,36 @@ export async function sendWelcomeEmail(to: string, providerName: string) {
   await client.emails.send({
     from: FROM,
     to,
-    subject: `Tu perfil "${providerName}" está activo en Planneo`,
+    subject: `Ya eres dueño de "${providerName}" en Planneo`,
     html: `
       <h2>¡Bienvenido a Planneo!</h2>
-      <p>Tu perfil <strong>${providerName}</strong> ya está activo.</p>
-      <p>Puedes editarlo y ver tus estadísticas en:</p>
-      <a href="${SITE}/panel">${SITE}/panel</a>
+      <p>El perfil <strong>${providerName}</strong> ya está vinculado a tu cuenta.</p>
+      <p>Todavía es un borrador: complétalo para publicarlo y empezar a recibir solicitudes de cotización.</p>
+      <a href="${SITE}/panel/onboarding">Completar mi perfil</a>
       <br/><br/>
       <p>— El equipo de Planneo</p>
+    `,
+  })
+}
+
+/**
+ * Alguien intentó registrarse y reconoció un perfil que ya existe como suyo.
+ * El enlace de reclamación lo emite Planneo a mano, así que esto es un aviso
+ * interno, no una concesión de acceso.
+ */
+export async function sendDuplicateClaimRequest(providerName: string, requesterEmail: string) {
+  const client = resend()
+  if (!client) return
+  await client.emails.send({
+    from: FROM,
+    to: 'hola@planneo.mx',
+    subject: `Solicitud de acceso a "${providerName}"`,
+    html: `
+      <h2>Solicitud de reclamación</h2>
+      <p><strong>${escapeHtml(requesterEmail)}</strong> dice ser dueño del perfil
+      <strong>${escapeHtml(providerName)}</strong>.</p>
+      <p>Verifica la propiedad y, si procede, genera un enlace de reclamación desde el admin.</p>
+      <a href="${SITE}/admin/proveedores">Abrir admin</a>
     `,
   })
 }

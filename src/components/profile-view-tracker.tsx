@@ -1,22 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void
-  }
-}
-
-function getOrCreateSessionId(): string {
-  const key = 'planneo_session'
-  let id = sessionStorage.getItem(key)
-  if (!id) {
-    id = crypto.randomUUID()
-    sessionStorage.setItem(key, id)
-  }
-  return id
-}
+import { getOrCreateSessionId, trackEvent } from '@/lib/analytics'
 
 export default function ProfileViewTracker({
   providerId,
@@ -44,13 +29,11 @@ export default function ProfileViewTracker({
       }).catch(() => {})
     }
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'profile_view', {
-        provider_id: providerId,
-        provider_name: providerName,
-        category,
-      })
-    }
+    trackEvent('profile_view', {
+      provider_id: providerId,
+      provider_name: providerName,
+      category,
+    })
   }, [category, providerId, providerName])
 
   return null

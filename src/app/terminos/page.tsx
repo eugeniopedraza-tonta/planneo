@@ -30,7 +30,7 @@ export default function TerminosPage() {
             incluyendo fotos, descripción, zona de atención y datos de contacto.
           </p>
           <p>
-            Planneo puede registrar vistas de perfil y clicks a WhatsApp para mejorar el catálogo y
+            Planneo puede registrar vistas de perfil y clicks de contacto para mejorar el catálogo y
             mostrar métricas a proveedores y administradores.
           </p>
         </div>

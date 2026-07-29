@@ -3,12 +3,16 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { CATERING_CATEGORY_SLUG, VENUE_CATEGORY_SLUG } from '@/lib/constants'
+import {
+  CATERING_CATEGORY_SLUG,
+  STATUS_LABELS,
+  STATUS_STYLES,
+  VENUE_CATEGORY_SLUG,
+} from '@/lib/constants'
 import type { Provider, Category } from '@/lib/types'
 
 type Props = {
   provider: (Pick<Provider, 'id' | 'name' | 'status'> & { categories: Pick<Category, 'slug'> | null }) | null
-  role: string
 }
 
 type NavItem = {
@@ -29,10 +33,11 @@ const NAV: NavItem[] = [
   { href: '/panel/agenda', label: 'Agenda', icon: AgendaIcon },
 ]
 
-export default function PanelSidebar({ provider, role }: Props) {
+export default function PanelSidebar({ provider }: Props) {
   const pathname = usePathname()
   const router = useRouter()
   const categorySlug = provider?.categories?.slug
+  const status = provider?.status
 
   const visibleNav = NAV.filter((item) => {
     if (item.href === '/panel/menu') return categorySlug === CATERING_CATEGORY_SLUG
@@ -49,7 +54,20 @@ export default function PanelSidebar({ provider, role }: Props) {
       : []),
   ]
 
-  const allNav = [...visibleNav.slice(0, 5), ...extraNav, ...visibleNav.slice(5)]
+  // La activación solo tiene sentido mientras el perfil no esté publicado;
+  // después, las mismas tareas viven en sus editores de siempre.
+  const onboardingNav: NavItem[] =
+    status && status !== 'published'
+      ? [{ href: '/panel/onboarding', label: 'Activación', icon: RocketIcon }]
+      : []
+
+  const allNav = [
+    ...visibleNav.slice(0, 1),
+    ...onboardingNav,
+    ...visibleNav.slice(1, 5),
+    ...extraNav,
+    ...visibleNav.slice(5),
+  ]
 
   async function handleLogout() {
     const supabase = createClient()
@@ -63,9 +81,9 @@ export default function PanelSidebar({ provider, role }: Props) {
         <Link href="/panel">
           <span className="v4-display bg-[linear-gradient(120deg,#9D4EDD_0%,#C77DFF_100%)] bg-clip-text text-lg font-bold text-transparent">Planneo</span>
         </Link>
-        {role === 'provider_pending' && (
-          <span className="ml-2 text-xs bg-amber-300/10 text-amber-200 border border-amber-300/30 px-1.5 py-0.5 rounded-full font-medium">
-            Pendiente
+        {status && status !== 'published' && (
+          <span className={`ml-2 text-xs border border-white/15 px-1.5 py-0.5 rounded-full font-medium ${STATUS_STYLES[status]}`}>
+            {STATUS_LABELS[status]}
           </span>
         )}
       </div>
@@ -77,10 +95,19 @@ export default function PanelSidebar({ provider, role }: Props) {
         </div>
       )}
 
-      {role === 'provider_pending' && (
+      {status === 'pending_review' && (
         <div className="mx-3 mt-3 rounded-xl bg-amber-300/10 border border-amber-300/30 px-3 py-2">
           <p className="text-xs text-amber-200 font-medium">Perfil en revisión</p>
           <p className="text-xs text-amber-200 mt-0.5">Aprobamos en 24–48 hrs.</p>
+        </div>
+      )}
+
+      {status === 'rejected' && (
+        <div className="mx-3 mt-3 rounded-xl bg-red-400/10 border border-red-400/30 px-3 py-2">
+          <p className="text-xs text-red-300 font-medium">Necesita cambios</p>
+          <Link href="/panel/onboarding" className="text-xs text-red-300 mt-0.5 underline">
+            Ver qué ajustar
+          </Link>
         </div>
       )}
 
@@ -167,6 +194,14 @@ function CalendarIcon({ active }: { active?: boolean }) {
   return (
     <svg className={`size-4 shrink-0 ${active ? 'text-planneo-300' : 'text-white/50'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  )
+}
+function RocketIcon({ active }: { active?: boolean }) {
+  return (
+    <svg className={`size-4 shrink-0 ${active ? 'text-planneo-300' : 'text-white/50'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
     </svg>
   )
 }

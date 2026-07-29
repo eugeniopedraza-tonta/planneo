@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+import { homeForRole } from '@/lib/auth-routes'
 
 export type State = {
   error?: string
@@ -20,12 +21,6 @@ const ResetSchema = z.object({
   code: z.string().regex(/^\d{6}$/, 'El código debe tener 6 dígitos'),
   password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
 })
-
-function homeForRole(role: unknown): string {
-  if (role === 'admin') return '/admin'
-  if (role === 'provider' || role === 'provider_pending') return '/panel'
-  return '/mis-consultas'
-}
 
 export async function recoverPassword(_prev: State, formData: FormData): Promise<State> {
   const supabase = await createClient()

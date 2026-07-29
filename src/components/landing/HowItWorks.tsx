@@ -24,7 +24,7 @@ export default function HowItWorks() {
             ¿No sabes por dónde empezar? Mejor te lo resolvemos <span className="v4-shimmer-text">nosotros.</span>
           </h2>
           <p className="mt-6 max-w-xl text-base leading-7 text-white/60">
-            Elige tu tipo de evento y ve armando una lista corta de proveedores. El MVP mantiene la cotización simple: perfil claro y contacto por WhatsApp.
+            Elige tu tipo de evento y ve armando una lista corta de proveedores. El MVP mantiene la cotización simple: perfil claro y contacto directo por celular.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">

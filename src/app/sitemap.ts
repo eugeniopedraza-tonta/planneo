@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data: providers } = await supabase
     .from('providers')
     .select('slug, updated_at, categories(slug)')
-    .in('status', ['published', 'claimed'])
+    .eq('status', 'published')
 
   const providerUrls = (providers as ProviderSitemapRow[] | null)?.flatMap(p => {
     const category = Array.isArray(p.categories) ? p.categories[0] : p.categories
@@ -40,6 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE, changeFrequency: 'weekly', priority: 1 },
     { url: `${BASE}/proveedores`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE}/buscar`, changeFrequency: 'daily', priority: 0.5 },
+    { url: `${BASE}/para-proveedores`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/terminos`, changeFrequency: 'monthly', priority: 0.2 },
     { url: `${BASE}/privacidad`, changeFrequency: 'monthly', priority: 0.2 },
     ...categoryUrls,

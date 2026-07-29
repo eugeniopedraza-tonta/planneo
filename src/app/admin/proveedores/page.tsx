@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
-import { STATUS_LABELS } from '@/lib/constants'
-import type { ProviderWithCategory } from '@/lib/types'
+import { STATUS_LABELS, STATUS_STYLES } from '@/lib/constants'
+import type { ProviderStatus, ProviderWithCategory } from '@/lib/types'
 import ProvidersTableActions from './_components/providers-table-actions'
 import CsvImport from '@/components/admin/csv-import'
 
@@ -57,9 +57,9 @@ export default async function ProvidersPage({
           className="h-9 rounded-lg border border-white/10 bg-planneo-900 px-3 text-sm text-white/75"
         >
           <option value="">Todos los estados</option>
-          <option value="draft">Borrador</option>
-          <option value="published">Publicado</option>
-          <option value="claimed">Reclamado</option>
+          {Object.entries(STATUS_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>{label}</option>
+          ))}
         </select>
 
         <select
@@ -150,14 +150,10 @@ export default async function ProvidersPage({
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const colors: Record<string, string> = {
-    draft: 'bg-white/10 text-white/60',
-    published: 'bg-planneo-mint/15 text-planneo-mint',
-    claimed: 'bg-planneo-600/20 text-planneo-300',
-  }
+  const style = STATUS_STYLES[status as ProviderStatus] ?? 'bg-white/10 text-white/60'
   return (
-    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${colors[status] ?? 'bg-white/10 text-white/60'}`}>
-      {STATUS_LABELS[status] ?? status}
+    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${style}`}>
+      {STATUS_LABELS[status as ProviderStatus] ?? status}
     </span>
   )
 }

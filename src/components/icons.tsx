@@ -143,3 +143,4 @@ export function MailIcon({ className = 'size-3.5' }: IconProps) {
     </svg>
   )
 }
+

@@ -13,8 +13,8 @@ async function getFeaturedProviders() {
   const { data } = await supabase
     .from("providers")
     .select("*, categories(id, name, slug)")
-    .in("status", ["published", "claimed"])
-    .order("status", { ascending: true })
+    .eq("status", "published")
+    .order("is_verified", { ascending: false })
     .order("updated_at", { ascending: false })
     .limit(3);
 
@@ -55,7 +55,7 @@ export default async function FeaturedListings() {
                       <div className="absolute bottom-12 right-8 h-36 w-28 rounded-t-full border border-white/20 bg-black/10" />
                     </div>
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(14,11,26,.82))]" />
-                    {provider.status === "claimed" && (
+                    {provider.is_verified && (
                       <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/25 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
                         <span className="mr-2 inline-block size-2 rounded-full bg-planneo-mint" />
                         Verificado
@@ -80,7 +80,7 @@ export default async function FeaturedListings() {
                       </div>
                     ) : null}
                     <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-5">
-                      <p className="text-sm text-white/50">{provider.whatsapp ? "Cotización por WhatsApp" : "Perfil publicado"}</p>
+                      <p className="text-sm text-white/50">{provider.phone ? "Contacto directo" : "Perfil publicado"}</p>
                       <Link href={`/${categorySlug}/${provider.slug}`} className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1B2E] transition hover:bg-white/90">
                         Ver perfil
                       </Link>

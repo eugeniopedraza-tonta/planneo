@@ -254,6 +254,13 @@ content_path = "./supabase/templates/confirmation.html"
 subject = "Recupera tu contraseña de Planneo"
 content_path = "./supabase/templates/recovery.html"
 
+# signInWithOtp usa "Confirm signup" si el usuario es nuevo y "Magic Link" si ya
+# existe. Sin esta plantilla, un proveedor que ya tenía cuenta recibiría un
+# enlace en vez del código de 6 dígitos que pide /verificar-acceso.
+[auth.email.template.magic_link]
+subject = "Tu código de acceso a Planneo"
+content_path = "./supabase/templates/magic-link.html"
+
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
 # enabled = true

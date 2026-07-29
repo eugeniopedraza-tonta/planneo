@@ -85,14 +85,14 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
           )}
         </div>
 
-        {/* WhatsApp */}
+        {/* Número celular */}
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="whatsapp">WhatsApp</Label>
+          <Label htmlFor="phone">Número celular</Label>
           <Input
-            id="whatsapp"
-            name="whatsapp"
+            id="phone"
+            name="phone"
             placeholder="+52 81 XXXX XXXX"
-            defaultValue={defaultValues?.whatsapp ?? ''}
+            defaultValue={defaultValues?.phone ?? ''}
           />
         </div>
 
@@ -119,6 +119,17 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             name="instagram_handle"
             placeholder="@usuario"
             defaultValue={defaultValues?.instagram_handle ?? ''}
+          />
+        </div>
+
+        {/* Fecha de nacimiento */}
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="birth_date">Fecha de nacimiento</Label>
+          <Input
+            id="birth_date"
+            name="birth_date"
+            type="date"
+            defaultValue={defaultValues?.birth_date ?? ''}
           />
         </div>
 

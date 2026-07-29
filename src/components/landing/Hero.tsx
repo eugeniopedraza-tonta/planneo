@@ -15,7 +15,7 @@ const phrases = [
 
 const trust = [
   "Sin login para cotizar",
-  "WhatsApp directo",
+  "Contacto directo",
   "Curado para MTY",
   "Proveedores verificados",
 ];
@@ -72,7 +72,7 @@ export default function Hero() {
         </h1>
 
         <p className="mt-6 max-w-2xl text-[16px] leading-7 text-white/65 sm:text-[19px] lg:mt-8 lg:leading-8">
-          Encuentra salones, música, catering, foto, decoración y más proveedores para eventos sociales en Monterrey. Cotiza sin vueltas y cierra por WhatsApp.
+          Encuentra salones, música, catering, foto, decoración y más proveedores para eventos sociales en Monterrey. Cotiza sin vueltas y cierra por celular.
         </p>
 
         <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:mt-9">

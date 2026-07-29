@@ -59,14 +59,11 @@ export default function ProviderPackagesSection({ provider, packages, availabili
   }
 
   return (
-    <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
+    <section className="py-8">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="v4-mono text-[10px] text-planneo-300">PAQUETES</p>
-          <h2 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">
-            Paquetes y precios
-          </h2>
-        </div>
+        <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">
+          Paquetes y precios
+        </h2>
         {eventDate && (
           <span
             className={`rounded-full border px-3 py-1 text-xs font-medium ${
@@ -159,6 +156,6 @@ export default function ProviderPackagesSection({ provider, packages, availabili
           )
         })}
       </div>
-    </div>
+    </section>
   )
 }

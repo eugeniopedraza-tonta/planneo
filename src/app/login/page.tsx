@@ -7,12 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-function homeForRole(role: unknown): string {
-  if (role === 'admin') return '/admin'
-  if (role === 'provider' || role === 'provider_pending') return '/panel'
-  return '/mis-consultas'
-}
+import { homeForRole } from '@/lib/auth-routes'
 
 function safeNext(): string | null {
   const next = new URLSearchParams(window.location.search).get('next')

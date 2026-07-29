@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 const LeadSchema = z.object({
   provider_id: z.string().uuid(),
-  type: z.enum(['whatsapp_click', 'profile_view']),
+  type: z.enum(['contact_click', 'profile_view']),
   session_id: z.string().max(128).optional().nullable(),
 })
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     .from('providers')
     .select('id')
     .eq('id', provider_id)
-    .in('status', ['published', 'claimed'])
+    .eq('status', 'published')
     .maybeSingle()
 
   if (!provider) {

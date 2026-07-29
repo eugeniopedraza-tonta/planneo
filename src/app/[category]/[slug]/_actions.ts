@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient, createServiceClient, createStaticClient } from '@/lib/supabase/server'
 import { sendInquiryReceivedEmail } from '@/lib/email'
+import { EVENT_TYPE_VALUES } from '@/lib/constants'
 
 export type State = {
   error?: string
@@ -15,7 +16,7 @@ const InquirySchema = z.object({
   name: z.string().min(2, 'Tu nombre es obligatorio').max(120),
   email: z.string().email('Email inválido').max(200).optional().or(z.literal('')),
   phone: z.string().max(30).optional(),
-  event_type: z.enum(['bodas', 'xv', 'corporativo', 'graduacion']).optional().or(z.literal('')),
+  event_type: z.enum(EVENT_TYPE_VALUES).optional().or(z.literal('')),
   event_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().or(z.literal('')),
   event_location: z.string().max(300).optional(),
   guest_count: z.coerce.number().int().positive().max(100000).optional().or(z.literal('')),
@@ -49,7 +50,7 @@ export async function createInquiry(_prev: State, formData: FormData): Promise<S
     .from('providers')
     .select('id, name')
     .eq('id', parsed.data.provider_id)
-    .in('status', ['published', 'claimed'])
+    .eq('status', 'published')
     .maybeSingle()
   if (!provider) return { error: 'Este proveedor no está disponible.' }
 

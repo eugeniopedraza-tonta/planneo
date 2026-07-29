@@ -22,7 +22,7 @@ export default function PrivacidadPage() {
           </p>
           <p>
             Si eres proveedor, tu información pública puede incluir nombre comercial, categoría, zona,
-            descripción, fotos, Instagram y WhatsApp.
+            descripción, fotos, Instagram y número celular.
           </p>
           <p>
             No vendemos datos personales. Podemos usar métricas agregadas de navegación y contacto para

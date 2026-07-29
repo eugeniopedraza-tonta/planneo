@@ -12,7 +12,7 @@ export default function CTABanner() {
         <div className="relative">
           <p className="v4-mono mb-4 text-[11px] text-white/65">{"// PARA PROVEEDORES"}</p>
           <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
-            Recibe leads directo en tu WhatsApp.
+            Recibe leads directo en tu celular.
           </h2>
           <p className="mt-6 max-w-xl text-base leading-7 text-white/72">
             Reclama tu perfil, mantén tu información actualizada y responde cotizaciones sin instalar otra app.

@@ -5,8 +5,31 @@ export type Category = {
   icon_url?: string | null
 }
 
-export type ProviderStatus = 'draft' | 'pending' | 'published' | 'claimed'
-export type EventType = 'bodas' | 'xv' | 'corporativo' | 'graduacion'
+/**
+ * Ciclo de vida del perfil. La propiedad vive en `claimed_by` y la reputación en
+ * `verification_status`: por eso ya no existe un estado `claimed`.
+ */
+export type ProviderStatus =
+  | 'draft'
+  | 'pending_review'
+  | 'published'
+  | 'paused'
+  | 'rejected'
+
+export type VerificationStatus =
+  | 'none'
+  | 'contact_confirmed'
+  | 'reviewed'
+  | 'verified'
+
+export type EventType =
+  | 'bodas'
+  | 'xv'
+  | 'corporativo'
+  | 'graduacion'
+  | 'cumpleanos'
+  | 'bautizo'
+  | 'otro'
 export type PriceRange = '$' | '$$' | '$$$'
 export type PriceUnit = 'por_evento' | 'por_hora' | 'por_persona'
 export type MediaType = 'photo' | 'audio' | 'video'
@@ -20,8 +43,13 @@ export type Provider = {
   name: string
   category_id: string | null
   status: ProviderStatus
+  verification_status: VerificationStatus
+  /** Generada en DB: `verification_status = 'verified'`. Badge público. */
+  is_verified: boolean
   claimed_by: string | null
-  whatsapp: string | null
+  phone: string | null
+  phone_confirmed_at: string | null
+  birth_date: string | null
   email: string | null
   description: string | null
   zona: string | null
@@ -29,6 +57,24 @@ export type Provider = {
   photos: string[] | null
   instagram_handle: string | null
   price_range: PriceRange | null
+  published_at: string | null
+  paused_at: string | null
+  onboarding_completed_at: string | null
+  source: string | null
+  source_detail: string | null
+  created_at: string
+  updated_at: string
+}
+
+export type ProviderOnboardingProgress = {
+  provider_id: string
+  completed_tasks: Record<string, boolean>
+  last_task: string | null
+  last_seen_at: string | null
+  terms_version: string | null
+  terms_accepted_at: string | null
+  privacy_version: string | null
+  privacy_accepted_at: string | null
   created_at: string
   updated_at: string
 }
@@ -40,7 +86,7 @@ export type ProviderWithCategory = Provider & {
 export type Lead = {
   id: string
   provider_id: string | null
-  type: 'whatsapp_click' | 'profile_view'
+  type: 'contact_click' | 'profile_view'
   session_id: string | null
   referrer: string | null
   created_at: string

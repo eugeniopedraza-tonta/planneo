@@ -2,6 +2,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { approveProvider, rejectProvider } from './_actions'
+import { getProviderReadiness } from '@/lib/provider-readiness'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,8 +14,10 @@ export default async function SolicitudesPage() {
   const service = createServiceClient()
   const { data: pending } = await service
     .from('providers')
-    .select('id, name, slug, whatsapp, zona, description, claimed_by, created_at, categories(name)')
-    .eq('status', 'pending')
+    .select(
+      'id, name, slug, phone, zona, description, event_types, photos, category_id, claimed_by, created_at, categories(name)'
+    )
+    .eq('status', 'pending_review')
     .order('created_at', { ascending: true })
 
   type PendingRow = NonNullable<typeof pending>[number]
@@ -26,10 +29,31 @@ export default async function SolicitudesPage() {
   }
 
   const rows = await Promise.all(
-    (pending ?? []).map(async (p: PendingRow) => ({
-      ...p,
-      email: await getEmail(p.claimed_by),
-    }))
+    (pending ?? []).map(async (p: PendingRow) => {
+      const { data: progress } = await service
+        .from('provider_onboarding_progress')
+        .select('terms_version, privacy_version')
+        .eq('provider_id', p.id)
+        .maybeSingle()
+
+      return {
+        ...p,
+        email: await getEmail(p.claimed_by),
+        // Mismo cálculo que ve el proveedor: si algo le falta, el admin lo ve
+        // antes de aprobar en vez de descubrirlo en el perfil público.
+        readiness: getProviderReadiness({
+          name: p.name,
+          category_id: p.category_id,
+          zona: p.zona,
+          phone: p.phone,
+          description: p.description,
+          event_types: p.event_types,
+          photos: p.photos,
+          termsAcceptedVersion: progress?.terms_version ?? null,
+          privacyAcceptedVersion: progress?.privacy_version ?? null,
+        }),
+      }
+    })
   )
 
   return (
@@ -62,7 +86,7 @@ export default async function SolicitudesPage() {
                     {p.categories?.name && <span>{p.categories.name}</span>}
                     {p.zona && <span>{p.zona}</span>}
                     {p.email && <span>{p.email}</span>}
-                    {p.whatsapp && <span>{p.whatsapp}</span>}
+                    {p.phone && <span>{p.phone}</span>}
                   </div>
                   {p.description && (
                     <p className="mt-2 text-sm text-white/60 line-clamp-2">{p.description}</p>
@@ -70,6 +94,16 @@ export default async function SolicitudesPage() {
                   <p className="mt-1 text-xs text-white/50">
                     Enviado el {new Date(p.created_at).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </p>
+
+                  {p.readiness.isReady ? (
+                    <p className="mt-2 text-xs font-medium text-planneo-mint">
+                      Cumple los {p.readiness.total} requisitos de publicación
+                    </p>
+                  ) : (
+                    <p className="mt-2 text-xs text-amber-200">
+                      Le falta: {p.readiness.missing.map((m) => m.label).join(', ')}
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex gap-2 shrink-0">

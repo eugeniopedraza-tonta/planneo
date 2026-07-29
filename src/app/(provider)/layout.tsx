@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { canAccessProviderPanel } from '@/lib/auth-routes'
 import PanelSidebar from './_components/panel-sidebar'
 
 export default async function ProviderLayout({ children }: { children: React.ReactNode }) {
@@ -8,8 +9,7 @@ export default async function ProviderLayout({ children }: { children: React.Rea
 
   if (!user) redirect('/login')
 
-  const role = user.app_metadata?.role as string
-  if (role !== 'provider' && role !== 'provider_pending' && role !== 'admin') {
+  if (!canAccessProviderPanel(user.app_metadata?.role)) {
     redirect('/')
   }
 
@@ -21,7 +21,7 @@ export default async function ProviderLayout({ children }: { children: React.Rea
 
   return (
     <div className="min-h-screen flex bg-planneo-950">
-      <PanelSidebar provider={provider as Parameters<typeof PanelSidebar>[0]['provider']} role={role} />
+      <PanelSidebar provider={provider as Parameters<typeof PanelSidebar>[0]['provider']} />
       <main className="flex-1 overflow-auto">{children}</main>
     </div>
   )

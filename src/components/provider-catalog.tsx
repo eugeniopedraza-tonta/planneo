@@ -18,8 +18,7 @@ export default async function ProviderCatalog({
   searchParams,
   action = '/proveedores',
   lockedCategory,
-  title = 'Proveedores para eventos en Monterrey.',
-  description = 'Filtra por categoría, zona, tipo de evento y precio. No necesitas iniciar sesión para pedir cotización.',
+  title = 'Tu evento empieza aqui',
 }: {
   searchParams: CatalogParams
   action?: string
@@ -56,14 +55,11 @@ export default async function ProviderCatalog({
   return (
     <div className="min-h-screen bg-planneo-950 text-planneo-ink">
       <Navbar />
-      <div className="border-b border-white/10 bg-planneo-900 pt-24">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <h1 className="v4-display max-w-4xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+      <div className="border-b border-white/10 bg-planneo-900 pt-12">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-12">
+          <h1 className="v4-display max-w-4xl text-3xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-3xl">
             {title}
           </h1>
-          <p className="mt-4 max-w-2xl text-white/60">
-            {description}
-          </p>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import FloatingNavbar from "@/components/ui/floating-navbar";
 import { Button } from "@/components/ui/button";
 import EventCart from "@/components/event-cart";
+import { canAccessProviderPanel, homeForRole } from "@/lib/auth-routes";
 
 type NavUser = {
   email: string | null;
@@ -20,14 +21,12 @@ const NAV_LINKS = [
 ];
 
 function dashboardHref(user: NavUser) {
-  if (user?.role === "admin") return "/admin";
-  if (user?.role === "provider" || user?.role === "provider_pending") return "/panel";
-  return "/mis-consultas";
+  return homeForRole(user?.role);
 }
 
 function dashboardLabel(user: NavUser) {
   if (user?.role === "admin") return "Admin";
-  if (user?.role === "provider" || user?.role === "provider_pending") return "Mi perfil";
+  if (canAccessProviderPanel(user?.role)) return "Mi perfil";
   return "Mis consultas";
 }
 

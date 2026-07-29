@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import type { ProviderWithCategory } from '@/lib/types'
-import { PRICE_RANGES } from '@/lib/constants'
+import { EVENT_TYPE_LABELS, PRICE_RANGES } from '@/lib/constants'
 
 interface ProviderCardProps {
   provider: ProviderWithCategory
@@ -11,12 +11,7 @@ const PRICE_LABEL: Record<string, string> = Object.fromEntries(
   PRICE_RANGES.map(({ value, label }) => [value, label])
 )
 
-const EVENT_LABEL: Record<string, string> = {
-  bodas: 'Bodas',
-  xv: 'XV Años',
-  corporativo: 'Corporativo',
-  graduacion: 'Graduación',
-}
+const EVENT_LABEL: Record<string, string> = EVENT_TYPE_LABELS
 
 const CATEGORY_GRADIENT: Record<string, string> = {
   fotografia: 'from-[#26133F] via-planneo-600 to-planneo-300',
@@ -55,7 +50,7 @@ export default function ProviderCard({ provider }: ProviderCardProps) {
         )}
         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_40%,rgba(14,11,26,0.75))]" />
 
-        {provider.status === 'claimed' && (
+        {provider.is_verified && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
             <span className="size-1.5 rounded-full bg-planneo-mint" />
             Verificado

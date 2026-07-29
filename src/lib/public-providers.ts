@@ -10,8 +10,6 @@ export type PublicProviderFilters = {
   limit?: number
 }
 
-const PUBLIC_STATUSES = ['published', 'claimed'] as const
-
 export async function getPublicProviders(filters: PublicProviderFilters = {}) {
   const supabase = createStaticClient()
   const limit = Math.min(Math.max(filters.limit ?? 60, 1), 100)
@@ -20,8 +18,8 @@ export async function getPublicProviders(filters: PublicProviderFilters = {}) {
   let query = supabase
     .from('providers')
     .select('*, categories(id, name, slug)')
-    .in('status', PUBLIC_STATUSES)
-    .order('status', { ascending: true })
+    .eq('status', 'published')
+    .order('is_verified', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(limit)
 
@@ -56,9 +54,9 @@ export async function getPublicProviders(filters: PublicProviderFilters = {}) {
     let fallback = supabase
       .from('providers')
       .select('*, categories(id, name, slug)')
-      .in('status', PUBLIC_STATUSES)
+      .eq('status', 'published')
       .ilike('name', `%${safeQ}%`)
-      .order('status', { ascending: true })
+      .order('is_verified', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(limit)
 

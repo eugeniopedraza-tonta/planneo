@@ -7,19 +7,19 @@ export default async function AdminDashboard() {
   const [
     { count: totalProviders },
     { count: published },
-    { count: claimed },
+    { count: verified },
     { count: leads },
   ] = await Promise.all([
     supabase.from('providers').select('*', { count: 'exact', head: true }),
     supabase.from('providers').select('*', { count: 'exact', head: true }).eq('status', 'published'),
-    supabase.from('providers').select('*', { count: 'exact', head: true }).eq('status', 'claimed'),
+    supabase.from('providers').select('*', { count: 'exact', head: true }).eq('is_verified', true),
     supabase.from('leads').select('*', { count: 'exact', head: true }),
   ])
 
   const stats = [
     { label: 'Total proveedores', value: totalProviders ?? 0, color: 'text-white' },
     { label: 'Publicados', value: published ?? 0, color: 'text-planneo-mint' },
-    { label: 'Reclamados', value: claimed ?? 0, color: 'text-planneo-300' },
+    { label: 'Verificados', value: verified ?? 0, color: 'text-planneo-300' },
     { label: 'Leads totales', value: leads ?? 0, color: 'text-sky-300' },
   ]
 

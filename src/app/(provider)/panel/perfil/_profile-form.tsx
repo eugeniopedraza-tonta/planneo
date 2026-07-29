@@ -45,12 +45,12 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="whatsapp">WhatsApp</Label>
+          <Label htmlFor="phone">Número celular</Label>
           <Input
-            id="whatsapp"
-            name="whatsapp"
+            id="phone"
+            name="phone"
             placeholder="+52 81 XXXX XXXX"
-            defaultValue={provider.whatsapp ?? ''}
+            defaultValue={provider.phone ?? ''}
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -89,6 +89,16 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
             ))}
           </select>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="birth_date">Fecha de nacimiento</Label>
+        <Input
+          id="birth_date"
+          name="birth_date"
+          type="date"
+          defaultValue={provider.birth_date ?? ''}
+        />
       </div>
 
       <div className="flex flex-col gap-1.5">

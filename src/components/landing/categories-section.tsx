@@ -27,7 +27,7 @@ async function getCategoriesWithCounts() {
         .from('providers')
         .select('id', { count: 'exact', head: true })
         .eq('category_id', cat.id)
-        .in('status', ['published', 'claimed'])
+        .eq('status', 'published')
       return { ...cat, providerCount: count ?? 0 }
     })
   )

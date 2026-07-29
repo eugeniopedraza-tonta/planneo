@@ -51,7 +51,7 @@ export default function Footer() {
           <p className="v4-mono text-[10px] text-planneo-mint">¿ERES PROVEEDOR?</p>
           <h3 className="v4-display mt-3 text-3xl font-bold tracking-[-0.04em]">Recibe leads sin costo.</h3>
           <p className="mt-3 text-sm leading-6 text-white/55">
-            Reclama tu perfil y responde cotizaciones por WhatsApp.
+            Reclama tu perfil y responde cotizaciones por celular.
           </p>
           <Link href="/login" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500">
             Ir al panel
