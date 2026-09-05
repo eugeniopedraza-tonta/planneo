@@ -7,6 +7,7 @@ import FloatingNavbar from "@/components/ui/floating-navbar";
 import { Button } from "@/components/ui/button";
 import EventCart from "@/components/event-cart";
 import { canAccessProviderPanel, homeForRole } from "@/lib/auth-routes";
+import { isCartEnabled, isOrganizerAccountsEnabled } from "@/lib/feature-flags";
 
 type NavUser = {
   email: string | null;
@@ -28,6 +29,12 @@ function dashboardLabel(user: NavUser) {
   if (user?.role === "admin") return "Admin";
   if (canAccessProviderPanel(user?.role)) return "Mi perfil";
   return "Mis consultas";
+}
+
+function showDashboardLink(user: NavUser) {
+  if (!user) return false;
+  if (user.role === "admin" || canAccessProviderPanel(user.role)) return true;
+  return isOrganizerAccountsEnabled();
 }
 
 export default function NavbarClient({ user }: { user: NavUser }) {
@@ -65,12 +72,14 @@ export default function NavbarClient({ user }: { user: NavUser }) {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <EventCart />
+            {isCartEnabled() && <EventCart />}
             {signedIn ? (
               <>
+                {showDashboardLink(user) && (
                 <Button variant="ghost" size="sm" className="text-white/75 hover:bg-white/10 hover:text-white" asChild>
                   <Link href={dashboardHref(user)}>{dashboardLabel(user)}</Link>
                 </Button>
+                )}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -94,7 +103,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
           </div>
 
           <div className="flex items-center gap-2 md:hidden">
-            <EventCart />
+            {isCartEnabled() && <EventCart />}
           <button
             className="min-h-11 min-w-11 rounded-xl p-2 text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             onClick={() => setMobileOpen((o) => !o)}
@@ -131,9 +140,11 @@ export default function NavbarClient({ user }: { user: NavUser }) {
             <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-white/10">
               {signedIn ? (
                 <>
+                  {showDashboardLink(user) && (
                   <Button variant="ghost" className="w-full justify-center text-white hover:bg-white/10" asChild>
                     <Link href={dashboardHref(user)}>{dashboardLabel(user)}</Link>
                   </Button>
+                  )}
                   <Button variant="ghost" className="w-full justify-center text-white/70 hover:bg-white/10" onClick={handleLogout}>
                     {loggingOut ? "Saliendo..." : "Cerrar sesión"}
                   </Button>

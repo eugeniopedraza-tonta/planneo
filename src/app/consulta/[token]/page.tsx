@@ -7,6 +7,7 @@ import { INQUIRY_STATUS_LABELS, EVENT_TYPES } from '@/lib/constants'
 import type { Category, InquiryMessage, InquiryWithMessages, Provider } from '@/lib/types'
 import ClientReplyForm from './_reply-form'
 import { CalendarIcon, MapPinIcon, UsersIcon } from '@/components/icons'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export const dynamic = 'force-dynamic'
 
@@ -66,7 +67,7 @@ export default async function ConsultaPage({
         <div className="flex items-center justify-between">
           <Link href="/" className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">Planneo</Link>
           <div className="flex items-center gap-3">
-            {isOwner && (
+            {isOwner && isOrganizerAccountsEnabled() && (
               <Link href="/mis-consultas" className="text-xs font-medium text-planneo-300 hover:underline">
                 ← Mis consultas
               </Link>

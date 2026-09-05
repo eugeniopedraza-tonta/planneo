@@ -86,7 +86,7 @@ export type ProviderWithCategory = Provider & {
 export type Lead = {
   id: string
   provider_id: string | null
-  type: 'contact_click' | 'profile_view'
+  type: 'contact_click' | 'profile_view' | 'whatsapp_click'
   session_id: string | null
   referrer: string | null
   created_at: string

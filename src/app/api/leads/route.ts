@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 const LeadSchema = z.object({
   provider_id: z.string().uuid(),
-  type: z.enum(['contact_click', 'profile_view']),
+  type: z.enum(['contact_click', 'profile_view', 'whatsapp_click']),
   session_id: z.string().max(128).optional().nullable(),
 })
 

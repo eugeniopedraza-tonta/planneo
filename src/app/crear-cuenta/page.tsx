@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import ClientRegisterForm from './_form'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export const metadata = {
   title: 'Crea tu cuenta — Planneo',
@@ -14,6 +15,8 @@ export default async function CrearCuentaPage({
 }: {
   searchParams: Promise<{ next?: string }>
 }) {
+  if (!isOrganizerAccountsEnabled()) redirect('/')
+
   const { next } = await searchParams
   const safeNext = z.string().startsWith('/').max(500).safeParse(next).success ? next : undefined
 

@@ -1,3 +1,5 @@
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
+
 /**
  * Roles que pueden entrar al panel de proveedor.
  *
@@ -24,5 +26,6 @@ export function canAccessProviderPanel(role: unknown): boolean {
 export function homeForRole(role: unknown): string {
   if (role === 'admin') return '/admin'
   if (canAccessProviderPanel(role)) return '/panel'
-  return '/mis-consultas'
+  if (isOrganizerAccountsEnabled()) return '/mis-consultas'
+  return '/'
 }

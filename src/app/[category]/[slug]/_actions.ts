@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { createClient, createServiceClient, createStaticClient } from '@/lib/supabase/server'
 import { sendInquiryReceivedEmail } from '@/lib/email'
 import { EVENT_TYPE_VALUES } from '@/lib/constants'
+import { isInquiriesEnabled } from '@/lib/feature-flags'
 
 export type State = {
   error?: string
@@ -24,6 +25,10 @@ const InquirySchema = z.object({
 })
 
 export async function createInquiry(_prev: State, formData: FormData): Promise<State> {
+  if (!isInquiriesEnabled()) {
+    return { error: 'Por ahora las cotizaciones se piden por WhatsApp, desde el perfil del proveedor.' }
+  }
+
   // Honeypot anti-spam: campo invisible que los humanos dejan vacío.
   if (formData.get('website')) redirect('/')
 

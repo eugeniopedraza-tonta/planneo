@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 type LeadRow = {
   id: string
   provider_id: string | null
-  type: 'contact_click' | 'profile_view'
+  type: 'contact_click' | 'profile_view' | 'whatsapp_click'
   referrer: string | null
   created_at: string
   providers: { name: string; categories: { name: string } | null } | null
@@ -15,11 +15,12 @@ export default async function MetricasPage() {
   // eslint-disable-next-line react-hooks/purity
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
-  const [{ count: totalLeads }, { count: contactClicks }, { count: profileViews }, { data: leads }] =
+  const [{ count: totalLeads }, { count: contactClicks }, { count: profileViews }, { count: whatsappClicks }, { data: leads }] =
     await Promise.all([
       supabase.from('leads').select('id', { count: 'exact', head: true }).gte('created_at', since),
       supabase.from('leads').select('id', { count: 'exact', head: true }).eq('type', 'contact_click').gte('created_at', since),
       supabase.from('leads').select('id', { count: 'exact', head: true }).eq('type', 'profile_view').gte('created_at', since),
+      supabase.from('leads').select('id', { count: 'exact', head: true }).eq('type', 'whatsapp_click').gte('created_at', since),
       supabase
         .from('leads')
         .select('id, provider_id, type, referrer, created_at, providers(name, categories(name))')
@@ -41,7 +42,7 @@ export default async function MetricasPage() {
     }
 
     if (lead.type === 'profile_view') current.views++
-    if (lead.type === 'contact_click') current.clicks++
+    if (lead.type === 'contact_click' || lead.type === 'whatsapp_click') current.clicks++
     byProvider.set(key, current)
 
     const category = lead.providers?.categories?.name ?? 'Sin categoría'
@@ -63,9 +64,10 @@ export default async function MetricasPage() {
         <p className="mt-1 text-sm text-white/55">Leads y actividad de los últimos 30 días.</p>
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-4">
         <MetricCard label="Leads totales" value={totalLeads ?? 0} />
         <MetricCard label="Vistas de perfil" value={profileViews ?? 0} />
+        <MetricCard label="Clicks de WhatsApp" value={whatsappClicks ?? 0} />
         <MetricCard label="Clicks de contacto" value={contactClicks ?? 0} />
       </div>
 

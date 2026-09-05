@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { homeForRole } from '@/lib/auth-routes'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 function safeNext(): string | null {
   const next = new URLSearchParams(window.location.search).get('next')
@@ -101,12 +102,14 @@ export default function LoginPage() {
           </Button>
 
           <div className="mt-2 flex flex-col gap-1.5 text-center text-xs text-white/45">
-            <p>
-              ¿Organizas un evento?{' '}
-              <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
-                Crea tu cuenta
-              </Link>
-            </p>
+            {isOrganizerAccountsEnabled() && (
+              <p>
+                ¿Organizas un evento?{' '}
+                <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
+                  Crea tu cuenta
+                </Link>
+              </p>
+            )}
             <p>
               ¿Ofreces servicios?{' '}
               <Link href="/registrarme" className="text-planneo-300 hover:text-white transition-colors">
