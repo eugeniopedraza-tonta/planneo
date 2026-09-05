@@ -20,5 +20,11 @@ export const metadata: Metadata = {
 }
 
 export default async function ProveedoresPage({ searchParams }: PageProps) {
-  return <ProviderCatalog searchParams={await searchParams} />
+  return (
+    <ProviderCatalog
+      searchParams={await searchParams}
+      title="Todos los proveedores en Monterrey."
+      description="Elige el servicio que necesitas. Luego puedes afinar por zona, fecha o presupuesto."
+    />
+  )
 }

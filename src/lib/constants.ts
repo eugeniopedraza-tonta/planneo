@@ -75,6 +75,19 @@ export const CATEGORY_NAMES = {
   otros: 'Otros servicios',
 } as const satisfies Record<CategorySlug, string>
 
+/** Etiquetas cortas para el riel del catálogo. El nombre largo sigue en títulos y SEO. */
+export const CATEGORY_SHORT_NAMES = {
+  lugares: 'Lugares',
+  banquete: 'Banquete',
+  musica: 'Música',
+  'foto-video': 'Foto',
+  decoracion: 'Decoración',
+  mobiliario: 'Mobiliario',
+  belleza: 'Belleza',
+  invitaciones: 'Invitaciones',
+  otros: 'Otros',
+} as const satisfies Record<CategorySlug, string>
+
 /** Etiquetas de filtro dentro de cada madre. No son rutas. */
 export const CATEGORY_SUBCATEGORIES = {
   lugares: [

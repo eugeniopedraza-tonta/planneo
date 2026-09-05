@@ -1,26 +1,174 @@
 # Planneo — Plan de Producto: Primera Versión Funcional
 
 > **Audiencia:** Eugenio (dev) + Gus (negocio)
-> **Última actualización:** 2026-06-04
-> **Estado actual del build:** ✅ 17 rutas, 0 errores TS
+> **Última actualización:** 2026-09-04
+> **Fuente de alcance:** Brief MVP Directorio (14 ago 2026). Si este archivo choca con el brief, manda el brief.
+> **Contrato:** cualquier cambio de alcance se escribe aquí *antes* de codearse, y se avisa a Gus. Las decisiones de la § «Decisiones cerradas» no se re-debaten en código.
 
 ---
 
-## Resumen ejecutivo (para Gus)
+## Hito 1 — Checklist vivo
 
-Tenemos el catálogo público y el panel de admin funcionando. Lo que viene ahora es darle a los proveedores su propio espacio: que puedan registrarse solos, subir sus fotos y audio, definir sus paquetes y precios, manejar su disponibilidad, y ver las consultas que les llegan. Esto convierte a Planneo de un directorio estático a una plataforma donde los proveedores tienen incentivo real de mantenerse activos.
+**El MVP en una frase:** un directorio público de proveedores de eventos en Monterrey, navegable sin cuenta. El organizador ve fotos, paquetes y rango de precio, y escribe por WhatsApp. Planneo no cobra, no intermedia y no ejecuta el evento.
 
-**Lo que un proveedor va a poder hacer al terminar esta fase:**
-- Registrarse desde una página pública (sin necesitar a Gus ni a Eugenio)
-- Tener un perfil completo con fotos, audios (músicos), paquetes y precios
-- Ver y responder consultas de clientes directamente en su panel
-- Marcar su disponibilidad en un calendario
-- Los salones tendrán campos especiales (capacidad, dirección, amenidades)
-- Los caterers podrán construir su menú de platillos
+**Lo único que cuenta hasta el 30 de septiembre:** `planneo.mx` vivo, público y con proveedores adentro.
+
+Leyenda: ✅ hecho en código · 🔨 falta construir · 🔌 hay que apagar o reactivar · 🌐 infra / producción · 👤 Gus · ❄ congelado (Fase 2, no borrar)
+
+Mergeado en `main` el 4 de septiembre 2026 (código). Falta aplicar las 3 migraciones SQL en Supabase (local + prod) para que WhatsApp leads, testimonios y el árbol nuevo existan en la base.
+
+### Producto — entra en el MVP
+
+| Bloque | Qué incluye | Estado |
+|---|---|---|
+| Catálogo público | Home, páginas por categoría, perfil, `/buscar`, sitemap, JSON-LD | ✅ Hecho. Redirects 301 `/fotografia` → `/foto-video`, `/salones` → `/lugares` |
+| Perfil de proveedor | Fotos, descripción, zona, tipos de evento, rango `$ / $$ / $$$`, paquetes, calendario, badge Verificado, testimonios, WhatsApp | ✅ Hecho en código |
+| Contacto | WhatsApp directo, sin cuenta, evento `whatsapp_click` | ✅ Código listo. 🌐 Aplicar migración `20260904000000_restaurar_whatsapp_click.sql` |
+| Alta de proveedores | CSV + link de reclamación + auto-registro con aprobación manual | ✅ Hecho. CSV entra como `draft`. Política default: `manual_review` |
+| Panel del proveedor | Perfil, fotos, media, paquetes, menú catering, salón, disponibilidad | ✅ Hecho. `/panel/consultas` y `/panel/agenda` siguen en código, gated |
+| Admin | CRUD, importador CSV, solicitudes, métricas, testimonios, subcategoría | ✅ Hecho |
+| Analítica | GA4: tráfico + `whatsapp_click` + `profile_view` | ✅ Eventos en código. 🌐 GA4 solo corre si existe `NEXT_PUBLIC_GA4_ID` en Vercel |
+| Categorías | 8 madre + subcategorías + Otros, con páginas indexables | ✅ Código + redirects. 🌐 Aplicar `20260904020000_categorias_madre.sql` |
+
+### Producto — se congela (feature flag OFF, no se elimina)
+
+Flags en `src/lib/feature-flags.ts`. Unset o cualquier valor distinto de `on` = OFF. Hay que rebuild al cambiar `NEXT_PUBLIC_*`.
+
+| Bloque | Estado |
+|---|---|
+| ❄ Carrito | ✅ UI apagada. `src/lib/cart.ts` y migración `events` se quedan. `NEXT_PUBLIC_FEATURE_CART=on` para reactivar |
+| ❄ Cotización interna | ✅ Form público apagado; `createInquiry` rechaza altas nuevas. Hilos viejos y `/panel/consultas` siguen. `NEXT_PUBLIC_FEATURE_INQUIRIES=on` |
+| ❄ Cuentas de organizador | ✅ `/crear-cuenta` y `/mis-consultas` redirigen a home. `NEXT_PUBLIC_FEATURE_ORGANIZER_ACCOUNTS=on` |
+| ❄ Muro de WhatsApp | ✅ OFF. El botón es público |
+| ❄ Reseñas con estrellas | ✅ No construidas. Flag existe, no hay UI |
+| ❄ Pagos / comisiones / anticipos | ✅ Ya fuera. Fase 2, 2027/2028 |
+| ❄ Favoritos, push, búsqueda avanzada por disponibilidad | ✅ Ya fuera |
+
+### Decisiones cerradas vs código
+
+| # | Decisión | ¿El código la cumple? |
+|---|---|---|
+| 4.1 | Contacto = WhatsApp directo. Cotización interna congelada | ✅ Sí (flag inquiries OFF) |
+| 4.2 | Solo rangos en el perfil. Sin dato → «Precio a consultar» | ✅ El perfil usa `$ / $$ / $$$` o «Precio a consultar». ⚠ Los paquetes sí muestran montos |
+| 4.3 | Auto-registros: aprobación manual 24–48 hrs | ✅ Sí |
+| 4.4 | Precargados sin reclamar no se publican solos | ✅ El CSV crea `draft` |
+| 4.5 | Directorio híbrido: permiso verbal + admin | 👤 Operación, no código |
+| 4.6 | Sin reseñas. Solo testimonios cargados por admin | ✅ Sí (migración testimonios pendiente en DB) |
+| 4.7 | Sin muro de WhatsApp al lanzar | ✅ No hay muro. Cuentas de organizador apagadas |
+| 4.8 | Paquetes y calendario se quedan en el perfil público | ✅ Sí, sin botón de carrito |
+| 4.9 | Filtro de fecha amable | ✅ Catálogo: `?fecha=YYYY-MM-DD` |
+| 4.10 | 8 madre + subcategorías + Otros | ✅ Código. 🌐 Migración SQL pendiente |
+| 4.11 | Tráfico + clicks a WhatsApp | ✅ `whatsapp_click` en código. 🌐 GA4 + migración leads |
+| 4.12 | Sprint 8 congelado | ✅ UI apagada, código conservado |
+
+### Código alineado al brief
+
+- [x] **WhatsApp en el perfil público** — `wa.me` + `whatsapp_click` (GA4 + `leads`)
+- [x] **Apagar cotización pública** — flag; no se crean inquiries nuevas
+- [x] **Apagar carrito en la UI** — navbar y «Agregar a mi evento»
+- [x] **Apagar cuentas de organizador** — flag, no borrar
+- [x] **Testimonios** — admin, hasta 6 citas, sin estrellas
+- [x] **Migración de categorías 6 → 8 + Otros** — redirects 301; SQL pendiente de aplicar
+- [x] **Filtro de fecha amable en el catálogo**
+- [x] **Copy de precio vacío** — «Precio a consultar»
+- [x] **Feature flags** — default OFF
+- [x] **Documentar el freeze del Sprint 8**
+
+Ojo menor: los paquetes publican precio exacto (el brief pide rangos en el *perfil*).
+
+### Despliegue — Pedraza
+
+Esto es lo que separa a Planneo de estar vivo. En orden.
+
+**Infraestructura**
+
+- [x] Proyecto Supabase y dominio `planneo.mx` (confirmado 4 sept 2026)
+- [ ] Aplicar en prod (y local) las 3 migraciones nuevas: `whatsapp_click`, `testimonials`, `categorias_madre`
+- [ ] Confirmar en Vercel: `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_SITE_URL`
+- [ ] SMTP con Resend en el dashboard de Supabase (el mailer integrado ~2 correos/hora)
+- [ ] Confirmación de email activa + plantillas de `supabase/templates/` (`{{ .Token }}`, no el link)
+- [ ] Crear usuarios admin (Gus y Eugenio)
+
+**Cambios de alcance del MVP** *(código en `main`; SQL de categorías/testimonios/leads pendiente)*
+
+- [x] Feature flags en OFF (default)
+- [x] WhatsApp de vuelta + `whatsapp_click` (código)
+- [x] Migración de categorías + redirects (código; SQL pendiente)
+- [x] Regla de disponibilidad amable en el filtro de fecha
+- [x] Testimonios desde admin (código; SQL pendiente)
+- [ ] Importar el CSV re-mapeado en modo oculto (`draft` / no published)
+- [x] Congelar Sprint 8 documentado aquí
+
+**Salida**
+
+- [ ] QA desde fuera de la red: abrir `planneo.mx` en un celular con datos móviles y completar un auto-registro de proveedor de punta a punta
+- [ ] GA4 verificando tráfico real
+
+Detalle de Auth/SMTP: ver § 8 al final de este archivo.
+
+### Pendientes de Gus
+
+Los que bloquean contenido real en el directorio.
+
+- [ ] Mandar `planneo_proveedores_curados.csv` (609) — brief dice listo desde el 3 de junio
+- [ ] Re-mapear el CSV de 5 a 8 categorías con `categoria_original` (los 282 de `decoracion` esconden Lugares, Mobiliario, Decoración e Invitaciones; `EQ DE AUDIO Y VIDEO` va a Mobiliario, no a Música)
+- [ ] Revisar `planneo_proveedores_revisar.csv` (230 filas sin clasificar)
+- [ ] Sembrar Belleza: de 12 a 30+
+- [ ] Fotos de portada por categoría (ahora 9, no 5)
+- [ ] Outreach de permiso verbal — nada se publica sin un «sí»
+- [ ] Juntar testimonios de proveedores que ya trabajaron eventos
+- [ ] Llenar campos `[por definir]` en los 3 documentos legales + abogado en NL
+- [ ] Copy y branding del sitio
+
+### Fechas
+
+| Fecha | Qué | Quién |
+|---|---|---|
+| 14 ago 2026 | CSV entregado + este brief | Gus |
+| Semana del 18 ago | Junta de socios: alcance + Term Sheet | Ambos |
+| **15 sept 2026** | `planneo.mx` desplegado y accesible desde fuera, aunque tenga pocos perfiles | Pedraza |
+| **30 sept 2026** | Hito 1: directorio público con contenido real + auto-registro funcionando desde fuera | Ambos |
+| 31 oct 2026 | 100 perfiles publicados · 30 clicks a WhatsApp · tráfico medible en GA4 | Ambos |
+
+Ritmo: una junta semanal, día y hora fijos. Si un pendiente no se movió en dos semanas, se cambia el pendiente o se cambia el dueño.
+
+### Árbol de categorías objetivo
+
+Cada madre tiene página indexable (`planneo.mx/musica`). Las subcategorías son filtro/etiqueta. «Otros» se gradúa a madre cuando una subcategoría junte 10+ proveedores.
+
+| # | Madre | Slug | Subcategorías |
+|---|---|---|---|
+| 1 | Lugares y salones | `lugares` | Salones · Jardines · Haciendas · Terrazas y roof gardens · Quintas · Casas de eventos |
+| 2 | Banquete y bebidas | `banquete` | Catering · Taquizas y parrilladas · Pastelería y postres · Mesa de dulces · Barra y bartender · Meseros |
+| 3 | Música y entretenimiento | `musica` | DJ · Grupo versátil · Banda · Mariachi · Solistas · Shows · Hora loca · Animación infantil · Edecanes |
+| 4 | Foto y video | `foto-video` | Fotografía · Video · Cabina de fotos · 360 · Dron · Same day edit |
+| 5 | Decoración y ambientación | `decoracion` | Floristería · Globos · Backdrops · Letras y números · Mantelería · Iluminación decorativa · Centros de mesa |
+| 6 | Mobiliario y equipo | `mobiliario` | Sillas y mesas · Carpas · Pistas de baile · Audio e iluminación técnica · Pantallas · Planta de luz · Climatización · Sanitarios portátiles · Juegos e inflables |
+| 7 | Belleza e imagen | `belleza` | Maquillaje · Peinado · Uñas · Spa · Vestidos y trajes · Renta de vestuario |
+| 8 | Invitaciones y detalles | `invitaciones` | Invitaciones digitales e impresas · Imprenta · Diseño gráfico · Señalética · Recuerdos · Personalizados |
+| + | Otros servicios | `otros` | Planeación y coordinación · Protocolo · Transporte y limusinas · Valet parking · Seguridad · Servicio médico · Niñeras |
+
+### Después del MVP (para no construirlo ahora)
+
+Fase 2 — Planneo completo, inicio 2027/2028, disparada por número de proveedores activos: se reactivan carrito y cotizaciones, se prenden reseñas y cuentas de organizador, y se cobra comisión. Nada de los sprints 6–8 se tira.
+
+### Reglas para quien asiste el desarrollo
+
+1. Este archivo es el contrato. El brief manda si hay contradicción.
+2. No construir Fase 2 (carrito, cotizaciones, pagos, reseñas, favoritos) hasta que `planneo.mx` esté público.
+3. No re-debatir las decisiones 4.1–4.12.
+4. Preferir apagar sobre borrar.
+5. Cada perfil es una página indexable. Sin muros de login, sin contenido solo-cliente, URLs canónicas y metadatos.
+6. Nunca castigar la falta de datos: perfil sin fotos, sin precio o sin calendario se ve decente y sigue apareciendo.
+7. Ante duda de negocio, preguntar a Gus.
 
 ---
 
-## Estado actual — qué ya existe
+## Historial de sprints (jun–jul 2026)
+
+> Snapshot previo al brief. Lo vigente para construir está arriba. Sprint 8 queda **congelado** donde está.
+
+## Estado actual — qué ya existe *(junio 2026)*
 
 | Módulo | Estado |
 |---|---|
@@ -300,28 +448,23 @@ El grupo de rutas `(provider)` ya existe. Vamos a expandirlo:
 
 ## 5. Preguntas abiertas para Gus (decisiones de negocio)
 
-Antes de codear ciertos detalles, necesitamos tu input:
+> **Cerradas por el Brief MVP (14 ago 2026).** No re-debatir. El texto de julio se conserva como historial: la cotización interna y el muro de WhatsApp quedan construidos y apagados.
 
-1. **Categoría "Salones"** — ¿Cuál es el nombre exacto para el catálogo? ¿"Salones de eventos"? ¿"Venues"? ¿"Lugares"?
-
-2. **Aprobación de proveedores** — ¿En cuánto tiempo se comprometen a aprobar? ¿24 hrs? ¿Tiene que ir Gus a verificar el negocio antes de aprobar, o se aprueba automáticamente por ahora?
-
-3. **Paquetes con precio** — ¿Mostramos el precio exacto en el perfil público, o solo rangos? Algunos proveedores pueden no querer publicar precios.
-
-4. **Consultas (inquiries)** — ✅ DECIDIDO (2026-07-14): la cotización se hace DENTRO de Planneo, no por WhatsApp. El cliente pide cotización desde el perfil público, el proveedor responde (con monto opcional) desde `/panel/consultas`, y el cliente ve/responde en `/consulta/{token}` (enlace tokenizado, sin cuenta). La plataforma proveerá pago y reservación más adelante, así que la conversación debe vivir aquí. Tabla `inquiry_messages` + `inquiries.access_token`.
-
-   **Ampliado (2026-07-14):** el perfil público ya NO muestra botón de WhatsApp ni email directo — todo el contacto pasa por la solicitud de cotización. El proveedor puede **confirmar la reservación** de una consulta desde `/panel/consultas` (fija fecha y lugar del evento): la consulta pasa a estado `confirmed`, la fecha se bloquea como `booked` en `provider_availability`, y el evento aparece en la nueva sección `/panel/agenda` (quién, dónde y cuándo debe presentarse). El formulario público de cotización ahora captura el lugar del evento (`inquiries.event_location`). El cliente recibe email de confirmación con fecha y lugar.
-
-5. **Disponibilidad** — ¿Solo el proveedor puede marcar días, o también los usuarios al agendar? Para Fase 1 recomendamos que solo el proveedor la gestione.
+1. **Categoría "Salones"** — ✅ Cerrado (4.10): madre «Lugares y salones», slug `lugares`.
+2. **Aprobación de proveedores** — ✅ Cerrado (4.3): manual, compromiso 24–48 hrs, `/admin/solicitudes`.
+3. **Paquetes con precio** — ✅ Cerrado (4.2): en el perfil solo rangos; sin dato → «Precio a consultar».
+4. **Consultas (inquiries)** — ✅ Revertido (4.1): el contacto del MVP es WhatsApp directo. La cotización interna (`/consulta/{token}`, `/panel/consultas`) se congela con feature flag. Historial 2026-07-14: se había decidido cotizar dentro de Planneo y se quitó el botón de WhatsApp; eso se deshace para lanzar.
+5. **Disponibilidad** — ✅ Cerrado (4.9): en el MVP el proveedor marca su calendario a mano. Filtro de fecha amable en el catálogo; nunca se castiga la falta de datos.
 
 ---
 
-## 6. Fase 2 — Carrito de Evento (decidido 2026-07-21)
+## 6. Fase 2 — Carrito de Evento (decidido 2026-07-21, congelado 2026-08-14)
 
+> ❄ **Congelado.** No se construye más de esto hasta que `planneo.mx` esté público.
 > Ver DISEÑO.md § "Fase 2 — Carrito de Evento" para el comportamiento de producto.
-> Ya entregado de la lista original de Fase 2: formulario de consulta público,
-> hilo de cotización tokenizado, cuentas de cliente (`/crear-cuenta`, `/mis-consultas`).
-> Diferido: búsqueda por disponibilidad, reseñas, favoritos.
+> Ya entregado y se apaga con flag: formulario de consulta público, hilo tokenizado,
+> cuentas de cliente (`/crear-cuenta`, `/mis-consultas`), drawer «Mi evento».
+> Fuera de alcance del MVP: reseñas, favoritos, pagos.
 
 ### 6.1 Decisiones (2026-07-21)
 
@@ -377,15 +520,18 @@ directamente — lo que necesita saber viaja en la inquiry. Admin todo.
 - [x] Calendario readonly (vista `public_provider_availability`, sin notas privadas)
 - [x] Botón "Agregar a mi evento" por paquete (carrito en localStorage, `src/lib/cart.ts`)
 
-#### Sprint 8 — Carrito y envío
-- [ ] Migración: `events` + `inquiries.event_id` + `inquiries.package_id` + RLS
-- [ ] Contexto de carrito + persistencia en localStorage
+#### Sprint 8 — Carrito y envío ❄ CONGELADO (brief 4.12, 14 ago 2026)
+
+No se termina ni se borra. Se apaga la UI hasta que `planneo.mx` esté público. Cómo reactivar: prender el feature flag de carrito, terminar `/carrito` + envío, y volver a exponer «Agregar a mi evento».
+
+- [x] Migración: `events` + `inquiries.event_id` + `inquiries.package_id` + RLS (`supabase/migrations/20260721010000_eventos_carrito.sql`)
+- [x] Persistencia en localStorage (`src/lib/cart.ts`) + drawer «Mi evento» (`src/components/event-cart.tsx`)
 - [ ] Modal "define tu evento" al agregar el primer item
 - [ ] Página `/carrito` con validación de disponibilidad por proveedor
 - [ ] Gate de cuenta al enviar (login o `/crear-cuenta` con retorno al carrito)
 - [ ] Server Action: crear evento + N inquiries + emails (cliente y proveedores)
 
-#### Sprint 9 — Tablero de evento
+#### Sprint 9 — Tablero de evento ❄ CONGELADO (misma Fase 2)
 - [ ] `/mis-consultas` agrupado por evento con estado por proveedor
 - [ ] Link al hilo de cada cotización
 

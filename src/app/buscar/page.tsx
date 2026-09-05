@@ -20,5 +20,12 @@ export const metadata: Metadata = {
 }
 
 export default async function BuscarPage({ searchParams }: PageProps) {
-  return <ProviderCatalog searchParams={await searchParams} action="/buscar" />
+  return (
+    <ProviderCatalog
+      searchParams={await searchParams}
+      action="/buscar"
+      title="Busca proveedores para tu evento."
+      description="Escribe lo que necesitas o entra directo por categoría."
+    />
+  )
 }
