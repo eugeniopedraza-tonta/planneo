@@ -11,7 +11,9 @@ import ProfileViewTracker from '@/components/profile-view-tracker'
 import ProviderPhotoGallery from '@/components/provider-photo-gallery'
 import ProviderPackagesSection from '@/components/provider-packages-section'
 import PublicAvailabilityCalendar from '@/components/public-availability-calendar'
+import WhatsAppButton from '@/components/whatsapp-button'
 import Navbar from '@/components/landing/Navbar'
+import { isInquiriesEnabled } from '@/lib/feature-flags'
 import type { ProviderWithCategory, PublicAvailability, ServicePackage } from '@/lib/types'
 
 interface PageProps {
@@ -264,10 +266,21 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                     <rect x="3" y="4" width="18" height="16" rx="3" />
                   </svg>
                   <div>
-                    <p className="font-semibold text-white">Cotización sin costo</p>
-                    <p className="mt-0.5 text-sm text-white/55">
-                      Pide precio y disponibilidad sin compromiso, todo dentro de Planneo.
-                    </p>
+                    {isInquiriesEnabled() ? (
+                      <>
+                        <p className="font-semibold text-white">Cotización sin costo</p>
+                        <p className="mt-0.5 text-sm text-white/55">
+                          Pide precio y disponibilidad sin compromiso, todo dentro de Planneo.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-semibold text-white">Contacto directo por WhatsApp</p>
+                        <p className="mt-0.5 text-sm text-white/55">
+                          Escríbeles para resolver precio y disponibilidad en minutos.
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               </section>
@@ -336,7 +349,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                       </>
                     ) : (
                       <p className="v4-display text-xl font-bold tracking-[-0.02em] text-white">
-                        Cotiza tu evento
+                        Precio a consultar
                       </p>
                     )}
                   </div>
@@ -350,28 +363,52 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                   )}
                 </div>
 
-                {/* Todo el contacto y la cotización viven dentro de Planneo:
-                    no exponemos celular ni email directo del proveedor. */}
-                <QuoteRequestForm providerId={provider.id} />
-
-                <p className="text-center text-xs text-white/50">
-                  Gratis y sin compromiso. Aún no se te cobra nada.
-                </p>
-
-                <ul className="space-y-2 border-t border-white/10 pt-4 text-xs leading-5 text-white/55">
-                  <li className="flex items-start gap-2">
-                    <svg className="mt-0.5 size-3.5 shrink-0 text-planneo-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                    Respuesta del proveedor directamente en Planneo.
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="mt-0.5 size-3.5 shrink-0 text-planneo-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                    Tus datos solo se comparten con este proveedor.
-                  </li>
-                </ul>
+                {isInquiriesEnabled() ? (
+                  <>
+                    <QuoteRequestForm providerId={provider.id} />
+                    <p className="text-center text-xs text-white/50">
+                      Gratis y sin compromiso. Aún no se te cobra nada.
+                    </p>
+                    <ul className="space-y-2 border-t border-white/10 pt-4 text-xs leading-5 text-white/55">
+                      <li className="flex items-start gap-2">
+                        <svg className="mt-0.5 size-3.5 shrink-0 text-planneo-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                        Respuesta del proveedor directamente en Planneo.
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <svg className="mt-0.5 size-3.5 shrink-0 text-planneo-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                        Tus datos solo se comparten con este proveedor.
+                      </li>
+                    </ul>
+                  </>
+                ) : (
+                  <>
+                    {provider.phone && (
+                      <WhatsAppButton
+                        providerId={provider.id}
+                        phone={provider.phone}
+                        providerName={provider.name}
+                      />
+                    )}
+                    <ul className="space-y-2 border-t border-white/10 pt-4 text-xs leading-5 text-white/55">
+                      <li className="flex items-start gap-2">
+                        <svg className="mt-0.5 size-3.5 shrink-0 text-planneo-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                        Respuesta directa del proveedor por WhatsApp.
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <svg className="mt-0.5 size-3.5 shrink-0 text-planneo-mint" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                        Sin cuenta ni compromiso. Planneo no intermedia el chat.
+                      </li>
+                    </ul>
+                  </>
+                )}
 
                 {provider.instagram_handle && (
                   <a
@@ -407,16 +444,31 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
             <p className="truncate text-sm font-semibold text-white">
               {provider.price_range
                 ? PRICE_LABEL[provider.price_range] ?? provider.price_range
-                : provider.name}
+                : 'Precio a consultar'}
             </p>
-            <p className="text-xs text-white/55">Cotiza gratis y sin compromiso</p>
+            <p className="text-xs text-white/55">
+              {isInquiriesEnabled()
+                ? 'Cotiza gratis y sin compromiso'
+                : 'Escríbeles por WhatsApp'}
+            </p>
           </div>
-          <a
-            href="#cotizar"
-            className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
-          >
-            Solicitar cotización
-          </a>
+          {isInquiriesEnabled() ? (
+            <a
+              href="#cotizar"
+              className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+            >
+              Solicitar cotización
+            </a>
+          ) : provider.phone ? (
+            <WhatsAppButton
+              providerId={provider.id}
+              phone={provider.phone}
+              providerName={provider.name}
+              className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+            >
+              Escribir por WhatsApp
+            </WhatsAppButton>
+          ) : null}
         </div>
       </div>
     </>

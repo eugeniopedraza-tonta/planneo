@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createStaticClient } from '@/lib/supabase/server'
 import { CATEGORY_SLUGS, ZONA_OPTIONS } from '@/lib/constants'
 import RegisterForm from './_form'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export const metadata = {
   title: 'Registra tu negocio — Planneo',
@@ -50,12 +51,14 @@ export default async function RegistrarmePage() {
               Úsala aquí
             </Link>
           </p>
-          <p>
-            ¿Organizas un evento y buscas proveedores?{' '}
-            <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
-              Crea tu cuenta de cliente
-            </Link>
-          </p>
+          {isOrganizerAccountsEnabled() && (
+            <p>
+              ¿Organizas un evento y buscas proveedores?{' '}
+              <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
+                Crea tu cuenta de cliente
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </div>

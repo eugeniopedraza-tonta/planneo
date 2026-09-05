@@ -6,6 +6,7 @@ import Navbar from '@/components/landing/Navbar'
 import { EVENT_TYPES, INQUIRY_STATUS_LABELS } from '@/lib/constants'
 import type { Category, InquiryWithMessages, Provider } from '@/lib/types'
 import { CalendarIcon, MapPinIcon, InboxIcon } from '@/components/icons'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export const dynamic = 'force-dynamic'
 
@@ -19,6 +20,8 @@ type InquiryRow = InquiryWithMessages & {
 }
 
 export default async function MisConsultasPage() {
+  if (!isOrganizerAccountsEnabled()) redirect('/')
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login?next=/mis-consultas')

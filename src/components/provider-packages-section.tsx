@@ -11,6 +11,7 @@ import {
   type Cart,
 } from '@/lib/cart'
 import type { PublicAvailability, ServicePackage } from '@/lib/types'
+import { isCartEnabled } from '@/lib/feature-flags'
 
 type Props = {
   provider: { id: string; name: string; slug: string; categorySlug: string }
@@ -24,16 +25,18 @@ type Props = {
  * 'tentative' se permite con etiqueta "Por confirmar".
  */
 export default function ProviderPackagesSection({ provider, packages, availability }: Props) {
+  const cartEnabled = isCartEnabled()
   const [cart, setCart] = useState<Cart>({ event: null, items: [] })
 
   useEffect(() => {
+    if (!cartEnabled) return
     setCart(readCart())
     return subscribeToCart(() => setCart(readCart()))
-  }, [])
+  }, [cartEnabled])
 
   if (packages.length === 0) return null
 
-  const eventDate = cart.event?.eventDate ?? null
+  const eventDate = cartEnabled ? (cart.event?.eventDate ?? null) : null
   const dateStatus = eventDate
     ? availability.find((a) => a.date === eventDate)?.status ?? null
     : null
@@ -128,6 +131,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                   )}
                 </div>
 
+                {cartEnabled && (
                 <div className="shrink-0">
                   {inCart ? (
                     <button
@@ -151,6 +155,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                     </button>
                   )}
                 </div>
+                )}
               </div>
             </div>
           )

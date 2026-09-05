@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'
 import { canAccessProviderPanel } from '@/lib/auth-routes'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export async function proxy(request: NextRequest) {
   const { response, user } = await updateSession(request)
@@ -24,8 +25,17 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith('/mis-consultas') && !user) {
-    return NextResponse.redirect(new URL('/login?next=/mis-consultas', request.url))
+  if (pathname.startsWith('/crear-cuenta') && !isOrganizerAccountsEnabled()) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  if (pathname.startsWith('/mis-consultas')) {
+    if (!isOrganizerAccountsEnabled()) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+    if (!user) {
+      return NextResponse.redirect(new URL('/login?next=/mis-consultas', request.url))
+    }
   }
 
   return response

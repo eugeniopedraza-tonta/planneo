@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
+import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export type State = {
   error?: string
@@ -21,6 +22,8 @@ const RegisterClientSchema = z.object({
 const CodeSchema = z.string().regex(/^\d{6}$/, 'El código debe tener 6 dígitos')
 
 export async function registerClient(_prev: State, formData: FormData): Promise<State> {
+  if (!isOrganizerAccountsEnabled()) redirect('/')
+
   const parsed = RegisterClientSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
