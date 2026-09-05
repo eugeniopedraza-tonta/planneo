@@ -2,7 +2,11 @@ import Link from 'next/link'
 import ProviderCard from '@/components/provider-card'
 import { EVENT_TYPES, PRICE_RANGES, ZONAS_MTY, CATEGORY_SLUGS } from '@/lib/constants'
 import { createStaticClient } from '@/lib/supabase/server'
-import { getPublicProviders } from '@/lib/public-providers'
+import {
+  formatCatalogFecha,
+  getPublicProviders,
+  parseCatalogFecha,
+} from '@/lib/public-providers'
 import Navbar from '@/components/landing/Navbar'
 
 type CatalogParams = {
@@ -12,6 +16,7 @@ type CatalogParams = {
   zona?: string
   evento?: string
   precio?: string
+  fecha?: string
 }
 
 export default async function ProviderCatalog({
@@ -28,6 +33,7 @@ export default async function ProviderCatalog({
 }) {
   const supabase = createStaticClient()
   const categoryFilter = lockedCategory ?? searchParams.categoria ?? searchParams.category
+  const fecha = parseCatalogFecha(searchParams.fecha)
   const [{ data: categories }, providers] = await Promise.all([
     supabase
       .from('categories')
@@ -40,6 +46,7 @@ export default async function ProviderCatalog({
       zona: searchParams.zona,
       evento: searchParams.evento,
       precio: searchParams.precio,
+      fecha,
       limit: 90,
     }),
   ])
@@ -49,7 +56,8 @@ export default async function ProviderCatalog({
       (!lockedCategory && (searchParams.categoria || searchParams.category)) ||
       searchParams.zona ||
       searchParams.evento ||
-      searchParams.precio
+      searchParams.precio ||
+      fecha
   )
 
   return (
@@ -93,6 +101,19 @@ export default async function ProviderCatalog({
               <Select label="Tipo de evento" name="evento" value={searchParams.evento ?? ''} options={EVENT_TYPES.map((e) => ({ value: e.value, label: e.label }))} />
               <Select label="Precio" name="precio" value={searchParams.precio ?? ''} options={PRICE_RANGES.map((p) => ({ value: p.value, label: p.label }))} />
 
+              <div>
+                <label htmlFor="catalog-fecha" className="mb-1.5 block text-sm font-medium text-white/75">
+                  Fecha
+                </label>
+                <input
+                  id="catalog-fecha"
+                  type="date"
+                  name="fecha"
+                  defaultValue={fecha ?? ''}
+                  className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none [color-scheme:dark] focus:border-planneo-300"
+                />
+              </div>
+
               <button type="submit" className="min-h-11 w-full rounded-xl bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500">
                 Aplicar filtros
               </button>
@@ -111,6 +132,11 @@ export default async function ProviderCatalog({
                 {searchParams.q && (
                   <p className="mt-1 text-sm text-white/50">Resultados para &ldquo;{searchParams.q}&rdquo;</p>
                 )}
+                {fecha && (
+                  <p className="mt-1 text-sm text-white/50">
+                    Disponibilidad para el {formatCatalogFecha(fecha)}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -118,13 +144,19 @@ export default async function ProviderCatalog({
               <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-16 text-center">
                 <h2 className="v4-display text-3xl font-bold tracking-[-0.04em]">Sin resultados</h2>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/55">
-                  No encontramos proveedores con esa combinación. Prueba quitando un filtro o buscando una categoría más general.
+                  {fecha
+                    ? `Nadie aparece como disponible o por confirmar el ${formatCatalogFecha(fecha)}. Quienes ya tienen ese día ocupado no se muestran. Prueba otra fecha o quita el filtro de fecha.`
+                    : 'No encontramos proveedores con esa combinación. Prueba quitando un filtro o buscando una categoría más general.'}
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {providers.map((provider) => (
-                  <ProviderCard key={provider.id} provider={provider} />
+                  <ProviderCard
+                    key={provider.id}
+                    provider={provider}
+                    dateAvailability={fecha ? provider.dateAvailability : undefined}
+                  />
                 ))}
               </div>
             )}
