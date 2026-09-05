@@ -31,6 +31,12 @@ export type EventType =
   | 'bautizo'
   | 'otro'
 export type PriceRange = '$' | '$$' | '$$$'
+
+/** Cita cargada por admin. Sin estrellas ni reseñas públicas. */
+export type ProviderTestimonial = {
+  quote: string
+  author: string | null
+}
 export type PriceUnit = 'por_evento' | 'por_hora' | 'por_persona'
 export type MediaType = 'photo' | 'audio' | 'video'
 export type AvailabilityStatus = 'available' | 'booked' | 'tentative'
@@ -62,6 +68,7 @@ export type Provider = {
   onboarding_completed_at: string | null
   source: string | null
   source_detail: string | null
+  testimonials: ProviderTestimonial[]
   created_at: string
   updated_at: string
 }

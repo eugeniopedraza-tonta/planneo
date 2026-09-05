@@ -10,6 +10,7 @@ import QuoteRequestForm from '@/components/quote-request-form'
 import ProfileViewTracker from '@/components/profile-view-tracker'
 import ProviderPhotoGallery from '@/components/provider-photo-gallery'
 import ProviderPackagesSection from '@/components/provider-packages-section'
+import ProviderTestimonialsSection from '@/components/provider-testimonials-section'
 import PublicAvailabilityCalendar from '@/components/public-availability-calendar'
 import WhatsAppButton from '@/components/whatsapp-button'
 import Navbar from '@/components/landing/Navbar'
@@ -315,6 +316,8 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                   </div>
                 </section>
               )}
+
+              <ProviderTestimonialsSection testimonials={provider.testimonials} />
 
               {/* Paquetes con "Agregar a mi evento" */}
               <ProviderPackagesSection

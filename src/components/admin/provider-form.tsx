@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ZONAS_MTY, EVENT_TYPES, PRICE_RANGES } from '@/lib/constants'
+import { MAX_PROVIDER_TESTIMONIALS, normalizeTestimonials } from '@/lib/testimonials'
 import type { Category, Provider } from '@/lib/types'
 import type { ProviderActionState } from '@/app/admin/proveedores/_actions'
 import PhotoUploader from './photo-uploader'
@@ -191,6 +192,8 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
           />
           <input type="hidden" name="photos" value={JSON.stringify(photos)} />
         </div>
+
+        <TestimonialsFields defaultValues={defaultValues} />
       </div>
 
       <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
@@ -202,5 +205,54 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
         </Button>
       </div>
     </form>
+  )
+}
+
+function TestimonialsFields({ defaultValues }: { defaultValues?: Provider }) {
+  const slots = Array.from({ length: MAX_PROVIDER_TESTIMONIALS }, (_, i) => {
+    const existing = normalizeTestimonials(defaultValues?.testimonials)[i]
+    return { quote: existing?.quote ?? '', author: existing?.author ?? '' }
+  })
+
+  return (
+    <div className="col-span-2 flex flex-col gap-3">
+      <div>
+        <Label>Testimonios</Label>
+        <p className="mt-1 text-xs text-white/55">
+          Citas que aparecen en el perfil público. El autor es opcional (ej. Ana · boda 2025).
+          Las citas vacías se ignoran.
+        </p>
+      </div>
+      <div className="flex flex-col gap-3">
+        {slots.map((slot, i) => (
+          <div
+            key={i}
+            className="grid grid-cols-1 gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 sm:grid-cols-3"
+          >
+            <div className="flex flex-col gap-1.5 sm:col-span-2">
+              <Label htmlFor={`testimonial_quote_${i}`}>Cita {i + 1}</Label>
+              <Textarea
+                id={`testimonial_quote_${i}`}
+                name={`testimonial_quote_${i}`}
+                rows={2}
+                maxLength={500}
+                defaultValue={slot.quote}
+                placeholder="Fueron impecables el día de la boda…"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor={`testimonial_author_${i}`}>Autor</Label>
+              <Input
+                id={`testimonial_author_${i}`}
+                name={`testimonial_author_${i}`}
+                maxLength={80}
+                defaultValue={slot.author}
+                placeholder="Ana · boda 2025"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }

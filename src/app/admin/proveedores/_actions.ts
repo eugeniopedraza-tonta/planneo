@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateProviderSlug } from '@/lib/slug'
 import { CATEGORY_SLUGS, EVENT_TYPE_VALUES } from '@/lib/constants'
+import { parseTestimonialsFromFormData } from '@/lib/testimonials'
 import type { EventType, PriceRange } from '@/lib/types'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
@@ -80,6 +81,9 @@ export async function createProvider(
   let photos: string[] = []
   try { photos = JSON.parse(formData.get('photos') as string ?? '[]') } catch {}
 
+  const testimonials = parseTestimonialsFromFormData(formData)
+  if (!testimonials.ok) return { error: testimonials.error }
+
   const { error } = await supabase.from('providers').insert({
     slug,
     name: parsed.data.name,
@@ -93,6 +97,7 @@ export async function createProvider(
     instagram_handle: parsed.data.instagram_handle || null,
     birth_date: parsed.data.birth_date || null,
     photos: photos.length ? photos : null,
+    testimonials: testimonials.testimonials,
   })
 
   if (error) return { error: error.message }
@@ -127,6 +132,9 @@ export async function updateProvider(
   let photos: string[] = []
   try { photos = JSON.parse(formData.get('photos') as string ?? '[]') } catch {}
 
+  const testimonials = parseTestimonialsFromFormData(formData)
+  if (!testimonials.ok) return { error: testimonials.error }
+
   const supabase = await requireAdmin()
   const { error } = await supabase
     .from('providers')
@@ -142,12 +150,14 @@ export async function updateProvider(
       instagram_handle: parsed.data.instagram_handle || null,
       birth_date: parsed.data.birth_date || null,
       photos: photos.length ? photos : null,
+      testimonials: testimonials.testimonials,
     })
     .eq('id', id)
 
   if (error) return { error: error.message }
 
   revalidatePath('/admin/proveedores')
+  await revalidateProviderPublicPage(supabase, id)
   redirect('/admin/proveedores')
 }
 
