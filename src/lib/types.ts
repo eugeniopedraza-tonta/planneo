@@ -48,6 +48,8 @@ export type Provider = {
   slug: string
   name: string
   category_id: string | null
+  /** Etiqueta de subcategoría dentro de la madre. Null si no aplica. */
+  subcategory: string | null
   status: ProviderStatus
   verification_status: VerificationStatus
   /** Generada en DB: `verification_status = 'verified'`. Badge público. */

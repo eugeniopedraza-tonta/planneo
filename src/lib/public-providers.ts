@@ -4,6 +4,7 @@ import { createStaticClient } from '@/lib/supabase/server'
 export type PublicProviderFilters = {
   q?: string
   category?: string
+  subcategory?: string
   zona?: string
   evento?: string
   precio?: string
@@ -34,6 +35,7 @@ export async function getPublicProviders(filters: PublicProviderFilters = {}) {
     query = query.eq('category_id', category.id)
   }
 
+  if (filters.subcategory) query = query.eq('subcategory', filters.subcategory)
   if (filters.zona) query = query.eq('zona', filters.zona)
   if (filters.evento) query = query.contains('event_types', [filters.evento])
   if (filters.precio) query = query.eq('price_range', filters.precio)
@@ -70,6 +72,7 @@ export async function getPublicProviders(filters: PublicProviderFilters = {}) {
       if (!category) return []
       fallback = fallback.eq('category_id', category.id)
     }
+    if (filters.subcategory) fallback = fallback.eq('subcategory', filters.subcategory)
     if (filters.zona) fallback = fallback.eq('zona', filters.zona)
     if (filters.evento) fallback = fallback.contains('event_types', [filters.evento])
     if (filters.precio) fallback = fallback.eq('price_range', filters.precio)

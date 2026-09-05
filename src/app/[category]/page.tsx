@@ -1,10 +1,14 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { createStaticClient } from '@/lib/supabase/server'
-import { CATEGORY_SLUGS } from '@/lib/constants'
+import { CATEGORY_SLUGS, isCategorySlug } from '@/lib/constants'
 import ProviderCatalog from '@/components/provider-catalog'
 
 export const revalidate = 3600
+
+export function generateStaticParams() {
+  return CATEGORY_SLUGS.map((category) => ({ category }))
+}
 
 interface PageProps {
   params: Promise<{ category: string }>
@@ -13,6 +17,7 @@ interface PageProps {
     zona?: string
     evento?: string
     precio?: string
+    sub?: string
   }>
 }
 
@@ -47,8 +52,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   const { category: slug } = await params
   const filters = await searchParams
 
-  // Validate slug against known categories
-  if (!(CATEGORY_SLUGS as readonly string[]).includes(slug)) {
+  if (!isCategorySlug(slug)) {
     notFound()
   }
 

@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
   const providers = await getPublicProviders({
     q: params.get('q') ?? undefined,
     category: params.get('categoria') ?? params.get('category') ?? undefined,
+    subcategory: params.get('sub') ?? undefined,
     zona: params.get('zona') ?? undefined,
     evento: params.get('evento') ?? undefined,
     precio: params.get('precio') ?? undefined,

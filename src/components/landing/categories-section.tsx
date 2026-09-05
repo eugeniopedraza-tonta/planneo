@@ -1,13 +1,17 @@
 import Link from 'next/link'
 import { createStaticClient } from '@/lib/supabase/server'
-import { CATEGORY_SLUGS } from '@/lib/constants'
+import { CATEGORY_SLUGS, sortByCategoryTree } from '@/lib/constants'
 
 const CATEGORY_META: Record<string, { icon: string; description: string; kind: string }> = {
-  fotografia: { icon: 'CAM', description: 'Foto y video', kind: 'camera' },
-  belleza: { icon: 'GLAM', description: 'Maquillaje y peinado', kind: 'flower' },
-  musica: { icon: 'DJ', description: 'DJs, grupos y solistas', kind: 'music' },
-  banquete: { icon: 'MENU', description: 'Catering y banquetes', kind: 'plate' },
-  decoracion: { icon: 'DECO', description: 'Ambientación y flores', kind: 'flower' },
+  lugares: { icon: 'VENUE', description: 'Salones, jardines y haciendas', kind: 'venue' },
+  banquete: { icon: 'MENU', description: 'Catering, barra y meseros', kind: 'plate' },
+  musica: { icon: 'DJ', description: 'DJs, grupos y shows', kind: 'music' },
+  'foto-video': { icon: 'CAM', description: 'Fotografía, video y cabina', kind: 'camera' },
+  decoracion: { icon: 'DECO', description: 'Flores, globos y ambientación', kind: 'flower' },
+  mobiliario: { icon: 'SET', description: 'Mesas, carpas y equipo técnico', kind: 'furniture' },
+  belleza: { icon: 'GLAM', description: 'Maquillaje, peinado y vestuario', kind: 'flower' },
+  invitaciones: { icon: 'PAPER', description: 'Invitaciones, imprenta y recuerdos', kind: 'paper' },
+  otros: { icon: 'MORE', description: 'Coordinación, transporte y extras', kind: 'venue' },
 }
 
 async function getCategoriesWithCounts() {
@@ -32,7 +36,7 @@ async function getCategoriesWithCounts() {
     })
   )
 
-  return counts
+  return sortByCategoryTree(counts)
 }
 
 export default async function CategoriesSection() {
@@ -94,14 +98,18 @@ export default async function CategoriesSection() {
 
 function CategoryArt({ kind, seed }: { kind: string; seed: string }) {
   const palettes: Record<string, string> = {
-    fotografia: 'from-[#20133A] via-planneo-600 to-planneo-300',
-    belleza: 'from-[#3A1330] via-[#D8709B] to-[#F5C8D8]',
-    musica: 'from-[#130F2F] via-[#5E17EB] to-planneo-mint',
+    lugares: 'from-[#15203A] via-[#5E17EB] to-planneo-300',
     banquete: 'from-[#2A1B12] via-[#C98B5F] to-[#FFE1A8]',
+    musica: 'from-[#130F2F] via-[#5E17EB] to-planneo-mint',
+    'foto-video': 'from-[#20133A] via-planneo-600 to-planneo-300',
     decoracion: 'from-[#123025] via-[#6AA884] to-[#E1F0C4]',
+    mobiliario: 'from-[#2A2212] via-[#8B6B3D] to-[#E8D5A3]',
+    belleza: 'from-[#3A1330] via-[#D8709B] to-[#F5C8D8]',
+    invitaciones: 'from-[#2A1810] via-[#C45C26] to-[#F5C19A]',
+    otros: 'from-[#1A1528] via-[#4A3F6B] to-[#C4B8E0]',
   }
   return (
-    <div className={`absolute inset-0 bg-gradient-to-br ${palettes[seed] ?? palettes.fotografia}`}>
+    <div className={`absolute inset-0 bg-gradient-to-br ${palettes[seed] ?? palettes['foto-video']}`}>
       <div className="absolute inset-0 opacity-70">
         {kind === 'music' && (
           <div className="absolute inset-x-10 bottom-24 flex h-44 items-end gap-3">

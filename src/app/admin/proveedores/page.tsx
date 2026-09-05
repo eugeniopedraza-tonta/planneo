@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
-import { STATUS_LABELS, STATUS_STYLES } from '@/lib/constants'
+import { STATUS_LABELS, STATUS_STYLES, sortByCategoryTree } from '@/lib/constants'
 import type { ProviderStatus, ProviderWithCategory } from '@/lib/types'
 import ProvidersTableActions from './_components/providers-table-actions'
 import CsvImport from '@/components/admin/csv-import'
@@ -68,7 +68,7 @@ export default async function ProvidersPage({
           className="h-9 rounded-lg border border-white/10 bg-planneo-900 px-3 text-sm text-white/75"
         >
           <option value="">Todas las categorías</option>
-          {categories?.map((c) => (
+          {sortByCategoryTree(categories ?? []).map((c) => (
             <option key={c.id} value={c.slug}>{c.name}</option>
           ))}
         </select>
@@ -106,7 +106,12 @@ export default async function ProvidersPage({
                   {p.name}
                   <span className="block text-xs text-white/50 font-normal">{p.slug}</span>
                 </td>
-                <td className="px-4 py-3 text-white/60">{p.categories?.name ?? '—'}</td>
+                <td className="px-4 py-3 text-white/60">
+                  {p.categories?.name ?? '—'}
+                  {p.subcategory ? (
+                    <span className="block text-xs text-white/45 font-normal">{p.subcategory}</span>
+                  ) : null}
+                </td>
                 <td className="px-4 py-3 text-white/60">{p.zona ?? '—'}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={p.status} />

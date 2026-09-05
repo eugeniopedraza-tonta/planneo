@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { createStaticClient } from '@/lib/supabase/server'
-import { CATEGORY_SLUGS, ZONA_OPTIONS } from '@/lib/constants'
+import { CATEGORY_SLUGS, ZONA_OPTIONS, sortByCategoryTree } from '@/lib/constants'
 import RegisterForm from './_form'
 import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
@@ -15,7 +15,6 @@ export default async function RegistrarmePage() {
     .from('categories')
     .select('id, name, slug')
     .in('slug', CATEGORY_SLUGS as unknown as string[])
-    .order('name')
 
   return (
     <div className="min-h-screen bg-planneo-950 px-4 py-16">
@@ -35,7 +34,7 @@ export default async function RegistrarmePage() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
-          <RegisterForm categories={categories ?? []} zonas={[...ZONA_OPTIONS]} />
+          <RegisterForm categories={sortByCategoryTree(categories ?? [])} zonas={[...ZONA_OPTIONS]} />
         </div>
 
         <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/50">

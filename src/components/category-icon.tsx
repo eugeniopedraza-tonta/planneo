@@ -4,6 +4,9 @@ import {
   BlushBrush01Icon,
   Building02Icon,
   Camera01Icon,
+  Chair01Icon,
+  GridViewIcon,
+  Mail01Icon,
   MusicNote01Icon,
   Restaurant01Icon,
   Store01Icon,
@@ -17,12 +20,15 @@ import {
  * genérico en lugar de romper la vista.
  */
 const CATEGORY_ICONS = {
-  fotografia: Camera01Icon,
-  belleza: BlushBrush01Icon,
-  musica: MusicNote01Icon,
+  lugares: Building02Icon,
   banquete: Restaurant01Icon,
+  musica: MusicNote01Icon,
+  'foto-video': Camera01Icon,
   decoracion: BalloonsIcon,
-  salones: Building02Icon,
+  mobiliario: Chair01Icon,
+  belleza: BlushBrush01Icon,
+  invitaciones: Mail01Icon,
+  otros: GridViewIcon,
 } as const
 
 export default function CategoryIcon({

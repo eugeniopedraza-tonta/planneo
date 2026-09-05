@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
-import { ZONAS_MTY, EVENT_TYPES, PRICE_RANGES } from '@/lib/constants'
+import { ZONAS_MTY, EVENT_TYPES, PRICE_RANGES, getSubcategories, sortByCategoryTree } from '@/lib/constants'
 import { MAX_PROVIDER_TESTIMONIALS, normalizeTestimonials } from '@/lib/testimonials'
 import type { Category, Provider } from '@/lib/types'
 import type { ProviderActionState } from '@/app/admin/proveedores/_actions'
@@ -21,6 +21,10 @@ type Props = {
 export default function ProviderForm({ categories, action, defaultValues }: Props) {
   const [state, formAction, isPending] = useActionState(action, {})
   const [photos, setPhotos] = useState<string[]>(defaultValues?.photos ?? [])
+  const [categoryId, setCategoryId] = useState(defaultValues?.category_id ?? '')
+  const orderedCategories = sortByCategoryTree(categories)
+  const selectedSlug = orderedCategories.find((c) => c.id === categoryId)?.slug
+  const subcategoryOptions = selectedSlug ? getSubcategories(selectedSlug) : []
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
@@ -52,17 +56,42 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
           <select
             id="category_id"
             name="category_id"
-            defaultValue={defaultValues?.category_id ?? ''}
+            value={categoryId}
+            onChange={(event) => setCategoryId(event.target.value)}
             required
             className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
           >
             <option value="">Seleccionar…</option>
-            {categories.map((c) => (
+            {orderedCategories.map((c) => (
               <option key={c.id} value={c.id}>{c.name}</option>
             ))}
           </select>
           {state.fieldErrors?.category_id && (
             <p className="text-xs text-red-300">{state.fieldErrors.category_id[0]}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="subcategory">Subcategoría</Label>
+          <select
+            key={categoryId || 'none'}
+            id="subcategory"
+            name="subcategory"
+            defaultValue={
+              selectedSlug && defaultValues?.subcategory && defaultValues.category_id === categoryId
+                ? defaultValues.subcategory
+                : ''
+            }
+            disabled={subcategoryOptions.length === 0}
+            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground disabled:opacity-50"
+          >
+            <option value="">{subcategoryOptions.length ? 'Sin especificar' : 'Elige categoría primero'}</option>
+            {subcategoryOptions.map((label) => (
+              <option key={label} value={label}>{label}</option>
+            ))}
+          </select>
+          {state.fieldErrors?.subcategory && (
+            <p className="text-xs text-red-300">{state.fieldErrors.subcategory[0]}</p>
           )}
         </div>
 

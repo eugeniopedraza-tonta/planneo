@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { CATEGORY_SLUGS } from '@/lib/constants'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,11 +8,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: [
           '/',
-          '/fotografia',
-          '/belleza',
-          '/musica',
-          '/banquete',
-          '/decoracion',
+          ...CATEGORY_SLUGS.map((slug) => `/${slug}`),
           '/buscar',
           '/para-proveedores',
         ],
