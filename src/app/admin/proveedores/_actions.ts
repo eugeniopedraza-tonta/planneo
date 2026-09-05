@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { generateProviderSlug } from '@/lib/slug'
-import { CATEGORY_SLUGS, EVENT_TYPE_VALUES } from '@/lib/constants'
+import { CATEGORY_SLUGS, EVENT_TYPE_VALUES, isAllowedSubcategory } from '@/lib/constants'
 import type { EventType, PriceRange } from '@/lib/types'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
@@ -29,11 +29,33 @@ const ProviderSchema = z.object({
   price_range: z.enum(['$', '$$', '$$$']).optional(),
   instagram_handle: z.string().optional(),
   birth_date: z.string().optional(),
+  subcategory: z.string().optional(),
 })
 
 export type ProviderActionState = {
   error?: string
   fieldErrors?: Record<string, string[]>
+}
+
+async function resolveSubcategory(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase: SupabaseClient<any>,
+  categoryId: string,
+  raw: string | undefined
+): Promise<{ subcategory: string | null } | { fieldErrors: Record<string, string[]> }> {
+  const subcategory = raw?.trim() || null
+  if (!subcategory) return { subcategory: null }
+
+  const { data: category } = await supabase
+    .from('categories')
+    .select('slug')
+    .eq('id', categoryId)
+    .maybeSingle()
+
+  if (!category || !isAllowedSubcategory(category.slug, subcategory)) {
+    return { fieldErrors: { subcategory: ['Elige una subcategoría de esta categoría.'] } }
+  }
+  return { subcategory }
 }
 
 export async function createProvider(
@@ -51,6 +73,7 @@ export async function createProvider(
     price_range: formData.get('price_range'),
     instagram_handle: formData.get('instagram_handle'),
     birth_date: formData.get('birth_date'),
+    subcategory: formData.get('subcategory'),
   }
 
   const parsed = ProviderSchema.safeParse(raw)
@@ -77,6 +100,13 @@ export async function createProvider(
     slug = `${baseSlug}-${attempt}`
   }
 
+  const resolved = await resolveSubcategory(
+    supabase,
+    parsed.data.category_id,
+    parsed.data.subcategory
+  )
+  if ('fieldErrors' in resolved) return resolved
+
   let photos: string[] = []
   try { photos = JSON.parse(formData.get('photos') as string ?? '[]') } catch {}
 
@@ -84,6 +114,7 @@ export async function createProvider(
     slug,
     name: parsed.data.name,
     category_id: parsed.data.category_id,
+    subcategory: resolved.subcategory,
     zona: parsed.data.zona,
     phone: parsed.data.phone || null,
     email: parsed.data.email || null,
@@ -117,6 +148,7 @@ export async function updateProvider(
     price_range: formData.get('price_range'),
     instagram_handle: formData.get('instagram_handle'),
     birth_date: formData.get('birth_date'),
+    subcategory: formData.get('subcategory'),
   }
 
   const parsed = ProviderSchema.safeParse(raw)
@@ -128,11 +160,19 @@ export async function updateProvider(
   try { photos = JSON.parse(formData.get('photos') as string ?? '[]') } catch {}
 
   const supabase = await requireAdmin()
+  const resolved = await resolveSubcategory(
+    supabase,
+    parsed.data.category_id,
+    parsed.data.subcategory
+  )
+  if ('fieldErrors' in resolved) return resolved
+
   const { error } = await supabase
     .from('providers')
     .update({
       name: parsed.data.name,
       category_id: parsed.data.category_id,
+      subcategory: resolved.subcategory,
       zona: parsed.data.zona,
       phone: parsed.data.phone || null,
       email: parsed.data.email || null,

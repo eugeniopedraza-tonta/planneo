@@ -5,7 +5,7 @@ import { createClient, createStaticClient } from '@/lib/supabase/server'
 
 export const revalidate = 3600
 export const dynamicParams = true
-import { CATEGORY_SLUGS, EVENT_TYPE_LABELS } from '@/lib/constants'
+import { EVENT_TYPE_LABELS, isCategorySlug } from '@/lib/constants'
 import QuoteRequestForm from '@/components/quote-request-form'
 import ProfileViewTracker from '@/components/profile-view-tracker'
 import ProviderPhotoGallery from '@/components/provider-photo-gallery'
@@ -96,7 +96,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
   const { category, slug } = await params
   const { preview } = await searchParams
 
-  if (!(CATEGORY_SLUGS as readonly string[]).includes(category)) {
+  if (!isCategorySlug(category)) {
     notFound()
   }
 

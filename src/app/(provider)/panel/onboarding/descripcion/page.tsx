@@ -17,29 +17,41 @@ export const metadata = {
  * respuestas, nunca datos inventados (experiencia, premios, precios).
  */
 const PROMPTS: Record<string, { question: string; chips: string[] }> = {
-  fotografia: {
+  'foto-video': {
     question: '¿Qué tipo de momentos te gusta capturar?',
-    chips: ['Bodas', 'XV años', 'Video', 'Documental', 'Cinematográfico', 'Corporativo'],
+    chips: ['Fotografía', 'Video', 'Cabina de fotos', '360', 'Dron', 'Same day edit'],
   },
   belleza: {
     question: '¿Qué servicios ofreces?',
-    chips: ['Maquillaje', 'Peinado', 'Novia', 'Cortejo', 'Prueba previa', 'A domicilio'],
+    chips: ['Maquillaje', 'Peinado', 'Uñas', 'Spa', 'Vestidos y trajes', 'Renta de vestuario'],
   },
   musica: {
     question: '¿Qué formatos manejas?',
-    chips: ['DJ', 'Banda en vivo', 'Audio e iluminación', 'Ceremonia', 'Karaoke', 'Pista de baile'],
+    chips: ['DJ', 'Grupo versátil', 'Banda', 'Mariachi', 'Solistas (sax, violín)', 'Hora loca'],
   },
   banquete: {
     question: '¿Qué tipo de menús preparas?',
-    chips: ['Menú de tres tiempos', 'Buffet', 'Taquiza', 'Canapés', 'Mesa de postres', 'Vegetariano'],
+    chips: ['Catering', 'Taquizas y parrilladas', 'Pastelería y postres', 'Mesa de dulces', 'Barra y bartender', 'Meseros'],
   },
   decoracion: {
     question: '¿Qué tipo de montajes haces?',
-    chips: ['Flores naturales', 'Globos', 'Mobiliario', 'Iluminación', 'Centros de mesa', 'Backdrops'],
+    chips: ['Floristería', 'Globos', 'Backdrops', 'Letras y números', 'Mantelería', 'Centros de mesa'],
   },
-  salones: {
+  lugares: {
     question: '¿Cómo es tu espacio?',
-    chips: ['Jardín', 'Salón cerrado', 'Terraza', 'Alberca', 'Estacionamiento', 'Aire acondicionado'],
+    chips: ['Salones', 'Jardines', 'Haciendas', 'Terrazas y roof gardens', 'Quintas', 'Casas de eventos'],
+  },
+  mobiliario: {
+    question: '¿Qué rentas o instalas?',
+    chips: ['Sillas y mesas', 'Carpas', 'Pistas de baile', 'Audio e iluminación técnica', 'Pantallas', 'Planta de luz'],
+  },
+  invitaciones: {
+    question: '¿Qué piezas produces?',
+    chips: ['Invitaciones digitales e impresas', 'Imprenta', 'Diseño gráfico', 'Señalética', 'Recuerdos y souvenirs', 'Personalizados'],
+  },
+  otros: {
+    question: '¿Qué servicio complementas?',
+    chips: ['Planeación y coordinación', 'Protocolo', 'Transporte y limusinas', 'Valet parking', 'Seguridad', 'Niñeras'],
   },
 }
 

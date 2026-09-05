@@ -1,6 +1,13 @@
 import Link from 'next/link'
 import ProviderCard from '@/components/provider-card'
-import { EVENT_TYPES, PRICE_RANGES, ZONAS_MTY, CATEGORY_SLUGS } from '@/lib/constants'
+import {
+  EVENT_TYPES,
+  PRICE_RANGES,
+  ZONAS_MTY,
+  CATEGORY_SLUGS,
+  getSubcategories,
+  sortByCategoryTree,
+} from '@/lib/constants'
 import { createStaticClient } from '@/lib/supabase/server'
 import { getPublicProviders } from '@/lib/public-providers'
 import Navbar from '@/components/landing/Navbar'
@@ -12,6 +19,7 @@ type CatalogParams = {
   zona?: string
   evento?: string
   precio?: string
+  sub?: string
 }
 
 export default async function ProviderCatalog({
@@ -28,25 +36,28 @@ export default async function ProviderCatalog({
 }) {
   const supabase = createStaticClient()
   const categoryFilter = lockedCategory ?? searchParams.categoria ?? searchParams.category
+  const subcategoryOptions = lockedCategory ? getSubcategories(lockedCategory) : []
   const [{ data: categories }, providers] = await Promise.all([
     supabase
       .from('categories')
       .select('id, name, slug')
-      .in('slug', CATEGORY_SLUGS as unknown as string[])
-      .order('name'),
+      .in('slug', CATEGORY_SLUGS as unknown as string[]),
     getPublicProviders({
       q: searchParams.q,
       category: categoryFilter,
+      subcategory: searchParams.sub,
       zona: searchParams.zona,
       evento: searchParams.evento,
       precio: searchParams.precio,
       limit: 90,
     }),
   ])
+  const sortedCategories = sortByCategoryTree(categories ?? [])
 
   const hasFilters = Boolean(
     searchParams.q ||
       (!lockedCategory && (searchParams.categoria || searchParams.category)) ||
+      searchParams.sub ||
       searchParams.zona ||
       searchParams.evento ||
       searchParams.precio
@@ -86,7 +97,15 @@ export default async function ProviderCatalog({
                   label="Categoría"
                   name="categoria"
                   value={searchParams.categoria ?? searchParams.category ?? ''}
-                  options={(categories ?? []).map((c) => ({ value: c.slug, label: c.name }))}
+                  options={sortedCategories.map((c) => ({ value: c.slug, label: c.name }))}
+                />
+              )}
+              {lockedCategory && subcategoryOptions.length > 0 && (
+                <Select
+                  label="Subcategoría"
+                  name="sub"
+                  value={searchParams.sub ?? ''}
+                  options={subcategoryOptions.map((label) => ({ value: label, label }))}
                 />
               )}
               <Select label="Zona" name="zona" value={searchParams.zona ?? ''} options={ZONAS_MTY.map((z) => ({ value: z, label: z }))} />

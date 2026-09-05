@@ -48,14 +48,133 @@ export const PRICE_RANGES = [
   { value: '$$$', label: '$$$ · Premium' },
 ] as const
 
+/** Madres indexables en `planneo.mx/{slug}`. El orden es el del árbol público. */
 export const CATEGORY_SLUGS = [
-  'fotografia',
-  'belleza',
-  'musica',
+  'lugares',
   'banquete',
+  'musica',
+  'foto-video',
   'decoracion',
-  'salones',
+  'mobiliario',
+  'belleza',
+  'invitaciones',
+  'otros',
 ] as const
+
+export type CategorySlug = (typeof CATEGORY_SLUGS)[number]
+
+export const CATEGORY_NAMES = {
+  lugares: 'Lugares y salones',
+  banquete: 'Banquete y bebidas',
+  musica: 'Música y entretenimiento',
+  'foto-video': 'Foto y video',
+  decoracion: 'Decoración y ambientación',
+  mobiliario: 'Mobiliario y equipo',
+  belleza: 'Belleza e imagen',
+  invitaciones: 'Invitaciones y detalles',
+  otros: 'Otros servicios',
+} as const satisfies Record<CategorySlug, string>
+
+/** Etiquetas de filtro dentro de cada madre. No son rutas. */
+export const CATEGORY_SUBCATEGORIES = {
+  lugares: [
+    'Salones',
+    'Jardines',
+    'Haciendas',
+    'Terrazas y roof gardens',
+    'Quintas',
+    'Casas de eventos',
+  ],
+  banquete: [
+    'Catering',
+    'Taquizas y parrilladas',
+    'Pastelería y postres',
+    'Mesa de dulces',
+    'Barra y bartender',
+    'Meseros',
+  ],
+  musica: [
+    'DJ',
+    'Grupo versátil',
+    'Banda',
+    'Mariachi',
+    'Solistas (sax, violín)',
+    'Shows',
+    'Hora loca',
+    'Animación infantil',
+    'Edecanes',
+  ],
+  'foto-video': [
+    'Fotografía',
+    'Video',
+    'Cabina de fotos',
+    '360',
+    'Dron',
+    'Same day edit',
+  ],
+  decoracion: [
+    'Floristería',
+    'Globos',
+    'Backdrops',
+    'Letras y números',
+    'Mantelería',
+    'Iluminación decorativa',
+    'Centros de mesa',
+  ],
+  mobiliario: [
+    'Sillas y mesas',
+    'Carpas',
+    'Pistas de baile',
+    'Audio e iluminación técnica',
+    'Pantallas',
+    'Planta de luz',
+    'Climatización',
+    'Sanitarios portátiles',
+    'Juegos e inflables',
+  ],
+  belleza: [
+    'Maquillaje',
+    'Peinado',
+    'Uñas',
+    'Spa',
+    'Vestidos y trajes',
+    'Renta de vestuario',
+  ],
+  invitaciones: [
+    'Invitaciones digitales e impresas',
+    'Imprenta',
+    'Diseño gráfico',
+    'Señalética',
+    'Recuerdos y souvenirs',
+    'Personalizados',
+  ],
+  otros: [
+    'Planeación y coordinación',
+    'Protocolo',
+    'Transporte y limusinas',
+    'Valet parking',
+    'Seguridad',
+    'Servicio médico',
+    'Niñeras',
+  ],
+} as const satisfies Record<CategorySlug, readonly string[]>
+
+export function isCategorySlug(value: string): value is CategorySlug {
+  return (CATEGORY_SLUGS as readonly string[]).includes(value)
+}
+
+export function getSubcategories(slug: string): readonly string[] {
+  return isCategorySlug(slug) ? CATEGORY_SUBCATEGORIES[slug] : []
+}
+
+export function isAllowedSubcategory(slug: string, subcategory: string): boolean {
+  return getSubcategories(slug).includes(subcategory)
+}
+
+export function sortByCategoryTree<T extends { slug: string }>(items: T[]): T[] {
+  const order = new Map<string, number>(CATEGORY_SLUGS.map((slug, index) => [slug, index]))
+  return [...items].sort((a, b) => (order.get(a.slug) ?? 99) - (order.get(b.slug) ?? 99))
+}
 
 /** Etiquetas para admin. Tipado exhaustivo: agregar un estado sin etiqueta no compila. */
 export const STATUS_LABELS: Record<ProviderStatus, string> = {
@@ -144,5 +263,5 @@ export const INQUIRY_STATUS_LABELS: Record<string, string> = {
   closed: 'Cerrada',
 }
 
-export const VENUE_CATEGORY_SLUG = 'salones'
+export const VENUE_CATEGORY_SLUG = 'lugares'
 export const CATERING_CATEGORY_SLUG = 'banquete'

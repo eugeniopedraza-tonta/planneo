@@ -14,12 +14,15 @@ const PRICE_LABEL: Record<string, string> = Object.fromEntries(
 const EVENT_LABEL: Record<string, string> = EVENT_TYPE_LABELS
 
 const CATEGORY_GRADIENT: Record<string, string> = {
-  fotografia: 'from-[#26133F] via-planneo-600 to-planneo-300',
-  belleza: 'from-[#3A1330] via-[#D8709B] to-[#F5C8D8]',
-  musica: 'from-[#130F2F] via-[#5E17EB] to-planneo-mint',
+  lugares: 'from-[#15203A] via-[#5E17EB] to-planneo-300',
   banquete: 'from-[#2A1B12] via-[#C98B5F] to-[#FFE1A8]',
+  musica: 'from-[#130F2F] via-[#5E17EB] to-planneo-mint',
+  'foto-video': 'from-[#26133F] via-planneo-600 to-planneo-300',
   decoracion: 'from-[#123025] via-[#6AA884] to-[#E1F0C4]',
-  salones: 'from-[#15203A] via-[#5E17EB] to-planneo-300',
+  mobiliario: 'from-[#2A2212] via-[#8B6B3D] to-[#E8D5A3]',
+  belleza: 'from-[#3A1330] via-[#D8709B] to-[#F5C8D8]',
+  invitaciones: 'from-[#2A1810] via-[#C45C26] to-[#F5C19A]',
+  otros: 'from-[#1A1528] via-[#4A3F6B] to-[#C4B8E0]',
 }
 
 export default function ProviderCard({ provider }: ProviderCardProps) {
@@ -43,7 +46,7 @@ export default function ProviderCard({ provider }: ProviderCardProps) {
             className="object-cover transition duration-700 group-hover:scale-105"
           />
         ) : (
-          <div className={`absolute inset-0 bg-gradient-to-br ${CATEGORY_GRADIENT[categorySlug] ?? CATEGORY_GRADIENT.fotografia}`}>
+          <div className={`absolute inset-0 bg-gradient-to-br ${CATEGORY_GRADIENT[categorySlug] ?? CATEGORY_GRADIENT['foto-video']}`}>
             <div className="absolute left-8 top-8 h-28 w-28 rounded-full border border-white/25 bg-white/10" />
             <div className="absolute bottom-6 right-6 h-24 w-16 rounded-t-full border border-white/20 bg-black/10" />
           </div>
@@ -63,7 +66,9 @@ export default function ProviderCard({ provider }: ProviderCardProps) {
         )}
 
         <div className="absolute inset-x-4 bottom-3">
-          <p className="v4-mono text-[10px] text-white/65">{provider.categories?.name ?? 'Proveedor'}</p>
+          <p className="v4-mono text-[10px] text-white/65">
+            {provider.subcategory ?? provider.categories?.name ?? 'Proveedor'}
+          </p>
         </div>
       </div>
 
