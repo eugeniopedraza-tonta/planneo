@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import type { CatalogDateAvailability } from '@/lib/public-providers'
 import type { ProviderWithCategory } from '@/lib/types'
 import { EVENT_TYPE_LABELS, PRICE_RANGES } from '@/lib/constants'
 
 interface ProviderCardProps {
   provider: ProviderWithCategory
+  dateAvailability?: CatalogDateAvailability
 }
 
 const PRICE_LABEL: Record<string, string> = Object.fromEntries(
@@ -25,7 +27,7 @@ const CATEGORY_GRADIENT: Record<string, string> = {
   otros: 'from-[#1A1528] via-[#4A3F6B] to-[#C4B8E0]',
 }
 
-export default function ProviderCard({ provider }: ProviderCardProps) {
+export default function ProviderCard({ provider, dateAvailability }: ProviderCardProps) {
   const photo = provider.photos?.[0] ?? null
   const categorySlug = provider.categories?.slug ?? '#'
   const href = `/${categorySlug}/${provider.slug}`
@@ -53,12 +55,26 @@ export default function ProviderCard({ provider }: ProviderCardProps) {
         )}
         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_40%,rgba(14,11,26,0.75))]" />
 
-        {provider.is_verified && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
-            <span className="size-1.5 rounded-full bg-planneo-mint" />
-            Verificado
-          </span>
-        )}
+        <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+          {provider.is_verified && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
+              <span className="size-1.5 rounded-full bg-planneo-mint" />
+              Verificado
+            </span>
+          )}
+          {dateAvailability === 'available' && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-planneo-mint/30 bg-planneo-mint/15 px-3 py-1 text-xs font-semibold text-planneo-mint backdrop-blur">
+              <span className="size-1.5 rounded-full bg-planneo-mint" />
+              Disponible
+            </span>
+          )}
+          {dateAvailability === 'unconfirmed' && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/30 bg-amber-300/15 px-3 py-1 text-xs font-semibold text-amber-200 backdrop-blur">
+              <span className="size-1.5 rounded-full bg-amber-300" />
+              Por confirmar
+            </span>
+          )}
+        </div>
         {provider.price_range && (
           <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
             {PRICE_LABEL[provider.price_range] ?? provider.price_range}

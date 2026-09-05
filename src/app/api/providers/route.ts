@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
     zona: params.get('zona') ?? undefined,
     evento: params.get('evento') ?? undefined,
     precio: params.get('precio') ?? undefined,
+    fecha: params.get('fecha') ?? undefined,
     limit: Number(params.get('limit') ?? 60),
   })
 

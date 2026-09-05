@@ -98,7 +98,7 @@ export default function Hero() {
         >
           <SearchField label="¿Qué buscas?" name="q" placeholder="Catering, DJ, salón..." />
           <SearchField label="Zona" name="zona" placeholder="San Pedro" />
-          <SearchField label="Fecha" name="fecha" placeholder="Junio 2026" />
+          <SearchField label="Fecha" name="fecha" type="date" />
           <SearchField label="Invitados" name="invitados" placeholder="120" />
           <button className="min-h-14 rounded-[18px] bg-planneo-600 px-7 font-semibold text-white transition hover:bg-planneo-500" type="submit">
             Buscar
@@ -122,18 +122,21 @@ function SearchField({
   label,
   name,
   placeholder,
+  type = "text",
 }: {
   label: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
+  type?: "text" | "date";
 }) {
   return (
     <label className="flex min-h-14 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
       <span className="v4-mono text-[10px] text-planneo-300">{label}</span>
       <input
+        type={type}
         name={name}
         placeholder={placeholder}
-        className="mt-1 w-full bg-transparent text-base text-white outline-none placeholder:text-white/35"
+        className="mt-1 w-full bg-transparent text-base text-white outline-none [color-scheme:dark] placeholder:text-white/35"
       />
     </label>
   );

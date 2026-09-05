@@ -18,6 +18,7 @@ interface PageProps {
     evento?: string
     precio?: string
     sub?: string
+    fecha?: string
   }>
 }
 

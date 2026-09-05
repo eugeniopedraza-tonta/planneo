@@ -8,6 +8,7 @@ type PageProps = {
     zona?: string
     evento?: string
     precio?: string
+    fecha?: string
   }>
 }
 
