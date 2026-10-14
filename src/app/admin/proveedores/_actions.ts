@@ -222,8 +222,8 @@ export async function toggleProviderStatus(id: string, currentStatus: string) {
 }
 
 /**
- * El perfil público se sirve con ISR (`revalidate = 3600`), así que sin esto un
- * perfil pausado seguiría visible hasta una hora después.
+ * El perfil público es dinámico, pero el catálogo y el sitemap pueden quedar
+ * cacheados; se revalidan para que un perfil pausado desaparezca de inmediato.
  */
 async function revalidateProviderPublicPage(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -240,7 +240,7 @@ async function revalidateProviderPublicPage(
   if (data?.slug && categorySlug) {
     revalidatePath(`/${categorySlug}/${data.slug}`)
   }
-  revalidatePath('/proveedores')
+  revalidatePath('/catalogo')
   revalidatePath('/sitemap.xml')
 }
 

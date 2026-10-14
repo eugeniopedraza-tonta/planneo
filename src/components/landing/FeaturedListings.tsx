@@ -44,7 +44,9 @@ export default async function FeaturedListings() {
 
         <div className="grid gap-5 md:grid-cols-3">
           {providers.map((provider, index) => {
-            const categorySlug = provider.categories?.slug ?? "proveedores";
+            const categorySlug = provider.categories?.slug;
+            // Sin categoría no hay URL pública de perfil; no se destaca.
+            if (!categorySlug) return null;
             return (
               <article key={provider.id} className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04]">
                 <div className={`relative h-72 overflow-hidden bg-gradient-to-br ${palettes[index % palettes.length]}`}>

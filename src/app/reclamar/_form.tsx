@@ -54,7 +54,7 @@ export default function ClaimInviteForm() {
           spellCheck={false}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="planneo.mx/reclamar/…"
+          placeholder="planneo.com.mx/reclamar/…"
           aria-invalid={error ? true : undefined}
           aria-describedby="invitation-msg"
           className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300"
