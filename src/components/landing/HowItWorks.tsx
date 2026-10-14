@@ -52,7 +52,7 @@ function EventPlanner() {
           </div>
 
           <Link
-            href="/proveedores"
+            href="/catalogo"
             className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-[14px] bg-planneo-600 px-8 font-semibold text-white transition hover:bg-planneo-500"
           >
             Empezar mi evento

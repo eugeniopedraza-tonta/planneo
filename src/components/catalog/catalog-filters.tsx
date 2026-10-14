@@ -56,7 +56,7 @@ export default function CatalogFilters({
   eventos,
   precios,
 }: {
-  /** Ruta a la que se aplican los filtros (`/{categoria}`, `/buscar`, `/proveedores`). */
+  /** Ruta a la que se aplican los filtros (`/{categoria}`, `/buscar`, `/catalogo`). */
   action: string
   /** Categoría vigente (de la ruta o de `?categoria=`); acota el conteo. */
   categorySlug?: string

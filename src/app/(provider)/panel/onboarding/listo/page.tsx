@@ -29,7 +29,7 @@ export default async function ListoPage() {
 
   const isPublished = provider.status === 'published'
   const categorySlug = (provider.categories as unknown as { slug: string } | null)?.slug
-  const publicUrl = categorySlug ? `/${categorySlug}/${provider.slug}` : '/proveedores'
+  const publicUrl = categorySlug ? `/${categorySlug}/${provider.slug}` : '/catalogo'
 
   return (
     <div className="max-w-xl p-6 sm:p-8">

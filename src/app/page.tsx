@@ -7,7 +7,6 @@ import FeaturedListings from "@/components/landing/FeaturedListings";
 import WhyPlanneo from "@/components/landing/WhyPlanneo";
 import Testimonials from "@/components/landing/Testimonials";
 import CTABanner from "@/components/landing/CTABanner";
-import GuidesSection from "@/components/landing/GuidesSection";
 import Footer from "@/components/landing/Footer";
 import PageEvent from "@/components/analytics/page-event";
 import { pageMetadata } from "@/lib/seo";
@@ -33,7 +32,7 @@ export default function HomePage() {
         <WhyPlanneo />
         <CTABanner />
         <Testimonials />
-        <GuidesSection />
+        {/* Diario: guías sin enlace todavía. Vuelve cuando exista /diario (PLA-21). */}
       </main>
       <Footer />
     </>

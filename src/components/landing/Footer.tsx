@@ -6,7 +6,7 @@ const FOOTER_LINKS = {
   Explora: [
     { label: "Categorías", href: "/#categorias" },
     { label: "Buscar proveedores", href: "/buscar" },
-    { label: "Catálogo", href: "/proveedores" },
+    { label: "Catálogo", href: "/catalogo" },
     ...(isEventPlannerEnabled() ? [{ label: "Crear evento", href: "/#crear-evento" }] : []),
   ],
   Planneo: [
@@ -64,7 +64,6 @@ export default function Footer() {
 
       <div className="mx-auto mt-12 flex max-w-7xl flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
         <p>© 2026 Planneo · Hecho en Monterrey</p>
-        <p>V4 híbrida · MVP</p>
       </div>
     </footer>
   );

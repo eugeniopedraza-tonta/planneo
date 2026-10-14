@@ -16,7 +16,7 @@ type NavUser = {
 
 // "Diario" vuelve cuando exista /diario. "Crear evento" es Fase 2 (flag).
 const NAV_LINKS = [
-  { label: "Catálogo", href: "/proveedores" },
+  { label: "Catálogo", href: "/catalogo" },
   ...(isEventPlannerEnabled() ? [{ label: "Crear evento", href: "/#crear-evento" }] : []),
   { label: "Para proveedores", href: "/para-proveedores" },
 ];

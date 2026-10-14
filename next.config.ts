@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
       { source: '/fotografia/:slug', destination: '/foto-video/:slug', statusCode: 301 },
       { source: '/salones', destination: '/lugares', statusCode: 301 },
       { source: '/salones/:slug', destination: '/lugares/:slug', statusCode: 301 },
+      // El catálogo del organizador vive en /catalogo; /proveedores confundía
+      // con la landing de captación (/para-proveedores). PLA-24.
+      { source: '/proveedores', destination: '/catalogo', statusCode: 301 },
     ]
   },
   images: {

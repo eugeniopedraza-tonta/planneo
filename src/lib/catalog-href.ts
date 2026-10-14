@@ -8,7 +8,7 @@ export type CatalogQuery = {
 }
 
 export function catalogAllPath(action: string) {
-  return action === '/buscar' ? '/buscar' : '/proveedores'
+  return action === '/buscar' ? '/buscar' : '/catalogo'
 }
 
 export function withCatalogQuery(

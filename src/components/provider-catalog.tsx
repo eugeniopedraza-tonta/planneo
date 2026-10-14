@@ -44,7 +44,7 @@ type CatalogParams = {
 
 export default async function ProviderCatalog({
   searchParams,
-  action = '/proveedores',
+  action = '/catalogo',
   lockedCategory,
   title = 'Tu evento empieza aqui',
   description,

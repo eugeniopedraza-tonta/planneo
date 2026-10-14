@@ -48,7 +48,7 @@ export async function approveProvider(providerId: string, userId: string): Promi
  */
 function revalidatePublicProfile(categorySlug?: string, slug?: string | null) {
   if (categorySlug && slug) revalidatePath(`/${categorySlug}/${slug}`)
-  revalidatePath('/proveedores')
+  revalidatePath('/catalogo')
   revalidatePath('/sitemap.xml')
 }
 

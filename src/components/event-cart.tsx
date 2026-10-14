@@ -125,7 +125,7 @@ export default function EventCart() {
                     Agrega paquetes de foto, música, salón o catering desde los perfiles y arma tu plan aquí.
                   </p>
                   <Link
-                    href="/proveedores"
+                    href="/catalogo"
                     onClick={() => setOpen(false)}
                     className="mt-6 inline-flex min-h-12 items-center justify-center rounded-[14px] bg-planneo-600 px-6 text-sm font-semibold text-white transition hover:bg-planneo-500"
                   >
@@ -184,7 +184,7 @@ export default function EventCart() {
                   </div>
                 )}
                 <Link
-                  href="/proveedores"
+                  href="/catalogo"
                   onClick={() => setOpen(false)}
                   className="inline-flex min-h-12 w-full items-center justify-center rounded-[14px] bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
                 >

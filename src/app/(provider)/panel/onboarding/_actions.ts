@@ -217,6 +217,6 @@ export async function resumeProviderProfile(): Promise<State> {
 /** El perfil público usa ISR; sin esto tardaría hasta una hora en reflejarse. */
 function revalidatePublicPages(categorySlug?: string, slug?: string) {
   if (categorySlug && slug) revalidatePath(`/${categorySlug}/${slug}`)
-  revalidatePath('/proveedores')
+  revalidatePath('/catalogo')
   revalidatePath('/sitemap.xml')
 }

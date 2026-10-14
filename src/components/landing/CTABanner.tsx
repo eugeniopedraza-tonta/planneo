@@ -19,7 +19,7 @@ export default function CTABanner() {
             <Link href="/para-proveedores" className="inline-flex min-h-14 items-center justify-center rounded-[14px] bg-white px-8 font-semibold text-planneo-700 transition hover:bg-white/90">
               Crear mi perfil gratis
             </Link>
-            <Link href="/proveedores" className="inline-flex min-h-14 items-center justify-center rounded-[14px] border border-white/25 bg-white/10 px-8 font-semibold text-white backdrop-blur transition hover:bg-white/15">
+            <Link href="/catalogo" className="inline-flex min-h-14 items-center justify-center rounded-[14px] border border-white/25 bg-white/10 px-8 font-semibold text-white backdrop-blur transition hover:bg-white/15">
               Ver catálogo
             </Link>
           </div>

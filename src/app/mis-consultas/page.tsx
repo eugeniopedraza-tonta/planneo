@@ -53,7 +53,7 @@ export default async function MisConsultasPage() {
               Aún no has enviado consultas. Explora el catálogo y pide cotización al proveedor que te interese.
             </p>
             <Link
-              href="/proveedores"
+              href="/catalogo"
               className="inline-block rounded-xl bg-planneo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors"
             >
               Buscar proveedores

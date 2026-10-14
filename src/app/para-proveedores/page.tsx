@@ -5,7 +5,7 @@ import { pageMetadata } from '@/lib/seo'
 export const metadata: Metadata = pageMetadata({
   title: 'Para proveedores de eventos',
   description:
-    'Crea tu perfil profesional en Planneo y recibe solicitudes de cotización de quienes organizan bodas, XV años y eventos en Monterrey.',
+    'Crea tu perfil profesional en Planneo : quienes organizan bodas, XV años y eventos en Monterrey te escriben directo a tu WhatsApp.',
   path: '/para-proveedores',
 })
 
@@ -102,7 +102,7 @@ export default function ParaProveedoresPage() {
 
         <p className="mt-10 text-center text-sm text-white/45">
           ¿Organizas un evento?{' '}
-          <Link href="/proveedores" className="text-planneo-300 transition-colors hover:text-white">
+          <Link href="/catalogo" className="text-planneo-300 transition-colors hover:text-white">
             Explora el catálogo
           </Link>
         </p>

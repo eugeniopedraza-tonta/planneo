@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createStaticClient } from "@/lib/supabase/server";
 import type { ProviderWithCategory } from "@/lib/types";
+import { formatPriceRange } from "@/lib/format";
 
 const palettes = [
   "from-[#26133F] via-planneo-600 to-planneo-300",
@@ -36,7 +37,7 @@ export default async function FeaturedListings() {
               Proveedores <span className="v4-shimmer-text">destacados.</span>
             </h2>
           </div>
-          <Link href="/proveedores" className="inline-flex min-h-11 items-center text-sm font-semibold text-planneo-300 transition hover:text-white">
+          <Link href="/catalogo" className="inline-flex min-h-11 items-center text-sm font-semibold text-planneo-300 transition hover:text-white">
             Ver todos →
           </Link>
         </div>
@@ -67,7 +68,7 @@ export default async function FeaturedListings() {
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-3 text-sm text-white/60">
                     <span>{provider.zona ?? "Monterrey"}</span>
-                    {provider.price_range && <span>{provider.price_range}</span>}
+                    {provider.price_range && <span>{formatPriceRange(provider.price_range)}</span>}
                   </div>
                   {provider.event_types?.length ? (
                     <div className="mt-4 flex flex-wrap gap-2">

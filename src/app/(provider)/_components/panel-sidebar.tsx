@@ -136,7 +136,7 @@ export default function PanelSidebar({ provider }: Props) {
 
       <div className="p-3 border-t border-white/10 flex flex-col gap-1">
         <Link
-          href="/proveedores"
+          href="/catalogo"
           target="_blank"
           className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/55 hover:bg-white/15 hover:text-white/85 transition-colors"
         >
