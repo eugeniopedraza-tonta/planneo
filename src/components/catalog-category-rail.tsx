@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import CategoryIcon from '@/components/category-icon'
+import ScrollEdgeFades from '@/components/catalog/scroll-edge-fades'
+import { useScrollEdges } from '@/components/catalog/use-scroll-edges'
 
 export type CatalogCategoryRailItem = {
   slug: string
@@ -17,6 +19,8 @@ export default function CatalogCategoryRail({
   items: CatalogCategoryRailItem[]
 }) {
   const selectedRef = useRef<HTMLAnchorElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+  const edges = useScrollEdges(listRef)
 
   useEffect(() => {
     const node = selectedRef.current
@@ -30,10 +34,9 @@ export default function CatalogCategoryRail({
   }, [])
 
   return (
-    <nav aria-label="Categorías de servicio" className="relative">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-planneo-900 to-transparent md:hidden" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-planneo-900 to-transparent md:hidden" />
-      <ul className="-mx-4 flex snap-x gap-1.5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:justify-center md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
+    <nav aria-label="Categorías de servicio" className="relative -mx-4 sm:-mx-6 md:mx-0">
+      <ScrollEdgeFades start={edges.start} end={edges.end} fromClass="from-planneo-900" />
+      <ul ref={listRef} className="flex snap-x gap-1.5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:px-6 md:flex-wrap md:justify-center md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden">
         {items.map((item) => (
           <li key={item.slug} className="snap-start">
             <Link

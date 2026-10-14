@@ -1,4 +1,4 @@
-import { PRICE_UNITS } from '@/lib/constants'
+import { PRICE_RANGES, PRICE_UNITS } from '@/lib/constants'
 import type { ServicePackage } from '@/lib/types'
 
 /** YYYY-MM-DD en hora LOCAL (toISOString daría el día UTC, que en MX se
@@ -14,4 +14,13 @@ export function formatPackagePrice(pkg: Pick<ServicePackage, 'price_from' | 'pri
   if (pkg.price_from && pkg.price_to) return `${fmt(pkg.price_from)} – ${fmt(pkg.price_to)} ${unit}`.trim()
   if (pkg.price_from) return `Desde ${fmt(pkg.price_from)} ${unit}`.trim()
   return 'Precio a consultar'
+}
+
+const PRICE_RANGE_LABELS: Record<string, string> = Object.fromEntries(
+  PRICE_RANGES.map(({ value, label }) => [value, label])
+)
+
+/** "$$" → "$$ · Intermedio". Misma etiqueta que el filtro de precio del catálogo. */
+export function formatPriceRange(value: string): string {
+  return PRICE_RANGE_LABELS[value] ?? value
 }
