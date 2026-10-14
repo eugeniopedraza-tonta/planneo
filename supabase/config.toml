@@ -250,8 +250,9 @@ otp_expiry = 600
 subject = "Tu código de verificación de Planneo"
 content_path = "./supabase/templates/confirmation.html"
 
+# Solo hay acceso por código (PLA-6); si Supabase manda "recovery", es el mismo código.
 [auth.email.template.recovery]
-subject = "Recupera tu contraseña de Planneo"
+subject = "Tu código de acceso a Planneo"
 content_path = "./supabase/templates/recovery.html"
 
 # signInWithOtp usa "Confirm signup" si el usuario es nuevo y "Magic Link" si ya
