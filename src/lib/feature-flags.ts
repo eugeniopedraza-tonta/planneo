@@ -41,3 +41,12 @@ export function isWhatsappWallEnabled(): boolean {
 export function isReviewsEnabled(): boolean {
   return isOn(process.env.NEXT_PUBLIC_FEATURE_REVIEWS)
 }
+
+/**
+ * Asistente "Crear mi evento" (tipo de evento → detalles → servicios) y sus
+ * enlaces en home, nav y footer. Fase 2: en el MVP el flujo es buscar →
+ * perfil → WhatsApp. Reactivar con NEXT_PUBLIC_FEATURE_EVENT_PLANNER=on.
+ */
+export function isEventPlannerEnabled(): boolean {
+  return isOn(process.env.NEXT_PUBLIC_FEATURE_EVENT_PLANNER)
+}

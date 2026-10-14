@@ -1,46 +1,40 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { useReducedMotion } from "framer-motion";
 import Spotlight from "@/components/ui/spotlight";
+import { createStaticClient } from "@/lib/supabase/server";
+import { ZONAS_MTY } from "@/lib/constants";
+import { isEventPlannerEnabled } from "@/lib/feature-flags";
+import HeroSearchForm from "./HeroSearchForm";
 
-const phrases = [
-  { word: "evento perfecto", font: '"Fraunces", Georgia, serif', italic: true, weight: 400 },
-  { word: "boda soñada", font: '"Space Grotesk", sans-serif', italic: false, weight: 700 },
-  { word: "XV inolvidables", font: '"Montserrat", sans-serif', italic: false, weight: 800 },
-  { word: "fiestón épico", font: '"Fraunces", Georgia, serif', italic: true, weight: 500 },
-  { word: "celebración única", font: '"Inter", sans-serif', italic: false, weight: 700 },
+// Valores que entiende /buscar (`evento` = EVENT_TYPES.value en constants).
+const HERO_EVENT_TYPES = [
+  { value: "bodas", label: "Boda" },
+  { value: "xv", label: "XV años" },
+  { value: "corporativo", label: "Corporativo" },
+  { value: "graduacion", label: "Graduación" },
+  { value: "otro", label: "Otro" },
 ];
 
-const trust = [
-  "Sin login para cotizar",
-  "Contacto directo",
-  "Curado para MTY",
-  "Proveedores verificados",
-];
+/** Cuántos proveedores están publicados. Si falla la consulta, 0: mejor ocultar el sello. */
+async function getPublishedProviderCount() {
+  const supabase = createStaticClient();
+  const { count, error } = await supabase
+    .from("providers")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "published");
+  if (error) return 0;
+  return count ?? 0;
+}
 
-export default function Hero() {
-  const reduced = useReducedMotion();
-  const [phraseIdx, setPhraseIdx] = useState(0);
-  const current = phrases[phraseIdx];
+export default async function Hero() {
+  const publishedCount = await getPublishedProviderCount();
 
-  useEffect(() => {
-    if (reduced) return;
-    const timer = window.setInterval(() => {
-      setPhraseIdx((idx) => (idx + 1) % phrases.length);
-    }, 2800);
-    return () => window.clearInterval(timer);
-  }, [reduced]);
-
-  const wordStyle = useMemo(
-    () => ({
-      fontFamily: current.font,
-      fontStyle: current.italic ? "italic" : "normal",
-      fontWeight: current.weight,
-    }),
-    [current]
-  );
+  // "Proveedores verificados" solo es cierto cuando ya hay publicados.
+  const trust = [
+    "Sin login para cotizar",
+    "Contacto directo por WhatsApp",
+    "Curado para MTY",
+    ...(publishedCount > 0 ? ["Proveedores verificados"] : []),
+  ];
 
   return (
     <Spotlight className="relative min-h-[760px] overflow-hidden bg-planneo-950 pt-16 text-planneo-ink lg:min-h-[820px]">
@@ -53,57 +47,57 @@ export default function Hero() {
 
       <div className="relative mx-auto flex min-h-[calc(760px-4rem)] max-w-7xl flex-col items-center justify-center px-4 py-10 text-center sm:px-6 lg:min-h-[calc(820px-4rem)] lg:px-8 lg:py-16">
         <div className="v4-glass v4-rise mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/80 [animation:v4-rise_.9s_cubic-bezier(.2,.8,.2,1)_both] lg:mb-8">
-          <span className="size-2 rounded-full bg-planneo-mint [animation:v4-pulse_1.8s_ease-in-out_infinite]" />
-          En vivo · cotizando ahora en MTY
+          <span className="size-2 rounded-full bg-planneo-mint" />
+          Arrancando en Monterrey · 2026
         </div>
 
-        <h1 className="v4-display mx-auto flex max-w-6xl flex-col items-center gap-1 text-[clamp(2.55rem,10.5vw,7.7rem)] font-bold leading-[0.9] tracking-[-0.045em] sm:gap-2">
-          <span className="block text-white">Tu</span>
-          <span
-            key={phraseIdx}
-            style={wordStyle}
-            className="block min-h-[0.95em] bg-[linear-gradient(120deg,#F5F0FF_0%,#C77DFF_48%,#06D6A0_100%)] bg-[length:200%_auto] bg-clip-text text-transparent drop-shadow-[0_0_24px_rgba(199,125,255,0.35)] [animation:v4-morph_2.8s_cubic-bezier(.2,.8,.2,1)_both]"
-          >
-            {current.word}
-          </span>
-          <span className="block text-white">
-            empieza <span className="v4-serif font-normal">aquí.</span>
+        <h1 className="v4-display mx-auto max-w-5xl text-[clamp(2.25rem,8vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.045em] text-white">
+          Encuentra proveedores verificados para tu evento en{" "}
+          <span className="bg-[linear-gradient(120deg,#F5F0FF_0%,#C77DFF_48%,#06D6A0_100%)] bg-clip-text text-transparent">
+            Monterrey.
           </span>
         </h1>
 
         <p className="mt-6 max-w-2xl text-[16px] leading-7 text-white/65 sm:text-[19px] lg:mt-8 lg:leading-8">
-          Encuentra salones, música, catering, foto, decoración y más proveedores para eventos sociales en Monterrey. Cotiza sin vueltas y cierra por celular.
+          Salones, música, banquete, foto, decoración y más para eventos sociales en Monterrey. Revisa su perfil y escríbeles directo por WhatsApp.
         </p>
 
-        <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:mt-9">
-          <Link
-            href="/proveedores"
-            className="v4-cta-glow inline-flex min-h-14 items-center justify-center rounded-[14px] bg-planneo-600 px-8 text-base font-semibold text-white transition hover:bg-planneo-500"
-          >
-            Crear mi evento
-          </Link>
-          <Link
-            href="/proveedores"
-            className="v4-glass inline-flex min-h-14 items-center justify-center rounded-[14px] px-8 text-base font-semibold text-white transition hover:bg-white/10"
-          >
-            Buscar proveedores
-          </Link>
-        </div>
-
-        <form
-          action="/buscar"
-          method="get"
-          role="search"
-          className="v4-glass mt-10 hidden w-full max-w-5xl grid-cols-1 gap-2 rounded-[28px] p-2 text-left shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] sm:grid sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_.8fr_auto]"
+        <HeroSearchForm
+          className="v4-glass mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 rounded-[28px] p-2 text-left shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] lg:mt-10 lg:grid-cols-[1.6fr_1fr_1fr_auto]"
         >
-          <SearchField label="¿Qué buscas?" name="q" placeholder="Catering, DJ, salón..." />
-          <SearchField label="Zona" name="zona" placeholder="San Pedro" />
-          <SearchField label="Fecha" name="fecha" type="date" />
-          <SearchField label="Invitados" name="invitados" placeholder="120" />
+          <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
+            <label htmlFor="hero-q" className="v4-mono text-[10px] text-planneo-300">
+              ¿Qué buscas?
+            </label>
+            <input
+              id="hero-q"
+              type="search"
+              name="q"
+              placeholder="¿Qué buscas? Ej: fotógrafo de bodas"
+              className="mt-1 w-full min-w-0 bg-transparent text-base text-white outline-none placeholder:text-white/35"
+            />
+          </div>
+          <HeroSelect id="hero-evento" name="evento" label="Tipo de evento" placeholder="Cualquier evento" options={HERO_EVENT_TYPES} />
+          <HeroSelect
+            id="hero-zona"
+            name="zona"
+            label="Zona"
+            placeholder="Toda el área"
+            options={ZONAS_MTY.map((z) => ({ value: z, label: z }))}
+          />
           <button className="min-h-14 rounded-[18px] bg-planneo-600 px-7 font-semibold text-white transition hover:bg-planneo-500" type="submit">
             Buscar
           </button>
-        </form>
+        </HeroSearchForm>
+
+        {isEventPlannerEnabled() && (
+          <Link
+            href="/#crear-evento"
+            className="v4-glass mt-5 inline-flex min-h-14 items-center justify-center rounded-[14px] px-8 text-base font-semibold text-white transition hover:bg-white/10"
+          >
+            Crear mi evento
+          </Link>
+        )}
 
         <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm text-white/55">
           {trust.map((item) => (
@@ -118,27 +112,40 @@ export default function Hero() {
   );
 }
 
-function SearchField({
-  label,
+function HeroSelect({
+  id,
   name,
+  label,
   placeholder,
-  type = "text",
+  options,
 }: {
-  label: string;
+  id: string;
   name: string;
-  placeholder?: string;
-  type?: "text" | "date";
+  label: string;
+  placeholder: string;
+  options: { value: string; label: string }[];
 }) {
   return (
-    <label className="flex min-h-14 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
-      <span className="v4-mono text-[10px] text-planneo-300">{label}</span>
-      <input
-        type={type}
+    <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
+      <label htmlFor={id} className="v4-mono text-[10px] text-planneo-300">
+        {label}
+      </label>
+      <select
+        id={id}
         name={name}
-        placeholder={placeholder}
-        className="mt-1 w-full bg-transparent text-base text-white outline-none [color-scheme:dark] placeholder:text-white/35"
-      />
-    </label>
+        defaultValue=""
+        className="mt-1 w-full min-w-0 cursor-pointer bg-transparent text-base text-white outline-none [color-scheme:dark]"
+      >
+        <option value="" className="bg-planneo-950">
+          {placeholder}
+        </option>
+        {options.map((o) => (
+          <option key={o.value} value={o.value} className="bg-planneo-950">
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
