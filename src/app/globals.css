@@ -6,6 +6,10 @@
 
 @theme inline {
   /* Paleta Planneo — morado de marca + mint (dinero/disponibilidad) + oro (destacado/rating) */
+  /* Regla de contraste (PLA-25): los morados oscuros (600/700, primary, #7B2CBF, #4A148C, #5E17EB)
+     son SOLO relleno (bg) — blanco sobre #7B2CBF = 7.11:1. Como texto/ícono sobre el fondo oscuro
+     #0E0B1A fallan AA (#7B2CBF = 2.73:1). Para texto, íconos y links sobre oscuro usa
+     planneo-300 / --purple-electric (#C77DFF = 7.22:1). Sobre fondos claros sí pueden ser texto. */
   --color-planneo-950: #0E0B1A; /* fondo */
   --color-planneo-900: #15101F; /* superficie */
   --color-planneo-850: #1B1428; /* superficie elevada */
@@ -68,7 +72,7 @@
 :root {
   --purple-primary: #7B2CBF;
   --purple-dark: #4A148C;
-  --purple-electric: #C77DFF;
+  --purple-electric: #C77DFF; /* texto/íconos/links morados sobre oscuro (7.22:1 sobre #0E0B1A) */
   --green-accent: #06D6A0;
   --whatsapp: #25D366;
   --whatsapp-ink: #0B141A;
@@ -87,6 +91,7 @@
   --card-foreground: #F5F0FF;
   --popover: #1B1428;
   --popover-foreground: #F5F0FF;
+  /* Solo relleno: nunca text-primary sobre fondo oscuro (2.73:1). Texto/links → --purple-electric. */
   --primary: #7B2CBF;
   --primary-foreground: #FFFFFF;
   --secondary: rgba(245, 240, 255, 0.08);
