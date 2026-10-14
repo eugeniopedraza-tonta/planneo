@@ -54,7 +54,7 @@ export default async function ProvidersPage({
         <select
           name="status"
           defaultValue={params.status ?? ''}
-          className="h-9 rounded-lg border border-input bg-planneo-900 px-3 text-sm text-white/75 focus-visible:ring-2 focus-visible:ring-planneo-300"
+          className="h-9 rounded-sm border border-input bg-planneo-900 px-3 text-sm text-white/75 focus-visible:ring-2 focus-visible:ring-planneo-300"
         >
           <option value="">Todos los estados</option>
           {Object.entries(STATUS_LABELS).map(([value, label]) => (
@@ -65,7 +65,7 @@ export default async function ProvidersPage({
         <select
           name="category"
           defaultValue={params.category ?? ''}
-          className="h-9 rounded-lg border border-input bg-planneo-900 px-3 text-sm text-white/75 focus-visible:ring-2 focus-visible:ring-planneo-300"
+          className="h-9 rounded-sm border border-input bg-planneo-900 px-3 text-sm text-white/75 focus-visible:ring-2 focus-visible:ring-planneo-300"
         >
           <option value="">Todas las categorías</option>
           {sortByCategoryTree(categories ?? []).map((c) => (
@@ -80,7 +80,7 @@ export default async function ProvidersPage({
       </form>
 
       {/* Table */}
-      <div className="bg-planneo-900 rounded-xl border border-white/10 overflow-hidden">
+      <div className="bg-planneo-900 rounded-md border border-white/10 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-white/[0.04] border-b border-white/10">
             <tr>

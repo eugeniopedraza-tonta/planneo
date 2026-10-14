@@ -63,7 +63,7 @@ export default function EventCart() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="relative inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-4 text-sm font-semibold text-white transition hover:bg-white/[0.12]"
+        className="relative inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-white/15 bg-white/[0.06] px-4 text-sm font-semibold text-white transition hover:bg-white/[0.12]"
         aria-label={`Mi evento, ${count} servicio${count === 1 ? '' : 's'} agregado${count === 1 ? '' : 's'}`}
       >
         <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -95,7 +95,7 @@ export default function EventCart() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="min-h-11 min-w-11 cursor-pointer rounded-xl p-2 text-white/70 transition hover:bg-white/10 hover:text-white"
+                className="min-h-11 min-w-11 cursor-pointer rounded-md p-2 text-white/70 transition hover:bg-white/10 hover:text-white"
                 aria-label="Cerrar mi evento"
               >
                 <svg className="mx-auto size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -106,7 +106,7 @@ export default function EventCart() {
 
             <div className="min-h-0 flex-1 overflow-y-auto p-5">
               {cart.event && (
-                <div className="mb-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm">
+                <div className="mb-5 rounded-lg border border-white/10 bg-white/[0.04] p-4 text-sm">
                   <p className="font-semibold text-white">
                     {EVENT_LABEL[cart.event.eventType] ?? cart.event.eventType}
                   </p>
@@ -119,7 +119,7 @@ export default function EventCart() {
               )}
 
               {count === 0 ? (
-                <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-14 text-center">
+                <div className="rounded-lg border border-dashed border-white/15 bg-white/[0.03] px-6 py-14 text-center">
                   <p className="v4-display text-xl font-bold tracking-[-0.04em]">Tu evento está vacío.</p>
                   <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-white/55">
                     Agrega paquetes de foto, música, salón o catering desde los perfiles y arma tu plan aquí.
@@ -127,7 +127,7 @@ export default function EventCart() {
                   <Link
                     href="/catalogo"
                     onClick={() => setOpen(false)}
-                    className="mt-6 inline-flex min-h-12 items-center justify-center rounded-[14px] bg-planneo-600 px-6 text-sm font-semibold text-white transition hover:bg-planneo-500"
+                    className="mt-6 inline-flex min-h-12 items-center justify-center rounded-md bg-planneo-600 px-6 text-sm font-semibold text-white transition hover:bg-planneo-500"
                   >
                     Explorar proveedores
                   </Link>
@@ -135,7 +135,7 @@ export default function EventCart() {
               ) : (
                 <ul className="space-y-3">
                   {cart.items.map((item) => (
-                    <li key={item.packageId} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                    <li key={item.packageId} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <Link
@@ -157,7 +157,7 @@ export default function EventCart() {
                         <button
                           type="button"
                           onClick={() => removeCartItem(item.packageId)}
-                          className="min-h-11 min-w-11 shrink-0 cursor-pointer rounded-xl p-2 text-white/45 transition hover:bg-white/10 hover:text-white"
+                          className="min-h-11 min-w-11 shrink-0 cursor-pointer rounded-md p-2 text-white/45 transition hover:bg-white/10 hover:text-white"
                           aria-label={`Quitar ${item.packageName} de mi evento`}
                         >
                           <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -186,7 +186,7 @@ export default function EventCart() {
                 <Link
                   href="/catalogo"
                   onClick={() => setOpen(false)}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-[14px] bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
                 >
                   Agregar más servicios
                 </Link>

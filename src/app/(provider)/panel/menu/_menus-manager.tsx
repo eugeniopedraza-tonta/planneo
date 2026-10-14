@@ -28,7 +28,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
   return (
     <div className="flex flex-col gap-4">
       {menus.length === 0 && !creating && (
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
           <div className="mb-3 flex justify-center text-planneo-300"><UtensilsIcon className="size-8" /></div>
           <p className="text-sm text-white/55">
             Aún no tienes menús. Un menú detallado ayuda al cliente a imaginar su evento.
@@ -38,7 +38,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
 
       {menus.map((menu) =>
         editingId === menu.id ? (
-          <div key={menu.id} className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
+          <div key={menu.id} className="bg-planneo-900 rounded-lg border border-planneo-300/40 p-5">
             <MenuForm
               menu={menu}
               onDone={() => {
@@ -49,7 +49,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
             />
           </div>
         ) : (
-          <div key={menu.id} className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
+          <div key={menu.id} className="bg-planneo-900 rounded-lg border border-white/10 p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -91,7 +91,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
       )}
 
       {creating ? (
-        <div className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
+        <div className="bg-planneo-900 rounded-lg border border-planneo-300/40 p-5">
           <MenuForm
             onDone={() => {
               setCreating(false)
@@ -104,7 +104,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
         <button
           type="button"
           onClick={() => { setEditingId(null); setCreating(true) }}
-          className="rounded-2xl border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/55 hover:text-planneo-300 transition-colors p-4 text-sm font-medium"
+          className="rounded-lg border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/55 hover:text-planneo-300 transition-colors p-4 text-sm font-medium"
         >
           + Nuevo menú
         </button>
@@ -165,7 +165,7 @@ function MenuForm({
       </h2>
 
       {state.error && (
-        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-sm px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}

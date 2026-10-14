@@ -25,12 +25,12 @@ export default function VerifyForm() {
   return (
     <form action={formAction} className="mt-5 flex flex-col gap-4">
       {state.error && (
-        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div role="alert" className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
       {state.notice && !state.error && !state.codeError && (
-        <div className="rounded-xl border border-planneo-mint/30 bg-planneo-mint/10 px-4 py-3 text-sm text-planneo-mint">
+        <div className="rounded-md border border-planneo-mint/30 bg-planneo-mint/10 px-4 py-3 text-sm text-planneo-mint">
           {state.notice}
         </div>
       )}
@@ -54,7 +54,7 @@ export default function VerifyForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+        className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
       >
         {isPending ? 'Verificando…' : 'Continuar'}
       </button>

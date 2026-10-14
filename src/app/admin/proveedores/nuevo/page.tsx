@@ -17,7 +17,7 @@ export default async function NuevoProveedorPage() {
         <h1 className="text-xl font-bold text-white">Nuevo proveedor</h1>
       </div>
 
-      <div className="bg-planneo-900 rounded-xl border border-white/10 p-6">
+      <div className="bg-planneo-900 rounded-md border border-white/10 p-6">
         <ProviderForm categories={categories ?? []} action={createProvider} />
       </div>
     </div>

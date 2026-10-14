@@ -92,7 +92,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
           return (
             <div
               key={pkg.id}
-              className={`rounded-2xl border p-5 transition ${
+              className={`rounded-lg border p-5 transition ${
                 pkg.is_featured
                   ? 'border-planneo-gold/30 bg-planneo-gold/[0.06]'
                   : 'border-white/10 bg-white/[0.03]'
@@ -137,7 +137,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                     <button
                       type="button"
                       onClick={() => handleRemove(pkg)}
-                      className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-[14px] border border-planneo-mint/40 bg-planneo-mint/10 px-4 text-sm font-semibold text-planneo-mint transition hover:bg-planneo-mint/20"
+                      className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-planneo-mint/40 bg-planneo-mint/10 px-4 text-sm font-semibold text-planneo-mint transition hover:bg-planneo-mint/20"
                     >
                       <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M20 6 9 17l-5-5" />
@@ -149,7 +149,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                       type="button"
                       disabled={blocked}
                       onClick={() => handleAdd(pkg)}
-                      className="inline-flex min-h-11 cursor-pointer items-center rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/35"
+                      className="inline-flex min-h-11 cursor-pointer items-center rounded-md bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/35"
                     >
                       Agregar a mi evento
                     </button>

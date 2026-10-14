@@ -29,7 +29,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
   return (
     <form action={formAction} className="flex flex-col gap-5">
       {state.error && (
-        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-sm px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -59,7 +59,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             value={categoryId}
             onChange={(event) => setCategoryId(event.target.value)}
             required
-            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Seleccionar…</option>
             {orderedCategories.map((c) => (
@@ -83,7 +83,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
                 : ''
             }
             disabled={subcategoryOptions.length === 0}
-            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">{subcategoryOptions.length ? 'Sin especificar' : 'Elige categoría primero'}</option>
             {subcategoryOptions.map((label) => (
@@ -103,7 +103,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             name="zona"
             defaultValue={defaultValues?.zona ?? ''}
             required
-            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Seleccionar…</option>
             {ZONAS_MTY.map((z) => (
@@ -170,7 +170,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             id="price_range"
             name="price_range"
             defaultValue={defaultValues?.price_range ?? ''}
-            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Sin especificar</option>
             {PRICE_RANGES.map((p) => (
@@ -256,7 +256,7 @@ function TestimonialsFields({ defaultValues }: { defaultValues?: Provider }) {
         {slots.map((slot, i) => (
           <div
             key={i}
-            className="grid grid-cols-1 gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 sm:grid-cols-3"
+            className="grid grid-cols-1 gap-3 rounded-md border border-white/10 bg-white/[0.03] p-3 sm:grid-cols-3"
           >
             <div className="flex flex-col gap-1.5 sm:col-span-2">
               <Label htmlFor={`testimonial_quote_${i}`}>Cita {i + 1}</Label>

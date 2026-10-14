@@ -14,7 +14,7 @@ export default function GuidesSection() {
         </h2>
         <div className="grid gap-5 md:grid-cols-3">
           {guides.map(([meta, title, excerpt]) => (
-            <article key={title} className="overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04]">
+            <article key={title} className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]">
               <div className="h-44 bg-[linear-gradient(135deg,#4A148C,#7B2CBF,#C77DFF)]" />
               <div className="p-6">
                 <p className="v4-mono text-xs text-planneo-300">{meta}</p>

@@ -17,7 +17,7 @@ export default function ProviderTestimonialsSection({
       <ul className="mt-5 grid gap-4 sm:grid-cols-2">
         {items.map((item, index) => (
           <li key={`${item.quote}-${index}`}>
-            <blockquote className="v4-glass h-full rounded-[24px] p-5">
+            <blockquote className="v4-glass h-full rounded-lg p-5">
               <p className="font-serif text-2xl leading-none text-planneo-gold/70" aria-hidden>
                 “
               </p>

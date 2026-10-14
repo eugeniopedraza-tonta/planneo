@@ -50,7 +50,7 @@ export default function ClaimFlow({
         <div className="mt-4 flex flex-col gap-2">
           <Link
             href="/panel"
-            className="rounded-xl bg-planneo-600 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+            className="rounded-md bg-planneo-600 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
           >
             Ir a mi panel
           </Link>
@@ -79,7 +79,7 @@ export default function ClaimFlow({
         <button
           type="button"
           onClick={() => setConfirming(true)}
-          className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+          className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
         >
           Sí, este negocio es mío
         </button>
@@ -115,7 +115,7 @@ function LoggedInClaim({
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+          className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
         >
           {isPending ? 'Activando…' : 'Sí, este negocio es mío'}
         </button>
@@ -173,7 +173,7 @@ function ContactStep({ action, reportAction }: { action: Action; reportAction: A
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+          className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
         >
           {isPending ? 'Enviando código…' : 'Enviar código y continuar'}
         </button>
@@ -212,21 +212,21 @@ function NotMyBusiness({ action }: { action: Action }) {
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-planneo-900 p-6 shadow-sm">{children}</div>
+    <div className="rounded-lg border border-white/10 bg-planneo-900 p-6 shadow-sm">{children}</div>
   )
 }
 
 function ErrorBox({ error }: { error?: string }) {
   if (!error) return null
   return (
-    <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+    <div className="mb-4 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
       {error}
     </div>
   )
 }
 
 const inputCls =
-  'h-11 w-full rounded-xl border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
+  'h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
 
 function Field({
   id,

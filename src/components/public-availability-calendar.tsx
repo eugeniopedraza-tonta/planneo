@@ -41,7 +41,7 @@ export default function PublicAvailabilityCalendar({
     return (
       <section className="py-8">
         <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
-        <div className="mt-4 h-64 max-w-md animate-pulse rounded-2xl bg-white/[0.05]" />
+        <div className="mt-4 h-64 max-w-md animate-pulse rounded-lg bg-white/[0.05]" />
       </section>
     )
   }
@@ -77,7 +77,7 @@ export default function PublicAvailabilityCalendar({
             type="button"
             onClick={() => shiftMonth(-1)}
             disabled={atCurrentMonth}
-            className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+            className="min-h-11 min-w-11 cursor-pointer rounded-md px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
             aria-label="Mes anterior"
           >
             <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -90,7 +90,7 @@ export default function PublicAvailabilityCalendar({
           <button
             type="button"
             onClick={() => shiftMonth(1)}
-            className="min-h-11 min-w-11 cursor-pointer rounded-xl px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white"
+            className="min-h-11 min-w-11 cursor-pointer rounded-md px-2 py-1 text-white/60 transition hover:bg-white/10 hover:text-white"
             aria-label="Mes siguiente"
           >
             <svg className="mx-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -114,7 +114,7 @@ export default function PublicAvailabilityCalendar({
             return (
               <div
                 key={iso}
-                className={`rounded-lg py-1.5 text-xs ${
+                className={`rounded-sm py-1.5 text-xs ${
                   isPast
                     ? 'text-white/20'
                     : status

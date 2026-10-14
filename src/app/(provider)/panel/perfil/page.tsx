@@ -32,7 +32,7 @@ export default async function PerfilPage() {
           {provider.categories?.name ? ` de ${provider.categories.name}` : ''}.
         </p>
       </div>
-      <div className="bg-planneo-900 rounded-2xl border border-white/10 p-6">
+      <div className="bg-planneo-900 rounded-lg border border-white/10 p-6">
         <ProfileForm provider={provider} />
       </div>
     </div>

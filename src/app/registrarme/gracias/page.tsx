@@ -52,12 +52,12 @@ export default async function GraciasPage() {
           </Link>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-planneo-900 p-6 text-center shadow-sm">
+        <div className="rounded-lg border border-white/10 bg-planneo-900 p-6 text-center shadow-sm">
           <h1 className="text-lg font-semibold text-white">{content.title}</h1>
           <p className="mt-2 text-sm text-white/60">{content.body}</p>
           <Link
             href={content.action.href}
-            className="mt-6 inline-flex w-full justify-center rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+            className="mt-6 inline-flex w-full justify-center rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
           >
             {content.action.label}
           </Link>

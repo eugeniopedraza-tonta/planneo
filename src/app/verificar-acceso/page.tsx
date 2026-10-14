@@ -26,7 +26,7 @@ export default async function VerificarAccesoPage() {
           </span>
         </div>
 
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-6 shadow-sm">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-6 shadow-sm">
           <h1 className="text-lg font-semibold text-white">Escribe tu código</h1>
           <p className="mt-1 text-sm text-white/60">
             Te enviamos un código de 6 dígitos a{' '}

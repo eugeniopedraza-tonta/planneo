@@ -58,7 +58,7 @@ export default function PublishPanel({ isReady, status, missingLabels, policy }:
           <button
             type="submit"
             disabled={pausing}
-            className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:border-white/30 disabled:opacity-60"
+            className="rounded-md border border-white/15 px-4 py-2 text-sm font-medium text-white/75 transition-colors hover:border-white/30 disabled:opacity-60"
           >
             {pausing ? 'Pausando…' : 'Pausar mi perfil'}
           </button>
@@ -82,7 +82,7 @@ export default function PublishPanel({ isReady, status, missingLabels, policy }:
           <button
             type="submit"
             disabled={resuming}
-            className="rounded-xl bg-planneo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+            className="rounded-md bg-planneo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
           >
             {resuming ? 'Reactivando…' : 'Reactivar mi perfil'}
           </button>
@@ -94,7 +94,7 @@ export default function PublishPanel({ isReady, status, missingLabels, policy }:
   return (
     <Panel>
       {status === 'rejected' && (
-        <div className="mb-4 rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3">
+        <div className="mb-4 rounded-md border border-red-400/30 bg-red-400/10 px-4 py-3">
           <p className="text-sm font-medium text-red-300">Tu perfil necesita cambios</p>
           <p className="mt-0.5 text-sm text-red-300/85">
             Revisa el correo que te enviamos, ajusta lo señalado y vuelve a enviarlo.
@@ -127,7 +127,7 @@ export default function PublishPanel({ isReady, status, missingLabels, policy }:
         <button
           type="submit"
           disabled={!isReady || publishing}
-          className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:px-6"
+          className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:px-6"
         >
           {publishing
             ? 'Enviando…'
@@ -149,13 +149,13 @@ export default function PublishPanel({ isReady, status, missingLabels, policy }:
 
 function Panel({ children }: { children: React.ReactNode }) {
   return (
-    <section className="mt-8 rounded-2xl border border-white/10 bg-planneo-900 p-5">{children}</section>
+    <section className="mt-8 rounded-lg border border-white/10 bg-planneo-900 p-5">{children}</section>
   )
 }
 
 function ErrorLine({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mt-3 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+    <p className="mt-3 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-400">
       {children}
     </p>
   )

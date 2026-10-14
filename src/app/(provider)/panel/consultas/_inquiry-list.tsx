@@ -33,7 +33,7 @@ export default function InquiryList({ inquiries }: { inquiries: InquiryWithMessa
 
   if (inquiries.length === 0) {
     return (
-      <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+      <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
         <div className="mb-3 flex justify-center text-planneo-300"><InboxIcon className="size-8" /></div>
         <p className="text-sm text-white/55">
           Aún no tienes consultas. Cuando alguien pida cotización desde tu perfil, aparecerá aquí.
@@ -47,7 +47,7 @@ export default function InquiryList({ inquiries }: { inquiries: InquiryWithMessa
       {inquiries.map((inquiry) => (
         <li
           key={inquiry.id}
-          className={`bg-planneo-900 rounded-2xl border p-5 ${
+          className={`bg-planneo-900 rounded-lg border p-5 ${
             inquiry.status === 'new' ? 'border-planneo-300/40' : 'border-white/10'
           }`}
         >
@@ -68,7 +68,7 @@ export default function InquiryList({ inquiries }: { inquiries: InquiryWithMessa
                   type="button"
                   disabled={isPending || inquiry.status === s}
                   onClick={() => setStatus(inquiry, s)}
-                  className={`px-2.5 py-1 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 ${
+                  className={`px-2.5 py-1 rounded-sm border text-xs font-medium transition-colors disabled:opacity-50 ${
                     inquiry.status === s
                       ? 'border-transparent ' + STATUS_STYLES[s]
                       : 'border-white/10 text-white/55 hover:bg-white/[0.07]'
@@ -83,32 +83,32 @@ export default function InquiryList({ inquiries }: { inquiries: InquiryWithMessa
           {/* Datos del evento y contacto (informativos; la conversación vive aquí) */}
           <div className="flex items-center gap-3 mt-3 flex-wrap text-xs text-white/60">
             {inquiry.event_type && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 {EVENT_TYPES.find((e) => e.value === inquiry.event_type)?.label ?? inquiry.event_type}
               </span>
             )}
             {inquiry.event_date && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <CalendarIcon /> {formatDateOnly(inquiry.event_date)}
               </span>
             )}
             {inquiry.event_location && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <MapPinIcon /> {inquiry.event_location}
               </span>
             )}
             {inquiry.guest_count != null && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <UsersIcon /> {inquiry.guest_count} invitados
               </span>
             )}
             {inquiry.phone && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <PhoneIcon /> {inquiry.phone}
               </span>
             )}
             {inquiry.email && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <MailIcon /> {inquiry.email}
               </span>
             )}
@@ -193,7 +193,7 @@ function ThreadMessage({
 }) {
   return (
     <div
-      className={`rounded-xl px-3 py-2 text-sm ${
+      className={`rounded-md px-3 py-2 text-sm ${
         isProvider ? 'bg-planneo-600/10 border border-planneo-300/25 ml-6' : 'bg-white/[0.04] border border-white/10 mr-6'
       }`}
     >
@@ -241,7 +241,7 @@ function ReplyForm({
         maxLength={2000}
         placeholder="Escribe tu respuesta o cotización…"
         aria-label="Respuesta al cliente"
-        className="w-full text-sm border border-input rounded-lg px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
+        className="w-full text-sm border border-input rounded-sm px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
       />
       <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-1.5">
@@ -255,7 +255,7 @@ function ReplyForm({
             min="0"
             step="0.01"
             placeholder="$ MXN"
-            className="w-28 text-sm border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="w-28 text-sm border border-input rounded-sm px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
           />
         </div>
         <div className="ml-auto flex items-center gap-2">
@@ -270,7 +270,7 @@ function ReplyForm({
           <button
             type="submit"
             disabled={isPending}
-            className="rounded-lg bg-planneo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-planneo-500 disabled:opacity-60"
+            className="rounded-sm bg-planneo-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-planneo-500 disabled:opacity-60"
           >
             {isPending ? 'Enviando…' : 'Enviar respuesta'}
           </button>
@@ -318,7 +318,7 @@ function ConfirmBookingForm({
             type="date"
             required
             defaultValue={inquiry.event_date ?? ''}
-            className="text-sm border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="text-sm border border-input rounded-sm px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
           />
         </div>
         <div className="flex flex-col gap-1 flex-1 min-w-40">
@@ -331,7 +331,7 @@ function ConfirmBookingForm({
             maxLength={300}
             defaultValue={inquiry.event_location ?? ''}
             placeholder="Salón, dirección o zona"
-            className="text-sm border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
+            className="text-sm border border-input rounded-sm px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
           />
         </div>
         <div className="flex items-center gap-2 ml-auto">
@@ -346,7 +346,7 @@ function ConfirmBookingForm({
           <button
             type="submit"
             disabled={isPending}
-            className="rounded-lg bg-planneo-mint px-3 py-1.5 text-xs font-semibold text-planneo-950 hover:bg-[#33DFB1] disabled:opacity-60"
+            className="rounded-sm bg-planneo-mint px-3 py-1.5 text-xs font-semibold text-planneo-950 hover:bg-[#33DFB1] disabled:opacity-60"
           >
             {isPending ? 'Confirmando…' : 'Confirmar'}
           </button>

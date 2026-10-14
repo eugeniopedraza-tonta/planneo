@@ -61,7 +61,7 @@ export default function CsvImport() {
 
       {result && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={() => setResult(null)}>
-          <div className="bg-planneo-900 rounded-xl p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-planneo-900 rounded-md p-6 max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
             <h3 className="font-semibold text-white mb-3">Resultado de importación</h3>
             <p className="text-sm text-planneo-mint mb-2">✓ {result.created} proveedores creados</p>
             {result.errors.length > 0 && (

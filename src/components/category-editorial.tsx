@@ -48,7 +48,7 @@ function CategoryFaq({ faqs }: { faqs: CategoryContent['faqs'] }) {
       >
         Preguntas frecuentes
       </h2>
-      <div className="mt-4 divide-y divide-white/10 rounded-[20px] border border-white/10 bg-white/[0.03]">
+      <div className="mt-4 divide-y divide-white/10 rounded-lg border border-white/10 bg-white/[0.03]">
         {faqs.map((faq) => (
           <details key={faq.question} className="group px-5">
             <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 [&::-webkit-details-marker]:hidden">

@@ -313,7 +313,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
 
             {/* Sidebar de cotización, estilo tarjeta de reserva */}
             <aside id="cotizar" className="shrink-0 scroll-mt-24 lg:w-96">
-              <div className="v4-glass sticky top-24 space-y-4 rounded-[24px] p-6">
+              <div className="v4-glass sticky top-24 space-y-4 rounded-lg p-6">
                 <div className="flex items-baseline justify-between gap-2">
                   <div>
                     {provider.price_range ? (
@@ -440,7 +440,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
             </div>
             <a
               href="#cotizar"
-              className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+              className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center rounded-md bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
             >
               Solicitar cotización
             </a>

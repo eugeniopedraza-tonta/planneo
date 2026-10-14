@@ -80,13 +80,15 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Radios (PLA-28): solo 4 tokens. Bloque no-inline para que existan como variables CSS. */
+@theme {
+  --radius-*: initial; /* sin rounded-xl/2xl/3xl… ni rounded-[Npx] */
+  --radius-sm: 8px; /* inputs chicos, chips, etiquetas */
+  --radius-md: 14px; /* botones, campos, selects */
+  --radius-lg: 24px; /* tarjetas, contenedores, modales */
+  --radius-full: 9999px; /* pills, chips de categoría, badges, círculos */
 }
 
 :root {
@@ -132,7 +134,7 @@
   --chart-3: #06D6A0;
   --chart-4: #FFC727;
   --chart-5: #F472B6;
-  --radius: 0.625rem;
+  --radius: var(--radius-md); /* alias para libs (sonner) */
   --sidebar: #15101F;
   --sidebar-foreground: #F5F0FF;
   --sidebar-primary: #7B2CBF;

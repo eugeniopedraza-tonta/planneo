@@ -8,10 +8,10 @@ import { loginWithCode, type LoginState } from './_actions'
 const RESEND_DELAY_SECONDS = 30
 
 const inputCls =
-  'h-11 w-full rounded-xl border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
+  'h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
 
 const buttonCls =
-  'v4-cta-glow mt-2 w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60'
+  'v4-cta-glow mt-2 w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60'
 
 export default function LoginForm({ next }: { next?: string }) {
   const [state, formAction, isPending] = useActionState<LoginState, FormData>(loginWithCode, {
@@ -47,12 +47,12 @@ export default function LoginForm({ next }: { next?: string }) {
   return (
     <form action={formAction} noValidate className="flex flex-col gap-4">
       {state.error && (
-        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div role="alert" className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
       {state.notice && !state.error && (
-        <div className="rounded-xl border border-planneo-mint/30 bg-planneo-mint/10 px-4 py-3 text-sm text-planneo-mint">
+        <div className="rounded-md border border-planneo-mint/30 bg-planneo-mint/10 px-4 py-3 text-sm text-planneo-mint">
           {state.notice}
         </div>
       )}

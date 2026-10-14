@@ -50,13 +50,13 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
+        <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
           <p className="v4-mono text-xs text-planneo-mint">¿ERES PROVEEDOR?</p>
           <h3 className="v4-display mt-3 text-2xl font-bold tracking-[-0.04em]">Tu perfil, gratis.</h3>
           <p className="mt-3 text-sm leading-6 text-white/55">
             Los clientes te escriben directo a tu WhatsApp, sin intermediarios.
           </p>
-          <Link href="/para-proveedores" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500">
+          <Link href="/para-proveedores" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-md bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500">
             Crear mi perfil
           </Link>
         </div>

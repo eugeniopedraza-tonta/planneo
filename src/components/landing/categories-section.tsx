@@ -68,11 +68,11 @@ export default async function CategoriesSection() {
               >
                 <Link
                   href={`/${cat.slug}`}
-                  className="group relative flex h-44 overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1 sm:h-56 sm:rounded-[24px] lg:h-64"
+                  className="group relative flex h-44 overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1 sm:h-56 sm:rounded-lg lg:h-64"
                 >
                   <CategoryArt kind={meta.kind} seed={cat.slug} />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.05),rgba(14,11,26,.86))]" />
-                  <div className="absolute left-3 top-3 rounded-xl border border-white/15 bg-black/20 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-xl sm:left-5 sm:top-5">
+                  <div className="absolute left-3 top-3 rounded-md border border-white/15 bg-black/20 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-xl sm:left-5 sm:top-5">
                     {meta.icon}
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">

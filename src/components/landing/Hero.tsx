@@ -63,9 +63,9 @@ export default async function Hero() {
         </p>
 
         <HeroSearchForm
-          className="v4-glass mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 rounded-[28px] p-2 text-left shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] lg:mt-10 lg:grid-cols-[1.6fr_1fr_1fr_auto]"
+          className="v4-glass mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 rounded-lg p-2 text-left shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] lg:mt-10 lg:grid-cols-[1.6fr_1fr_1fr_auto]"
         >
-          <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
+          <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-lg border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
             <label htmlFor="hero-q" className="v4-mono text-xs text-planneo-300">
               ¿Qué buscas?
             </label>
@@ -85,7 +85,7 @@ export default async function Hero() {
             placeholder="Toda el área"
             options={ZONAS_MTY.map((z) => ({ value: z, label: z }))}
           />
-          <button className="min-h-14 rounded-[18px] bg-planneo-600 px-7 font-semibold text-white transition hover:bg-planneo-500" type="submit">
+          <button className="min-h-14 rounded-md bg-planneo-600 px-7 font-semibold text-white transition hover:bg-planneo-500" type="submit">
             Buscar
           </button>
         </HeroSearchForm>
@@ -93,7 +93,7 @@ export default async function Hero() {
         {isEventPlannerEnabled() && (
           <Link
             href="/#crear-evento"
-            className="v4-glass mt-5 inline-flex min-h-14 items-center justify-center rounded-[14px] px-8 text-base font-semibold text-white transition hover:bg-white/10"
+            className="v4-glass mt-5 inline-flex min-h-14 items-center justify-center rounded-md px-8 text-base font-semibold text-white transition hover:bg-white/10"
           >
             Crear mi evento
           </Link>
@@ -126,7 +126,7 @@ function HeroSelect({
   options: { value: string; label: string }[];
 }) {
   return (
-    <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
+    <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-lg border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
       <label htmlFor={id} className="v4-mono text-xs text-planneo-300">
         {label}
       </label>
@@ -151,7 +151,7 @@ function HeroSelect({
 
 function VenueBackdrop() {
   return (
-    <div className="absolute inset-x-4 top-28 mx-auto h-[500px] max-w-6xl overflow-hidden rounded-[30px] opacity-55 sm:h-[620px] sm:rounded-[36px]">
+    <div className="absolute inset-x-4 top-28 mx-auto h-[500px] max-w-6xl overflow-hidden rounded-lg opacity-55 sm:h-[620px] sm:rounded-lg">
       <div className="absolute inset-0 bg-[linear-gradient(135deg,#26133F_0%,#7B2CBF_42%,#C77DFF_100%)]" />
       <div className="absolute left-[12%] top-[18%] h-72 w-40 rounded-t-full border border-white/24 bg-white/8" />
       <div className="absolute left-[31%] top-[26%] h-64 w-52 rounded-t-full border border-white/20 bg-black/10" />

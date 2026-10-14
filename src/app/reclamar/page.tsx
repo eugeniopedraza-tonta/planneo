@@ -29,7 +29,7 @@ export default function ReclamarIndexPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+        <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
           <ClaimInviteForm />
         </div>
 

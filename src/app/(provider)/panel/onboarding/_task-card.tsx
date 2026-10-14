@@ -25,7 +25,7 @@ export default function TaskCard({
 
   return (
     <div
-      className={`flex items-start gap-3 rounded-2xl border p-4 transition-colors ${
+      className={`flex items-start gap-3 rounded-lg border p-4 transition-colors ${
         done ? 'border-planneo-mint/25 bg-planneo-mint/[0.06]' : 'border-white/10 bg-white/[0.04]'
       }`}
     >
@@ -57,7 +57,7 @@ export default function TaskCard({
 
       <Link
         href={href}
-        className={`shrink-0 rounded-xl px-3 py-2 text-xs font-semibold transition-colors ${
+        className={`shrink-0 rounded-md px-3 py-2 text-xs font-semibold transition-colors ${
           done
             ? 'border border-white/15 text-white/70 hover:border-white/30'
             : 'bg-planneo-600 text-white hover:bg-planneo-500'

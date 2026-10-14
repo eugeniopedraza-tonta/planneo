@@ -46,7 +46,7 @@ export default async function FeaturedListings() {
           {providers.map((provider, index) => {
             const categorySlug = provider.categories?.slug ?? "proveedores";
             return (
-              <article key={provider.id} className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04]">
+              <article key={provider.id} className="group overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]">
                 <div className={`relative h-72 overflow-hidden bg-gradient-to-br ${palettes[index % palettes.length]}`}>
                   <div className="absolute inset-0 transition duration-700 group-hover:scale-105">
                     <div className="absolute left-8 top-12 h-40 w-40 rounded-full border border-white/25 bg-white/10" />
@@ -73,13 +73,13 @@ export default async function FeaturedListings() {
                   {provider.event_types?.length ? (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {provider.event_types.slice(0, 3).map((tag) => (
-                        <span key={tag} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-xs text-white/55">{tag}</span>
+                        <span key={tag} className="v4-mono rounded-sm border border-white/10 px-2 py-1 text-xs text-white/55">{tag}</span>
                       ))}
                     </div>
                   ) : null}
                   <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-5">
                     <p className="text-sm text-white/50">{provider.phone ? "Contacto directo" : "Perfil publicado"}</p>
-                    <Link href={`/${categorySlug}/${provider.slug}`} className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1B2E] transition hover:bg-white/90">
+                    <Link href={`/${categorySlug}/${provider.slug}`} className="inline-flex min-h-11 items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-[#1F1B2E] transition hover:bg-white/90">
                       Ver perfil
                     </Link>
                   </div>

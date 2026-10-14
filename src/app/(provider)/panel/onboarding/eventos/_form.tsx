@@ -18,7 +18,7 @@ export default function EventTypesForm({ selected }: { selected: EventType[] }) 
   return (
     <form action={formAction} className="mt-6 flex flex-col gap-5">
       {state.error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
@@ -29,7 +29,7 @@ export default function EventTypesForm({ selected }: { selected: EventType[] }) 
           return (
             <label
               key={type.value}
-              className={`cursor-pointer rounded-xl border px-3 py-4 text-center text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300 ${
+              className={`cursor-pointer rounded-md border px-3 py-4 text-center text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300 ${
                 active
                   ? 'border-planneo-300 bg-planneo-600/20 text-white'
                   : 'border-input bg-white/[0.04] text-white/70 hover:border-white/60'
@@ -53,7 +53,7 @@ export default function EventTypesForm({ selected }: { selected: EventType[] }) 
         <button
           type="submit"
           disabled={isPending || chosen.length === 0}
-          className="rounded-xl bg-planneo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md bg-planneo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {isPending ? 'Guardando…' : 'Guardar'}
         </button>

@@ -109,7 +109,7 @@ export default async function ReclamarPage({ params }: Props) {
           </p>
         </div>
 
-        <div className="mb-6 overflow-hidden rounded-2xl border border-white/10 bg-planneo-900 shadow-sm">
+        <div className="mb-6 overflow-hidden rounded-lg border border-white/10 bg-planneo-900 shadow-sm">
           <div className="relative h-40 w-full bg-planneo-600/20">
             {provider.photos?.[0] ? (
               <Image
@@ -187,14 +187,14 @@ function Notice({
 }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-planneo-950 px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-planneo-900 p-8 text-center shadow-sm">
+      <div className="w-full max-w-sm rounded-lg border border-white/10 bg-planneo-900 p-8 text-center shadow-sm">
         <div className="mb-3 flex justify-center text-planneo-300">{icon}</div>
         <h1 className="mb-2 text-lg font-semibold text-white">{title}</h1>
         <p className="text-sm text-white/55">{body}</p>
         {action && (
           <Link
             href={action.href}
-            className="mt-5 inline-flex rounded-xl bg-planneo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+            className="mt-5 inline-flex rounded-md bg-planneo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
           >
             {action.label}
           </Link>

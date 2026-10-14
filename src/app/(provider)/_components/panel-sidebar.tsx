@@ -96,14 +96,14 @@ export default function PanelSidebar({ provider }: Props) {
       )}
 
       {status === 'pending_review' && (
-        <div className="mx-3 mt-3 rounded-xl bg-amber-300/10 border border-amber-300/30 px-3 py-2">
+        <div className="mx-3 mt-3 rounded-md bg-amber-300/10 border border-amber-300/30 px-3 py-2">
           <p className="text-xs text-amber-200 font-medium">Perfil en revisión</p>
           <p className="text-xs text-amber-200 mt-0.5">Aprobamos en 24–48 hrs.</p>
         </div>
       )}
 
       {status === 'rejected' && (
-        <div className="mx-3 mt-3 rounded-xl bg-red-400/10 border border-red-400/30 px-3 py-2">
+        <div className="mx-3 mt-3 rounded-md bg-red-400/10 border border-red-400/30 px-3 py-2">
           <p className="text-xs text-red-300 font-medium">Necesita cambios</p>
           <Link href="/panel/onboarding" className="text-xs text-red-300 mt-0.5 underline">
             Ver qué ajustar
@@ -121,7 +121,7 @@ export default function PanelSidebar({ provider }: Props) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm font-medium transition-colors ${
                 active
                   ? 'bg-planneo-600/20 text-planneo-300'
                   : 'text-white/60 hover:bg-white/15 hover:text-white'
@@ -138,14 +138,14 @@ export default function PanelSidebar({ provider }: Props) {
         <Link
           href="/catalogo"
           target="_blank"
-          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/55 hover:bg-white/15 hover:text-white/85 transition-colors"
+          className="flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm text-white/55 hover:bg-white/15 hover:text-white/85 transition-colors"
         >
           <EyeIcon />
           Ver catálogo
         </Link>
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/55 hover:bg-white/15 hover:text-white/85 transition-colors w-full text-left"
+          className="flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm text-white/55 hover:bg-white/15 hover:text-white/85 transition-colors w-full text-left"
         >
           <LogoutIcon />
           Cerrar sesión

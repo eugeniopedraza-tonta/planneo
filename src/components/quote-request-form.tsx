@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { createInquiry, type State } from '@/app/[category]/[slug]/_actions'
 
 const inputCls =
-  'w-full min-h-11 text-sm text-white bg-white/[0.06] border border-input rounded-xl px-3 py-2 outline-none placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300 [&>option]:bg-[#211A30] [&>option]:text-white'
+  'w-full min-h-11 text-sm text-white bg-white/[0.06] border border-input rounded-md px-3 py-2 outline-none placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300 [&>option]:bg-[#211A30] [&>option]:text-white'
 
 export default function QuoteRequestForm({ providerId }: { providerId: string }) {
   const [state, formAction, isPending] = useActionState<State, FormData>(createInquiry, {})
@@ -29,7 +29,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="v4-cta-glow w-full cursor-pointer rounded-[14px] bg-planneo-600 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+        className="v4-cta-glow w-full cursor-pointer rounded-md bg-planneo-600 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
       >
         Solicitar cotización
       </button>
@@ -41,7 +41,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
       <p className="text-sm font-semibold text-white">Solicitar cotización</p>
 
       {state.error && (
-        <p className="rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs text-red-300">
+        <p className="rounded-md border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs text-red-300">
           {state.error}
         </p>
       )}
@@ -130,7 +130,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
       <button
         type="submit"
         disabled={isPending}
-        className="w-full cursor-pointer rounded-[14px] bg-planneo-600 py-3 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors disabled:opacity-60"
+        className="w-full cursor-pointer rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors disabled:opacity-60"
       >
         {isPending ? 'Enviando…' : 'Enviar solicitud'}
       </button>

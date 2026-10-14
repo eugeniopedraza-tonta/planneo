@@ -47,7 +47,7 @@ export default async function AgendaPage() {
       </div>
 
       {(bookings ?? []).length === 0 ? (
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
           <div className="mb-3 flex justify-center text-planneo-300"><CalendarIcon className="size-8" /></div>
           <p className="text-sm text-white/55">
             Aún no tienes eventos confirmados. Cuando confirmes una reservación desde{' '}
@@ -96,7 +96,7 @@ function BookingCard({ booking, past }: { booking: Inquiry; past?: boolean }) {
   const eventLabel = EVENT_TYPES.find((e) => e.value === booking.event_type)?.label
 
   return (
-    <li className={`bg-planneo-900 rounded-2xl border p-5 ${past ? 'border-white/10 opacity-70' : 'border-planneo-mint/30'}`}>
+    <li className={`bg-planneo-900 rounded-lg border p-5 ${past ? 'border-white/10 opacity-70' : 'border-planneo-mint/30'}`}>
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="min-w-0">
           <h3 className="text-sm font-semibold text-white">{booking.name}</h3>
@@ -115,22 +115,22 @@ function BookingCard({ booking, past }: { booking: Inquiry; past?: boolean }) {
 
       <div className="flex items-center gap-3 mt-3 flex-wrap text-xs text-white/60">
         {booking.event_location && (
-          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
             <MapPinIcon /> {booking.event_location}
           </span>
         )}
         {booking.guest_count != null && (
-          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
             <UsersIcon /> {booking.guest_count} invitados
           </span>
         )}
         {booking.phone && (
-          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
             <PhoneIcon /> {booking.phone}
           </span>
         )}
         {booking.email && (
-          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+          <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
             ✉️ {booking.email}
           </span>
         )}

@@ -36,7 +36,7 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
       data-track="provider_card"
       data-provider-id={provider.id}
       data-category-slug={provider.categories?.slug}
-      className="group flex flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04] shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.06]"
+      className="group flex flex-col overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.06]"
     >
       {/* Foto / arte de categoría */}
       <div className="relative h-52 shrink-0 overflow-hidden">
@@ -113,7 +113,7 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
           {provider.event_types && provider.event_types.length > 0 ? (
             <div className="flex flex-wrap gap-1.5">
               {provider.event_types.slice(0, 2).map((type) => (
-                <span key={type} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-xs text-white/55">
+                <span key={type} className="v4-mono rounded-sm border border-white/10 px-2 py-1 text-xs text-white/55">
                   {EVENT_LABEL[type] ?? type}
                 </span>
               ))}

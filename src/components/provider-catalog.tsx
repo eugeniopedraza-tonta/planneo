@@ -135,7 +135,7 @@ export default async function ProviderCatalog({
       <Navbar />
       <a
         href="#catalogo-resultados"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-24 focus:z-50 focus:rounded-lg focus:bg-planneo-600 focus:px-3 focus:py-2 focus:text-sm focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-24 focus:z-50 focus:rounded-sm focus:bg-planneo-600 focus:px-3 focus:py-2 focus:text-sm focus:text-white"
       >
         Saltar al listado
       </a>

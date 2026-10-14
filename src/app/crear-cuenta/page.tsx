@@ -42,7 +42,7 @@ export default async function CrearCuentaPage({
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+        <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
           <ClientRegisterForm next={safeNext} />
         </div>
 

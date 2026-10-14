@@ -13,7 +13,7 @@ export const metadata = {
 export default function NoEsMioPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-planneo-950 px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-planneo-900 p-8 text-center shadow-sm">
+      <div className="w-full max-w-sm rounded-lg border border-white/10 bg-planneo-900 p-8 text-center shadow-sm">
         <div className="mb-3 flex justify-center text-planneo-300">
           <LinkIcon className="size-8" />
         </div>
@@ -26,7 +26,7 @@ export default function NoEsMioPage() {
         <div className="mt-6 flex flex-col gap-2">
           <Link
             href="/registrarme"
-            className="rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+            className="rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
           >
             Crear el perfil de mi negocio
           </Link>

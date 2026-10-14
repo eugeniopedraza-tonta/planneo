@@ -53,7 +53,7 @@ function EventPlanner() {
 
           <Link
             href="/catalogo"
-            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-[14px] bg-planneo-600 px-8 font-semibold text-white transition hover:bg-planneo-500"
+            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-md bg-planneo-600 px-8 font-semibold text-white transition hover:bg-planneo-500"
           >
             Empezar mi evento
           </Link>
@@ -75,7 +75,7 @@ function PaperCard({
   body: string;
 }) {
   return (
-    <div className={`absolute w-[280px] rounded-[10px] border border-[#D9D2E8] bg-[#F8F6FB] p-5 text-[#1F1B2E] shadow-2xl shadow-black/30 sm:w-[340px] ${className}`}>
+    <div className={`absolute w-[280px] rounded-sm border border-[#D9D2E8] bg-[#F8F6FB] p-5 text-[#1F1B2E] shadow-2xl shadow-black/30 sm:w-[340px] ${className}`}>
       <div className="flex items-center justify-between">
         <span className="v4-mono text-xs text-planneo-600">{step}</span>
         <span className="size-2 rounded-full bg-planneo-mint" />

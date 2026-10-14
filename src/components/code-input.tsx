@@ -80,7 +80,7 @@ export default function CodeInput({
   }
 
   const boxCls = [
-    'h-13 w-full min-w-0 rounded-xl border bg-white/10 text-center text-lg font-semibold text-white',
+    'h-13 w-full min-w-0 rounded-md border bg-white/10 text-center text-lg font-semibold text-white',
     'caret-planneo-300 outline-none transition-colors',
     'focus:border-planneo-300 focus:bg-white/[0.07] focus-visible:ring-2 focus-visible:ring-planneo-300',
     'disabled:opacity-60',
