@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import { setOnboardingSession } from '@/lib/onboarding-session'
-import { normalizeEmail, sendAccessCode } from '@/lib/otp'
+import { AccessEmailSchema, normalizeEmail, sendAccessCode } from '@/lib/otp'
 import { checkRateLimit, rateLimitKey } from '@/lib/rate-limit'
 import { trackOnboardingEvent } from '@/lib/onboarding-events'
 import { sendWelcomeEmail } from '@/lib/email'
@@ -14,10 +14,20 @@ export type State = {
   fieldErrors?: Record<string, string[]>
 }
 
+// `error` en el constructor cubre también el campo ausente (null), para que
+// nunca llegue a pantalla el texto genérico de zod en inglés.
 const ClaimSchema = z.object({
-  contact_name: z.string().min(2, 'Escribe tu nombre').max(80),
-  email: z.string().email('Email inválido').max(200),
-  phone: z.string().min(8, 'Escribe un teléfono de contacto').max(40),
+  contact_name: z
+    .string({ error: 'Escribe tu nombre.' })
+    .trim()
+    .min(2, { error: 'Escribe tu nombre.' })
+    .max(80, { error: 'Usa máximo 80 caracteres.' }),
+  email: AccessEmailSchema,
+  phone: z
+    .string({ error: 'Escribe un teléfono de contacto.' })
+    .trim()
+    .min(8, { error: 'Escribe un teléfono de contacto.' })
+    .max(40, { error: 'Usa máximo 40 caracteres.' }),
 })
 
 /**
@@ -36,7 +46,7 @@ export async function startClaim(
     phone: formData.get('phone'),
   })
 
-  if (!parsed.success) return { fieldErrors: parsed.error.flatten().fieldErrors }
+  if (!parsed.success) return { fieldErrors: z.flattenError(parsed.error).fieldErrors }
 
   const tokenCheck = z.string().uuid().safeParse(token)
   if (!tokenCheck.success) return { error: 'Este enlace ya no es válido. Solicita uno nuevo a Planneo.' }

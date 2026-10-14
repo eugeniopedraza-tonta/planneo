@@ -38,11 +38,35 @@ Flags en `src/lib/feature-flags.ts`. Unset o cualquier valor distinto de `on` = 
 |---|---|
 | ❄ Carrito | ✅ UI apagada. `src/lib/cart.ts` y migración `events` se quedan. `NEXT_PUBLIC_FEATURE_CART=on` para reactivar |
 | ❄ Cotización interna | ✅ Form público apagado; `createInquiry` rechaza altas nuevas. Hilos viejos y `/panel/consultas` siguen. `NEXT_PUBLIC_FEATURE_INQUIRIES=on` |
-| ❄ Cuentas de organizador | ✅ `/crear-cuenta` y `/mis-consultas` redirigen a home. `NEXT_PUBLIC_FEATURE_ORGANIZER_ACCOUNTS=on` |
+| ❄ Cuentas de organizador | ✅ `/crear-cuenta` y `/mis-consultas` responden 404 real (`notFound()`), ya no redirigen a home. `NEXT_PUBLIC_FEATURE_ORGANIZER_ACCOUNTS=on` |
 | ❄ Muro de WhatsApp | ✅ OFF. El botón es público |
 | ❄ Reseñas con estrellas | ✅ No construidas. Flag existe, no hay UI |
 | ❄ Pagos / comisiones / anticipos | ✅ Ya fuera. Fase 2, 2027/2028 |
 | ❄ Favoritos, push, búsqueda avanzada por disponibilidad | ✅ Ya fuera |
+
+#### Congelamiento Sprint 8
+
+Verificado el 13 oct 2026 (PLA-10): todo lo de Fase 2 sigue en el repo; nada se borró al congelar. Lo único que no existe como código es lo que nunca se construyó (muro de WhatsApp, reseñas, página `/carrito`).
+
+**Hecho y conservado (apagado):**
+
+- Carrito: `src/lib/cart.ts` (localStorage), drawer `src/components/event-cart.tsx`, «Agregar a mi evento» en `provider-packages-section.tsx`, migración `20260721010000_eventos_carrito.sql`.
+- Cotización interna: formulario del perfil + `createInquiry` (rechaza altas con el flag OFF), hilo `/consulta/{token}`, bandeja `/panel/consultas`.
+- Cuentas de organizador: `/crear-cuenta` (alta con contraseña, previa al modelo OTP) y `/mis-consultas`.
+
+**Sigue accesible a propósito con los flags OFF:** `/consulta/{token}` y `/panel/consultas`, para que los hilos que ya existen no se pierdan. No se pueden crear consultas nuevas.
+
+**Pendiente (no construir hasta que `planneo.mx` esté público):** ver Sprint 8 en § 6.4 — modal «define tu evento», página `/carrito` con validación de disponibilidad, gate de cuenta al enviar, Server Action evento + N inquiries + emails; Sprint 9 (tablero por evento). Antes de reactivar cuentas de organizador hay que pasar `/crear-cuenta` al modelo de código por correo: hoy todavía pide contraseña.
+
+**Cómo reactivar** (Vercel o `.env.local`, valor exacto `on`, y volver a hacer build porque son `NEXT_PUBLIC_*`):
+
+| Flag | Qué prende |
+|---|---|
+| `NEXT_PUBLIC_FEATURE_CART` | Drawer «Mi evento» en el navbar y «Agregar a mi evento» por paquete |
+| `NEXT_PUBLIC_FEATURE_INQUIRIES` | Formulario público de cotización y altas nuevas de inquiries |
+| `NEXT_PUBLIC_FEATURE_ORGANIZER_ACCOUNTS` | `/crear-cuenta`, `/mis-consultas` y sus enlaces en login/registro |
+| `NEXT_PUBLIC_FEATURE_WHATSAPP_WALL` | Nada todavía: el flag existe pero no hay muro construido |
+| `NEXT_PUBLIC_FEATURE_REVIEWS` | Nada todavía: reseñas no construidas (decisión 4.6) |
 
 ### Decisiones cerradas vs código
 
@@ -87,7 +111,7 @@ Esto es lo que separa a Planneo de estar vivo. En orden.
 - [ ] Confirmar en Vercel: `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_SITE_URL`
 - [ ] SMTP con Resend en el dashboard de Supabase (el mailer integrado ~2 correos/hora)
 - [ ] Confirmación de email activa + plantillas de `supabase/templates/` (`{{ .Token }}`, no el link)
-- [ ] Crear usuarios admin (Gus y Eugenio)
+- [ ] Crear usuarios admin (Gus y Eugenio): usuario en Supabase Auth con `app_metadata.role = admin`; entran por `/login` con código al correo, no necesitan contraseña
 
 **Cambios de alcance del MVP** *(código en `main`; SQL de categorías/testimonios/leads pendiente)*
 
@@ -559,11 +583,14 @@ NEXT_PUBLIC_SITE_URL         # para emails con links absolutos
 
 ## 8. Configuración de Supabase Auth en producción (checklist pre-lanzamiento)
 
-La verificación de email por código de 6 dígitos (registro y recuperación de
-contraseña) usa Supabase Auth nativo (`signUp` + `verifyOtp` /
-`resetPasswordForEmail`). En local ya está configurado (`supabase/config.toml`
-+ `supabase/templates/`); en el proyecto HOSTED hay que replicarlo a mano en
-el dashboard:
+Acceso **solo por código al correo** (OTP de 6 dígitos, sin contraseña) para
+proveedores y admins: `/registrarme` y `/reclamar/{token}` crean la cuenta con
+`signInWithOtp` y la verifican en `/verificar-acceso`; `/login` usa el mismo
+código con `shouldCreateUser: false`. `/recuperar` ya no existe (redirige 308 a
+`/login`). Las cuentas viejas con contraseña (incluidos los admins) entran
+igual con el código: Supabase les manda la plantilla "Magic Link". En local ya
+está configurado (`supabase/config.toml` + `supabase/templates/`); en el
+proyecto HOSTED hay que replicarlo a mano en el dashboard:
 
 1. **SMTP personalizado** (Authentication > Emails > SMTP Settings): usar
    Resend como SMTP — host `smtp.resend.com`, puerto 465, user `resend`,
@@ -572,10 +599,11 @@ el dashboard:
    producción.
 2. **Confirmaciones activas** (Authentication > Sign In / Providers > Email):
    habilitar "Confirm email". OTP expiration: 600 segundos.
-3. **Plantillas** (Authentication > Emails > Templates): copiar el contenido
-   de `supabase/templates/confirmation.html` en "Confirm signup" y de
-   `supabase/templates/recovery.html` en "Reset password". Lo importante es
-   que muestren `{{ .Token }}` (el código) en lugar del link.
+3. **Plantillas** (Authentication > Emails > Templates): copiar
+   `supabase/templates/confirmation.html` en "Confirm signup" y
+   `supabase/templates/magic-link.html` en "Magic Link". Las dos deben mostrar
+   `{{ .Token }}` (el código) en lugar del link; sin la de Magic Link, quien ya
+   tiene cuenta (admins incluidos) no recibe código al iniciar sesión.
 
 ---
 

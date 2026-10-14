@@ -1,51 +1,28 @@
-'use client'
-
-import { useState } from 'react'
-import { useEffect } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 import { homeForRole } from '@/lib/auth-routes'
 import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
+import LoginForm from './_form'
+import { safeNextPath } from './_next'
 
-function safeNext(): string | null {
-  const next = new URLSearchParams(window.location.search).get('next')
-  return next && next.startsWith('/') ? next : null
-}
+/**
+ * Un solo modelo de acceso para todos (proveedores y admins): correo → código
+ * de 6 dígitos. Ya no hay contraseña ni pantalla de recuperación.
+ */
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string | string[] }>
+}) {
+  const { next: rawNext } = await searchParams
+  const next = safeNextPath(Array.isArray(rawNext) ? rawNext[0] : rawNext) ?? undefined
 
-export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    const supabase = createClient()
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) return
-      window.location.href = safeNext() ?? homeForRole(data.user.app_metadata?.role)
-    })
-  }, [])
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-
-    if (error) {
-      setError('Credenciales incorrectas')
-      setLoading(false)
-      return
-    }
-
-    const { data } = await supabase.auth.getUser()
-    window.location.href = safeNext() ?? homeForRole(data.user?.app_metadata?.role)
-  }
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (user) redirect(next ?? homeForRole(user.app_metadata?.role))
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-planneo-950 px-4 text-planneo-ink">
@@ -56,68 +33,27 @@ export default function LoginPage() {
           <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
             Planneo
           </span>
-          <p className="mt-2 text-sm text-white/55">Inicia sesión en tu cuenta</p>
+          <p className="mt-2 text-sm text-white/55">Inicia sesión con tu correo</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="email">Correo</Label>
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="border-white/10 bg-white/10 text-white placeholder:text-white/35"
-            />
-          </div>
+        <LoginForm next={next} />
 
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="password">Contraseña</Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="border-white/10 bg-white/10 text-white placeholder:text-white/35"
-            />
-          </div>
-
-          {error && <p className="text-sm text-red-500">{error}</p>}
-
-          <div className="-mt-2 text-right">
-            <Link
-              href="/recuperar"
-              className="text-xs text-white/45 hover:text-planneo-300 transition-colors"
-            >
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
-
-          <Button type="submit" disabled={loading} className="v4-cta-glow mt-2 w-full rounded-xl bg-planneo-600 text-white hover:bg-planneo-500">
-            {loading ? 'Entrando…' : 'Entrar'}
-          </Button>
-
-          <div className="mt-2 flex flex-col gap-1.5 text-center text-xs text-white/45">
-            {isOrganizerAccountsEnabled() && (
-              <p>
-                ¿Organizas un evento?{' '}
-                <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
-                  Crea tu cuenta
-                </Link>
-              </p>
-            )}
+        <div className="mt-6 flex flex-col gap-1.5 text-center text-xs text-white/45">
+          {isOrganizerAccountsEnabled() && (
             <p>
-              ¿Ofreces servicios?{' '}
-              <Link href="/registrarme" className="text-planneo-300 hover:text-white transition-colors">
-                Registra tu negocio
+              ¿Organizas un evento?{' '}
+              <Link href="/crear-cuenta" className="text-planneo-300 hover:text-white transition-colors">
+                Crea tu cuenta
               </Link>
             </p>
-          </div>
-        </form>
+          )}
+          <p>
+            ¿Ofreces servicios?{' '}
+            <Link href="/registrarme" className="text-planneo-300 hover:text-white transition-colors">
+              Registra tu negocio
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   )

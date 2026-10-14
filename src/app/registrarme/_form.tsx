@@ -4,7 +4,6 @@ import { useActionState, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { startProviderRegistration, requestExistingProfileAccess, type State } from './_actions'
-import CategoryIcon from '@/components/category-icon'
 import type { Category } from '@/lib/types'
 
 type Props = {
@@ -45,72 +44,59 @@ export default function RegisterForm({ categories, zonas }: Props) {
     )
   }
 
+  const errors = state.fieldErrors
+
+  // noValidate: los mensajes los da el servidor, en español y bajo cada campo.
+  // La validación nativa del navegador mostraría burbujas con otro texto.
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <form action={formAction} noValidate className="flex flex-col gap-6">
       {state.error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
       <input type="hidden" name="skip_duplicate" value="0" />
 
-      <Field label="Nombre del negocio" error={state.fieldErrors?.business_name}>
+      <Field id="business_name" label="Nombre del negocio" error={errors?.business_name}>
         <input
+          id="business_name"
           name="business_name"
           required
           maxLength={120}
+          autoComplete="organization"
           value={businessName}
           onChange={(e) => setBusinessName(e.target.value)}
           placeholder="Estudio Foto Luna, DJ Marcos…"
+          {...describedBy('business_name', errors?.business_name)}
           className={inputCls}
         />
       </Field>
 
-      <fieldset>
-        <legend className="mb-2 text-sm font-medium text-white/75">Servicio principal</legend>
-        <div className="grid grid-cols-2 gap-2">
-          {categories.map((c) => {
-            const active = categoryId === c.id
-            return (
-              <label
-                key={c.id}
-                className={`flex cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-3 text-sm transition-colors ${
-                  active
-                    ? 'border-planneo-300 bg-planneo-600/20 text-white'
-                    : 'border-white/10 bg-white/[0.04] text-white/70 hover:border-white/25'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="category_id"
-                  value={c.id}
-                  required
-                  checked={active}
-                  onChange={() => setCategoryId(c.id)}
-                  className="sr-only"
-                />
-                <CategoryIcon
-                  slug={c.slug}
-                  className={`size-5 shrink-0 transition-colors ${
-                    active ? 'text-planneo-300' : 'text-white/40'
-                  }`}
-                />
-                <span>{c.name}</span>
-              </label>
-            )
-          })}
-        </div>
-        {state.fieldErrors?.category_id?.[0] && (
-          <p className="mt-1.5 text-xs text-red-400">{state.fieldErrors.category_id[0]}</p>
-        )}
-      </fieldset>
-
-      <Field label="Zona donde atiendes más seguido" error={state.fieldErrors?.zona}>
+      <Field id="category_id" label="Servicio principal" error={errors?.category_id}>
         <select
+          id="category_id"
+          name="category_id"
+          required
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          {...describedBy('category_id', errors?.category_id)}
+          className={inputCls}
+        >
+          <option value="" disabled>Elige tu servicio principal</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>{c.name}</option>
+          ))}
+        </select>
+      </Field>
+
+      <Field id="zona" label="Zona donde atiendes más seguido" error={errors?.zona}>
+        <select
+          id="zona"
           name="zona"
           required
           value={zona}
           onChange={(e) => setZona(e.target.value)}
+          {...describedBy('zona', errors?.zona)}
           className={inputCls}
         >
           <option value="" disabled>Elige una zona</option>
@@ -121,18 +107,22 @@ export default function RegisterForm({ categories, zonas }: Props) {
       </Field>
 
       <Field
+        id="email"
         label="Email de acceso"
-        error={state.fieldErrors?.email}
+        error={errors?.email}
         hint="Te enviaremos un código. No necesitas contraseña."
       >
         <input
+          id="email"
           name="email"
           type="email"
           required
           autoComplete="email"
+          inputMode="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="tu@correo.com"
+          {...describedBy('email', errors?.email, true)}
           className={inputCls}
         />
       </Field>
@@ -157,6 +147,15 @@ export default function RegisterForm({ categories, zonas }: Props) {
       </p>
     </form>
   )
+}
+
+/** Enlaza el campo con su mensaje (error o ayuda) para lectores de pantalla. */
+function describedBy(id: string, error?: string[], hasHint = false) {
+  const invalid = !!error?.[0]
+  return {
+    'aria-invalid': invalid || undefined,
+    'aria-describedby': invalid || hasHint ? `${id}-msg` : undefined,
+  }
 }
 
 function DuplicateStep({
@@ -248,11 +247,13 @@ const inputCls =
   'h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300'
 
 function Field({
+  id,
   label,
   error,
   hint,
   children,
 }: {
+  id: string
   label: string
   error?: string[]
   hint?: string
@@ -260,12 +261,12 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-white/75">{label}</label>
+      <label htmlFor={id} className="text-sm font-medium text-white/75">{label}</label>
       {children}
       {error?.[0] ? (
-        <p className="text-xs text-red-400">{error[0]}</p>
+        <p id={`${id}-msg`} className="text-xs text-red-400">{error[0]}</p>
       ) : hint ? (
-        <p className="text-xs text-white/40">{hint}</p>
+        <p id={`${id}-msg`} className="text-xs text-white/40">{hint}</p>
       ) : null}
     </div>
   )

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { connection } from 'next/server'
 import { createStaticClient } from '@/lib/supabase/server'
 import { CATEGORY_SLUGS, ZONA_OPTIONS, sortByCategoryTree } from '@/lib/constants'
 import RegisterForm from './_form'
@@ -10,11 +11,22 @@ export const metadata = {
 }
 
 export default async function RegistrarmePage() {
+  // Se renderiza por request. Antes la página se prerenderizaba en el build y
+  // `categories ?? []` se tragaba cualquier fallo: si la consulta no traía
+  // filas en ese momento, el formulario salía para siempre sin opciones de
+  // servicio y todo registro fallaba con category_id = null (PLA-5).
+  await connection()
+
   const supabase = createStaticClient()
-  const { data: categories } = await supabase
+  const { data, error } = await supabase
     .from('categories')
     .select('id, name, slug')
     .in('slug', CATEGORY_SLUGS as unknown as string[])
+
+  const categories = sortByCategoryTree(data ?? [])
+  if (error || categories.length === 0) {
+    console.error('[registrarme] categorías no disponibles', error)
+  }
 
   return (
     <div className="min-h-screen bg-planneo-950 px-4 py-16">
@@ -34,7 +46,14 @@ export default async function RegistrarmePage() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
-          <RegisterForm categories={sortByCategoryTree(categories ?? [])} zonas={[...ZONA_OPTIONS]} />
+          {categories.length > 0 ? (
+            <RegisterForm categories={categories} zonas={[...ZONA_OPTIONS]} />
+          ) : (
+            <p role="alert" className="text-center text-sm text-white/70">
+              No pudimos cargar la lista de servicios. Recarga la página en un momento o escríbenos a{' '}
+              <a href="mailto:hola@planneo.mx" className="text-planneo-300 underline">hola@planneo.mx</a>.
+            </p>
+          )}
         </div>
 
         <div className="mt-6 flex flex-col gap-2 text-center text-sm text-white/50">
@@ -46,7 +65,7 @@ export default async function RegistrarmePage() {
           </p>
           <p>
             ¿Planneo te envió una invitación?{' '}
-            <Link href="/para-proveedores" className="text-planneo-300 hover:text-white transition-colors">
+            <Link href="/reclamar" className="text-planneo-300 hover:text-white transition-colors">
               Úsala aquí
             </Link>
           </p>

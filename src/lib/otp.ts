@@ -1,4 +1,20 @@
+import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
+
+export const ACCESS_EMAIL_MESSAGE = 'Escribe un correo válido. Ahí te llega tu acceso.'
+export const ACCESS_CODE_MESSAGE = 'Escribe los 6 dígitos del código que te enviamos.'
+
+/** Correo de acceso con mensaje en español para cualquier fallo (vacío, null, formato). */
+export const AccessEmailSchema = z
+  .string({ error: ACCESS_EMAIL_MESSAGE })
+  .trim()
+  .pipe(z.email({ error: ACCESS_EMAIL_MESSAGE }).max(200, { error: ACCESS_EMAIL_MESSAGE }))
+
+/** Código OTP de 6 dígitos; tolera espacios al pegarlo. */
+export const AccessCodeSchema = z
+  .string({ error: ACCESS_CODE_MESSAGE })
+  .transform((value) => value.replace(/\s/g, ''))
+  .pipe(z.string().regex(/^\d{6}$/, { error: ACCESS_CODE_MESSAGE }))
 
 /** Normaliza el email para que sea la misma clave en OTP, rate limit y dedup. */
 export function normalizeEmail(email: string): string {
@@ -26,6 +42,14 @@ export async function sendAccessCode(
   if (!error) return {}
 
   const message = error.message.toLowerCase()
+
+  // Con createUser=false (login) Supabase responde "Signups not allowed for
+  // otp" si el correo no tiene cuenta. Se trata como envío exitoso para no
+  // revelar qué correos están registrados; la pantalla del código lo aclara.
+  if (!createUser && (error.code === 'otp_disabled' || message.includes('signups not allowed'))) {
+    return {}
+  }
+
   if (message.includes('rate') || message.includes('security purposes')) {
     return { error: 'Pediste varios códigos seguidos. Espera un minuto e intenta de nuevo.' }
   }
@@ -42,7 +66,7 @@ export async function sendAccessCode(
 export async function verifyAccessCode(
   email: string,
   code: string
-): Promise<{ userId?: string; error?: string }> {
+): Promise<{ userId?: string; role?: unknown; error?: string }> {
   const supabase = await createClient()
   const normalized = normalizeEmail(email)
 
@@ -52,7 +76,7 @@ export async function verifyAccessCode(
     type: 'email',
   })
 
-  if (!error && data.user) return { userId: data.user.id }
+  if (!error && data.user) return { userId: data.user.id, role: data.user.app_metadata?.role }
 
   const fallback = await supabase.auth.verifyOtp({
     email: normalized,
@@ -60,7 +84,9 @@ export async function verifyAccessCode(
     type: 'signup',
   })
 
-  if (!fallback.error && fallback.data.user) return { userId: fallback.data.user.id }
+  if (!fallback.error && fallback.data.user) {
+    return { userId: fallback.data.user.id, role: fallback.data.user.app_metadata?.role }
+  }
 
   return { error: 'Ese código no coincide. Intenta de nuevo o pide otro.' }
 }
