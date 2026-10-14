@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import ProviderCard from '@/components/provider-card'
 import CatalogCategoryRail from '@/components/catalog-category-rail'
 import {
@@ -12,7 +11,13 @@ import {
   sortByCategoryTree,
   isCategorySlug,
 } from '@/lib/constants'
-import { catalogAllPath, withCatalogQuery } from '@/lib/catalog-href'
+import {
+  catalogAllPath,
+  catalogClearPath,
+  countCatalogFilters,
+  withCatalogQuery,
+  type CatalogQuery,
+} from '@/lib/catalog-href'
 import { createStaticClient } from '@/lib/supabase/server'
 import {
   formatCatalogFecha,
@@ -20,6 +25,11 @@ import {
   parseCatalogFecha,
 } from '@/lib/public-providers'
 import Navbar from '@/components/landing/Navbar'
+import CatalogFilters from '@/components/catalog/catalog-filters'
+import CatalogEmptyState from '@/components/catalog/catalog-empty-state'
+import SubcategoryChips from '@/components/catalog/subcategory-chips'
+import CategoryEditorial from '@/components/category-editorial'
+import { getCategoryContent } from '../../content/categories'
 
 type CatalogParams = {
   q?: string
@@ -49,7 +59,7 @@ export default async function ProviderCatalog({
   const categoryFilter = lockedCategory ?? searchParams.categoria ?? searchParams.category
   const subcategoryOptions = categoryFilter ? getSubcategories(categoryFilter) : []
   const fecha = parseCatalogFecha(searchParams.fecha)
-  const query = {
+  const query: CatalogQuery = {
     q: searchParams.q,
     zona: searchParams.zona,
     evento: searchParams.evento,
@@ -95,17 +105,30 @@ export default async function ProviderCatalog({
       selected: selectedSlug === category.slug,
     })),
   ]
-
-  const hasFilters = Boolean(
-    searchParams.q ||
-      searchParams.sub ||
-      searchParams.zona ||
-      searchParams.evento ||
-      searchParams.precio ||
-      fecha
-  )
-
+  // Filtros = q, zona, evento, precio, fecha y sub. La categoría no cuenta (ver CATALOG_FILTER_KEYS).
+  const appliedQuery = query
+  const activeFilters = countCatalogFilters(appliedQuery)
   const formAction = selectedSlug ? `/${selectedSlug}` : action
+  const clearHref = catalogClearPath(action, selectedSlug)
+  const isEmpty = providers.length === 0
+  // Guía + FAQs solo en la página canónica `/{categoria}` (no en `/buscar?categoria=`).
+  const editorial =
+    lockedCategory && isCategorySlug(lockedCategory) ? getCategoryContent(lockedCategory) : null
+
+  const subcategoryChips = selectedSlug
+    ? [
+        {
+          label: 'Todas',
+          href: withCatalogQuery(`/${selectedSlug}`, query),
+          selected: !searchParams.sub,
+        },
+        ...subcategoryOptions.map((label) => ({
+          label,
+          href: withCatalogQuery(`/${selectedSlug}`, { ...query, sub: label }, true),
+          selected: searchParams.sub === label,
+        })),
+      ]
+    : []
 
   return (
     <div className="min-h-screen bg-planneo-950 text-planneo-ink">
@@ -135,92 +158,23 @@ export default async function ProviderCatalog({
       </header>
 
       {selectedSlug && subcategoryOptions.length > 0 && (
-        <div className="border-b border-white/10 bg-planneo-950/80">
-          <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible sm:px-6 lg:px-12 [&::-webkit-scrollbar]:hidden">
-            <Link
-              href={withCatalogQuery(`/${selectedSlug}`, query)}
-              aria-current={!searchParams.sub ? 'page' : undefined}
-              className={`inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 ${
-                !searchParams.sub
-                  ? 'bg-white text-planneo-950'
-                  : 'border border-white/10 text-white/70 hover:border-white/25 hover:text-white'
-              }`}
-            >
-              Todas
-            </Link>
-            {subcategoryOptions.map((label) => {
-              const selected = searchParams.sub === label
-              return (
-                <Link
-                  key={label}
-                  href={withCatalogQuery(`/${selectedSlug}`, { ...query, sub: label }, true)}
-                  aria-current={selected ? 'page' : undefined}
-                  className={`inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 ${
-                    selected
-                      ? 'bg-white text-planneo-950'
-                      : 'border border-white/10 text-white/70 hover:border-white/25 hover:text-white'
-                  }`}
-                >
-                  {label}
-                </Link>
-              )
-            })}
-          </div>
-        </div>
+        <SubcategoryChips chips={subcategoryChips} />
       )}
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="flex flex-col gap-5 md:gap-8 lg:flex-row">
           <aside className="lg:w-72 lg:shrink-0">
-            <form
+            <CatalogFilters
+              key={withCatalogQuery(formAction, appliedQuery, true)}
               action={formAction}
-              method="get"
-              className="sticky top-24 space-y-5 rounded-[24px] border border-white/10 bg-white/[0.04] p-5"
-            >
-              <p className="text-sm font-semibold text-white">Afinar búsqueda</p>
-              {searchParams.sub && <input type="hidden" name="sub" value={searchParams.sub} />}
-              <div>
-                <label htmlFor="catalog-q" className="mb-1.5 block text-sm font-medium text-white/75">
-                  Buscar
-                </label>
-                <input
-                  id="catalog-q"
-                  type="search"
-                  name="q"
-                  defaultValue={searchParams.q ?? ''}
-                  placeholder="Fotografía, DJ, catering..."
-                  className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300"
-                />
-              </div>
-              <Select label="Zona" name="zona" value={searchParams.zona ?? ''} options={ZONAS_MTY.map((z) => ({ value: z, label: z }))} />
-              <Select label="Tipo de evento" name="evento" value={searchParams.evento ?? ''} options={EVENT_TYPES.map((e) => ({ value: e.value, label: e.label }))} />
-              <Select label="Precio" name="precio" value={searchParams.precio ?? ''} options={PRICE_RANGES.map((p) => ({ value: p.value, label: p.label }))} />
-
-              <div>
-                <label htmlFor="catalog-fecha" className="mb-1.5 block text-sm font-medium text-white/75">
-                  Fecha
-                </label>
-                <input
-                  id="catalog-fecha"
-                  type="date"
-                  name="fecha"
-                  defaultValue={fecha ?? ''}
-                  className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none [color-scheme:dark] focus:border-planneo-300"
-                />
-              </div>
-
-              <button type="submit" className="min-h-11 w-full rounded-xl bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500">
-                Aplicar filtros
-              </button>
-              {hasFilters && (
-                <Link
-                  href={selectedSlug ? `/${selectedSlug}` : allPath}
-                  className="block text-center text-sm font-medium text-white/55 transition hover:text-white"
-                >
-                  Limpiar filtros
-                </Link>
-              )}
-            </form>
+              categorySlug={categoryFilter}
+              applied={appliedQuery}
+              appliedCount={providers.length}
+              clearHref={clearHref}
+              zonas={ZONAS_MTY.map((z) => ({ value: z, label: z }))}
+              eventos={EVENT_TYPES.map((e) => ({ value: e.value, label: e.label }))}
+              precios={PRICE_RANGES.map((p) => ({ value: p.value, label: p.label }))}
+            />
           </aside>
 
           <main id="catalogo-resultados" className="min-w-0 flex-1">
@@ -240,15 +194,17 @@ export default async function ProviderCatalog({
               </div>
             </div>
 
-            {providers.length === 0 ? (
-              <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-16 text-center">
-                <h2 className="v4-display text-3xl font-bold tracking-[-0.04em]">Sin resultados</h2>
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/55">
-                  {fecha
-                    ? `Nadie aparece como disponible o por confirmar el ${formatCatalogFecha(fecha)}. Quienes ya tienen ese día ocupado no se muestran. Prueba otra fecha o quita el filtro de fecha.`
-                    : 'No encontramos proveedores con esa combinación. Prueba quitando un filtro o eligiendo otra categoría.'}
-                </p>
-              </div>
+            {isEmpty ? (
+              activeFilters > 0 ? (
+                <CatalogEmptyState
+                  kind="filtered"
+                  clearHref={clearHref}
+                  allHref={allPath}
+                  fechaLabel={fecha ? formatCatalogFecha(fecha) : undefined}
+                />
+              ) : (
+                <CatalogEmptyState kind="unfiltered" categoryName={selectedName ?? undefined} />
+              )
             ) : (
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {providers.map((provider) => (
@@ -260,42 +216,15 @@ export default async function ProviderCatalog({
                 ))}
               </div>
             )}
+
+            {editorial && (
+              <div className={isEmpty ? 'mt-10' : 'mt-14 border-t border-white/10 pt-10'}>
+                <CategoryEditorial content={editorial} />
+              </div>
+            )}
           </main>
         </div>
       </div>
-    </div>
-  )
-}
-
-function Select({
-  label,
-  name,
-  value,
-  options,
-}: {
-  label: string
-  name: string
-  value: string
-  options: { value: string; label: string }[]
-}) {
-  return (
-    <div>
-      <label htmlFor={`catalog-${name}`} className="mb-1.5 block text-sm font-medium text-white/75">
-        {label}
-      </label>
-      <select
-        id={`catalog-${name}`}
-        name={name}
-        defaultValue={value}
-        className="h-11 w-full rounded-xl border border-white/10 bg-[#211A30] px-3 text-sm text-white outline-none focus:border-planneo-300"
-      >
-        <option value="">Todos</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
     </div>
   )
 }

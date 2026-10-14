@@ -2,16 +2,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import type { CatalogDateAvailability } from '@/lib/public-providers'
 import type { ProviderWithCategory } from '@/lib/types'
-import { EVENT_TYPE_LABELS, PRICE_RANGES } from '@/lib/constants'
+import { EVENT_TYPE_LABELS } from '@/lib/constants'
+import { formatPriceRange } from '@/lib/format'
 
 interface ProviderCardProps {
   provider: ProviderWithCategory
   dateAvailability?: CatalogDateAvailability
 }
-
-const PRICE_LABEL: Record<string, string> = Object.fromEntries(
-  PRICE_RANGES.map(({ value, label }) => [value, label])
-)
 
 const EVENT_LABEL: Record<string, string> = EVENT_TYPE_LABELS
 
@@ -77,7 +74,7 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
         </div>
         {provider.price_range && (
           <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
-            {PRICE_LABEL[provider.price_range] ?? provider.price_range}
+            {formatPriceRange(provider.price_range)}
           </span>
         )}
 
