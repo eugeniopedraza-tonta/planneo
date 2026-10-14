@@ -8,7 +8,7 @@ import { normalizeEmail, sendAccessCode } from '@/lib/otp'
 import { checkRateLimit, rateLimitKey } from '@/lib/rate-limit'
 import { trackOnboardingEvent } from '@/lib/onboarding-events'
 import { sendDuplicateClaimRequest } from '@/lib/email'
-import { ZONA_OPTIONS } from '@/lib/constants'
+import { parseRegistration } from './_schema'
 
 export type DuplicateMatch = {
   id: string
@@ -27,13 +27,6 @@ export type State = {
   claimRequested?: boolean
 }
 
-const RegisterSchema = z.object({
-  business_name: z.string().min(2, 'Escribe el nombre de tu negocio').max(120),
-  category_id: z.string().uuid('Elige tu servicio principal'),
-  zona: z.string().min(1, 'Elige dónde atiendes').max(80),
-  email: z.string().email('Escribe un correo válido').max(200),
-})
-
 /**
  * Cuatro decisiones y nada más. El perfil todavía no se crea: se envía el
  * código y los datos esperan firmados en una cookie hasta que el correo quede
@@ -43,21 +36,11 @@ export async function startProviderRegistration(
   _prev: State,
   formData: FormData
 ): Promise<State> {
-  const parsed = RegisterSchema.safeParse({
-    business_name: formData.get('business_name'),
-    category_id: formData.get('category_id'),
-    zona: formData.get('zona'),
-    email: formData.get('email'),
-  })
-
-  if (!parsed.success) return { fieldErrors: parsed.error.flatten().fieldErrors }
+  const parsed = parseRegistration(formData)
+  if (!parsed.data) return { fieldErrors: parsed.fieldErrors }
 
   const { business_name, category_id, zona } = parsed.data
   const email = normalizeEmail(parsed.data.email)
-
-  if (!(ZONA_OPTIONS as readonly string[]).includes(zona)) {
-    return { fieldErrors: { zona: ['Elige una zona de la lista'] } }
-  }
 
   // La deduplicación solo sugiere. Si el usuario ya la vio y decidió continuar,
   // se respeta: un falso positivo no puede bloquear a un negocio distinto.
@@ -113,8 +96,8 @@ export async function requestExistingProfileAccess(
   _prev: State,
   formData: FormData
 ): Promise<State> {
-  const providerId = z.string().uuid().safeParse(formData.get('provider_id'))
-  const email = z.string().email().safeParse(formData.get('email'))
+  const providerId = z.uuid().safeParse(formData.get('provider_id'))
+  const email = z.email().safeParse(formData.get('email'))
 
   if (!providerId.success || !email.success) {
     return { error: 'No pudimos registrar tu solicitud. Escríbenos a hola@planneo.mx.' }

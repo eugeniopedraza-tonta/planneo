@@ -25,17 +25,31 @@ export default function VerifyForm() {
   return (
     <form action={formAction} className="mt-5 flex flex-col gap-4">
       {state.error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
-      {state.notice && !state.error && (
+      {state.notice && !state.error && !state.codeError && (
         <div className="rounded-xl border border-planneo-mint/30 bg-planneo-mint/10 px-4 py-3 text-sm text-planneo-mint">
           {state.notice}
         </div>
       )}
 
-      <CodeInput name="code" error={!!state.error} disabled={isPending} />
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="code" className="text-sm font-medium text-white/75">
+          Código de acceso
+        </label>
+        <CodeInput
+          id="code"
+          name="code"
+          error={!!state.codeError}
+          disabled={isPending}
+          describedBy={state.codeError ? 'code-msg' : undefined}
+        />
+        {state.codeError && (
+          <p id="code-msg" className="text-xs text-red-400">{state.codeError}</p>
+        )}
+      </div>
 
       <button
         type="submit"

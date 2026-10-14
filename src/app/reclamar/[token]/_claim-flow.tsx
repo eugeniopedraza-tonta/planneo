@@ -137,12 +137,13 @@ function ContactStep({ action, reportAction }: { action: Action; reportAction: A
       </p>
 
       <form action={formAction} className="mt-4 flex flex-col gap-4">
-        <Field label="Nombre de contacto" error={state.fieldErrors?.contact_name}>
-          <input name="contact_name" required maxLength={80} placeholder="Tu nombre" className={inputCls} />
+        <Field id="contact_name" label="Nombre de contacto" error={state.fieldErrors?.contact_name}>
+          <input id="contact_name" name="contact_name" autoComplete="name" required maxLength={80} placeholder="Tu nombre" className={inputCls} />
         </Field>
 
-        <Field label="Email de acceso" error={state.fieldErrors?.email}>
+        <Field id="claim-email" label="Email de acceso" error={state.fieldErrors?.email}>
           <input
+            id="claim-email"
             name="email"
             type="email"
             required
@@ -153,11 +154,13 @@ function ContactStep({ action, reportAction }: { action: Action; reportAction: A
         </Field>
 
         <Field
+          id="phone"
           label="Teléfono / WhatsApp"
           error={state.fieldErrors?.phone}
           hint="Lo usamos para confirmar el negocio. No se publica automáticamente."
         >
           <input
+            id="phone"
             name="phone"
             type="tel"
             required
@@ -226,11 +229,13 @@ const inputCls =
   'h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300'
 
 function Field({
+  id,
   label,
   error,
   hint,
   children,
 }: {
+  id: string
   label: string
   error?: string[]
   hint?: string
@@ -238,7 +243,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-white/75">{label}</label>
+      <label htmlFor={id} className="text-sm font-medium text-white/75">{label}</label>
       {children}
       {error?.[0] ? (
         <p className="text-xs text-red-400">{error[0]}</p>

@@ -11,12 +11,18 @@ const LENGTH = 6
  */
 export default function CodeInput({
   name,
+  id,
   error = false,
   disabled = false,
+  describedBy,
 }: {
   name: string
+  /** Va en el primer cuadro, para que un `<label htmlFor>` apunte al campo. */
+  id?: string
   error?: boolean
   disabled?: boolean
+  /** id del mensaje de ayuda o error asociado. */
+  describedBy?: string
 }) {
   const [digits, setDigits] = useState<string[]>(Array(LENGTH).fill(''))
   const refs = useRef<(HTMLInputElement | null)[]>([])
@@ -86,6 +92,7 @@ export default function CodeInput({
       {digits.map((digit, i) => (
         <input
           key={i}
+          id={i === 0 ? id : undefined}
           ref={(el) => {
             refs.current[i] = el
           }}
@@ -96,7 +103,9 @@ export default function CodeInput({
           type="text"
           inputMode="numeric"
           autoComplete={i === 0 ? 'one-time-code' : 'off'}
-          aria-label={`Dígito ${i + 1} de ${LENGTH}`}
+          aria-label={i === 0 && id ? undefined : `Dígito ${i + 1} de ${LENGTH}`}
+          aria-invalid={error || undefined}
+          aria-describedby={describedBy}
           disabled={disabled}
           className={boxCls}
         />

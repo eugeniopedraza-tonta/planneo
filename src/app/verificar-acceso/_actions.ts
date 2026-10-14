@@ -1,14 +1,13 @@
 'use server'
 
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
 import { createClient, createServiceClient } from '@/lib/supabase/server'
 import {
   clearOnboardingSession,
   getOnboardingSession,
   type OnboardingSession,
 } from '@/lib/onboarding-session'
-import { sendAccessCode, verifyAccessCode } from '@/lib/otp'
+import { AccessCodeSchema, sendAccessCode, verifyAccessCode } from '@/lib/otp'
 import { checkRateLimit, rateLimitKey } from '@/lib/rate-limit'
 import { trackOnboardingEvent } from '@/lib/onboarding-events'
 import { generateProviderSlug, slugify } from '@/lib/slug'
@@ -19,9 +18,9 @@ export type State = {
   error?: string
   /** Se muestra tras un reenvío exitoso. */
   notice?: string
+  /** Error del código, mostrado bajo el campo. */
+  codeError?: string
 }
-
-const CodeSchema = z.string().regex(/^\d{6}$/, 'El código debe tener 6 dígitos')
 
 export async function verifyAccess(_prev: State, formData: FormData): Promise<State> {
   const session = await getOnboardingSession()
@@ -38,8 +37,8 @@ export async function verifyAccess(_prev: State, formData: FormData): Promise<St
     return error ? { error } : { notice: 'Te enviamos un código nuevo.' }
   }
 
-  const code = CodeSchema.safeParse(formData.get('code'))
-  if (!code.success) return { error: code.error.issues[0].message }
+  const code = AccessCodeSchema.safeParse(formData.get('code'))
+  if (!code.success) return { codeError: code.error.issues[0].message }
 
   const attempts = await checkRateLimit(rateLimitKey('otp-verify', session.email), 10, 15 * 60)
   if (!attempts) {
@@ -47,7 +46,7 @@ export async function verifyAccess(_prev: State, formData: FormData): Promise<St
   }
 
   const { userId, error } = await verifyAccessCode(session.email, code.data)
-  if (error || !userId) return { error: error ?? 'No pudimos verificar el código.' }
+  if (error || !userId) return { codeError: error ?? 'No pudimos verificar el código.' }
 
   const result =
     session.purpose === 'claim'
