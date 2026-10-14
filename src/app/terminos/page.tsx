@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import Navbar from '@/components/landing/Navbar'
 
-export const metadata: Metadata = {
-  title: 'Términos de uso — Planneo',
+export const metadata: Metadata = pageMetadata({
+  title: 'Términos de uso',
   description: 'Términos básicos de uso de Planneo para organizadores y proveedores.',
-  alternates: { canonical: '/terminos' },
-}
+  path: '/terminos',
+})
 
 export default function TerminosPage() {
   return (

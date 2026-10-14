@@ -5,11 +5,9 @@ import { getOrCreateSessionId, trackEvent } from '@/lib/analytics'
 
 export default function ProfileViewTracker({
   providerId,
-  providerName,
   category,
 }: {
   providerId: string
-  providerName: string
   category?: string | null
 }) {
   useEffect(() => {
@@ -31,10 +29,9 @@ export default function ProfileViewTracker({
 
     trackEvent('profile_view', {
       provider_id: providerId,
-      provider_name: providerName,
-      category,
+      category_slug: category ?? undefined,
     })
-  }, [category, providerId, providerName])
+  }, [category, providerId])
 
   return null
 }

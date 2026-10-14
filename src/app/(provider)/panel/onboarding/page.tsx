@@ -12,7 +12,7 @@ import PublishPanel from './_publish-panel'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Activa tu perfil · Planneo',
+  title: 'Activa tu perfil',
   robots: { index: false, follow: false },
 }
 

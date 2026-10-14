@@ -7,7 +7,7 @@ import DescriptionEditor from './_editor'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Describe tu servicio · Planneo',
+  title: 'Describe tu servicio',
   robots: { index: false, follow: false },
 }
 

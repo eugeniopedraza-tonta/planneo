@@ -2,7 +2,7 @@ import Link from 'next/link'
 import RecoverPasswordForm from './_form'
 
 export const metadata = {
-  title: 'Recuperar contraseña — Planneo',
+  title: 'Recuperar contraseña',
   robots: { index: false, follow: false },
 }
 

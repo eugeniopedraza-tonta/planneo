@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { CATEGORY_SLUGS } from '@/lib/constants'
+import { SITE_URL } from '@/lib/site-url'
 
-const BASE = 'https://planneo.mx'
+const BASE = SITE_URL
 
 type ProviderSitemapRow = {
   slug: string
@@ -41,6 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/proveedores`, changeFrequency: 'daily', priority: 0.9 },
     { url: `${BASE}/buscar`, changeFrequency: 'daily', priority: 0.5 },
     { url: `${BASE}/para-proveedores`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/registrarme`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE}/terminos`, changeFrequency: 'monthly', priority: 0.2 },
     { url: `${BASE}/privacidad`, changeFrequency: 'monthly', priority: 0.2 },
     ...categoryUrls,

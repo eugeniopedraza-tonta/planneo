@@ -6,7 +6,7 @@ import { CheckCircleIcon, ClockIcon } from '@/components/icons'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Perfil enviado · Planneo',
+  title: 'Perfil enviado',
   robots: { index: false, follow: false },
 }
 

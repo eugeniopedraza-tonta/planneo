@@ -3,8 +3,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient, createStaticClient } from '@/lib/supabase/server'
 
-export const revalidate = 3600
-export const dynamicParams = true
+// Render por request: la página lee searchParams (?preview=true del admin).
+// Con generateStaticParams + ISR, cualquier perfil no prerenderado en build
+// (todos los que se publican después del deploy) tronaba con
+// DYNAMIC_SERVER_USAGE (500) en vez de mostrarse.
+export const dynamic = 'force-dynamic'
 import { EVENT_TYPE_LABELS, isCategorySlug } from '@/lib/constants'
 import QuoteRequestForm from '@/components/quote-request-form'
 import ProfileViewTracker from '@/components/profile-view-tracker'
@@ -13,6 +16,10 @@ import ProviderPackagesSection from '@/components/provider-packages-section'
 import ProviderTestimonialsSection from '@/components/provider-testimonials-section'
 import PublicAvailabilityCalendar from '@/components/public-availability-calendar'
 import WhatsAppButton from '@/components/whatsapp-button'
+import JsonLd from '@/components/json-ld'
+import { breadcrumbJsonLd, localBusinessJsonLd } from '@/lib/json-ld'
+import { pageMetadata } from '@/lib/seo'
+import { whatsAppUrl } from '@/lib/whatsapp'
 import Navbar from '@/components/landing/Navbar'
 import { isInquiriesEnabled } from '@/lib/feature-flags'
 import type { ProviderWithCategory, PublicAvailability, ServicePackage } from '@/lib/types'
@@ -38,53 +45,28 @@ async function getProvider(slug: string, preview = false): Promise<ProviderWithC
   return (data as ProviderWithCategory) ?? null
 }
 
-export async function generateStaticParams() {
-  const supabase = createStaticClient()
-  const { data } = await supabase
-    .from('providers')
-    .select('slug, categories(slug)')
-    .eq('status', 'published')
-    .limit(200)
-
-  if (!data) return []
-
-  return data
-    .filter((p) => {
-      const cats = p.categories
-      return cats && !Array.isArray(cats) && (cats as { slug: string }).slug
-    })
-    .map((p) => ({
-      category: (p.categories as unknown as { slug: string }).slug,
-      slug: p.slug,
-    }))
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const provider = await getProvider(slug)
   if (!provider) return {}
 
-  const title = `${provider.name} — ${provider.categories?.name ?? ''} en Monterrey | Planneo`
+  const categoryName = provider.categories?.name
+  const title = categoryName
+    ? `${provider.name} — ${categoryName} en Monterrey`
+    : `${provider.name} en Monterrey`
   const description =
     provider.description ??
-    `Conoce a ${provider.name}, proveedor de ${provider.categories?.name?.toLowerCase() ?? 'eventos'} en ${provider.zona ?? 'Monterrey'}. Contáctalos directamente desde Planneo.`
+    `Conoce a ${provider.name}, proveedor de ${categoryName?.toLowerCase() ?? 'eventos'} en ${provider.zona ?? 'Monterrey'}. Contáctalos directamente desde Planneo.`
 
-  const images = provider.photos?.[0]
-    ? [{ url: provider.photos[0], width: 1200, height: 630, alt: provider.name }]
-    : []
+  // Foto principal del proveedor; sin foto, la imagen de marca.
+  const mainPhoto = provider.photos?.[0]
 
-  return {
+  return pageMetadata({
     title,
     description,
-    alternates: { canonical: `/${provider.categories?.slug ?? ''}/${provider.slug}` },
-    openGraph: {
-      title,
-      description,
-      locale: 'es_MX',
-      type: 'website',
-      images,
-    },
-  }
+    path: `/${provider.categories?.slug ?? ''}/${provider.slug}`,
+    image: mainPhoto ? { url: mainPhoto, width: 1200, height: 630, alt: provider.name } : null,
+  })
 }
 
 const EVENT_LABEL: Record<string, string> = EVENT_TYPE_LABELS
@@ -129,43 +111,37 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
     notFound()
   }
 
-  // Build JSON-LD from known scalar values only.
-  // JSON.stringify produces valid JSON; we only risk XSS if a value itself
-  // contained </script> — we neutralise that with a targeted replace.
-  const jsonLdObj = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: provider.name,
-    ...(provider.description ? { description: provider.description } : {}),
-    ...(provider.photos && provider.photos.length > 0 ? { image: provider.photos } : {}),
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: provider.zona ?? 'Monterrey',
-      addressRegion: 'Nuevo León',
-      addressCountry: 'MX',
-    },
-    ...(provider.instagram_handle
-      ? { sameAs: [`https://instagram.com/${provider.instagram_handle.replace(/[^a-zA-Z0-9._]/g, '')}`] }
-      : {}),
-  }
-  // Escape </script> to prevent early tag closure
-  const jsonLd = JSON.stringify(jsonLdObj).replace(/<\/script>/gi, '<\\/script>')
+  const profilePath = `/${category}/${provider.slug}`
+  // El celular es público en el MVP (sin muro de login); sin número válido no hay CTA.
+  const showWhatsApp = !isInquiriesEnabled() && !!provider.phone && !!whatsAppUrl(provider.phone)
+  const jsonLd = [
+    localBusinessJsonLd({
+      name: provider.name,
+      path: profilePath,
+      description: provider.description,
+      zona: provider.zona,
+      photos: provider.photos,
+      priceRange: provider.price_range,
+      phone: showWhatsApp ? provider.phone : null,
+      instagramHandle: provider.instagram_handle,
+    }),
+    breadcrumbJsonLd([
+      { name: 'Inicio', path: '/' },
+      { name: provider.categories?.name ?? category, path: `/${category}` },
+      { name: provider.name, path: profilePath },
+    ]),
+  ]
 
   return (
     <>
       {!isPreview && (
         <ProfileViewTracker
           providerId={provider.id}
-          providerName={provider.name}
           category={provider.categories?.slug}
         />
       )}
 
-      <script
-        type="application/ld+json"
-        // Content is JSON.stringify output with </script> escaped — safe for inline use
-        dangerouslySetInnerHTML={{ __html: jsonLd }}
-      />
+      <JsonLd data={jsonLd} />
 
       <div className="min-h-screen bg-planneo-950 pb-28 text-planneo-ink lg:pb-0">
         <Navbar />
@@ -389,11 +365,12 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                   </>
                 ) : (
                   <>
-                    {provider.phone && (
+                    {showWhatsApp && provider.phone && (
                       <WhatsAppButton
                         providerId={provider.id}
                         phone={provider.phone}
                         providerName={provider.name}
+                        categorySlug={category}
                       />
                     )}
                     <ul className="space-y-2 border-t border-white/10 pt-4 text-xs leading-5 text-white/55">
@@ -441,38 +418,34 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
           </div>
         </div>
 
-        {/* Barra CTA fija en móvil, estilo Airbnb */}
-        <div className="v4-glass fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-white/10 px-4 py-3 lg:hidden">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-white">
-              {provider.price_range
-                ? PRICE_LABEL[provider.price_range] ?? provider.price_range
-                : 'Precio a consultar'}
-            </p>
-            <p className="text-xs text-white/55">
-              {isInquiriesEnabled()
-                ? 'Cotiza gratis y sin compromiso'
-                : 'Escríbeles por WhatsApp'}
-            </p>
+        {/* Barra CTA fija en móvil: visible sin scroll */}
+        {showWhatsApp && provider.phone ? (
+          <div className="v4-glass fixed inset-x-0 bottom-0 z-40 border-t border-white/10 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+            <WhatsAppButton
+              providerId={provider.id}
+              phone={provider.phone}
+              providerName={provider.name}
+              categorySlug={category}
+            />
           </div>
-          {isInquiriesEnabled() ? (
+        ) : isInquiriesEnabled() ? (
+          <div className="v4-glass fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-white/10 px-4 py-3 lg:hidden">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-white">
+                {provider.price_range
+                  ? PRICE_LABEL[provider.price_range] ?? provider.price_range
+                  : 'Precio a consultar'}
+              </p>
+              <p className="text-xs text-white/55">Cotiza gratis y sin compromiso</p>
+            </div>
             <a
               href="#cotizar"
               className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
             >
               Solicitar cotización
             </a>
-          ) : provider.phone ? (
-            <WhatsAppButton
-              providerId={provider.id}
-              phone={provider.phone}
-              providerName={provider.name}
-              className="v4-cta-glow inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
-            >
-              Escribir por WhatsApp
-            </WhatsAppButton>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
       </div>
     </>
   )

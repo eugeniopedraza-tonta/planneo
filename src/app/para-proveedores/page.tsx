@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Para proveedores de eventos — Planneo',
+export const metadata: Metadata = pageMetadata({
+  title: 'Para proveedores de eventos',
   description:
     'Crea tu perfil profesional en Planneo y recibe solicitudes de cotización de quienes organizan bodas, XV años y eventos en Monterrey.',
-  alternates: { canonical: '/para-proveedores' },
-}
+  path: '/para-proveedores',
+})
 
 const BENEFITS = [
   {

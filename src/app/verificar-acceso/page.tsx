@@ -4,7 +4,7 @@ import { getOnboardingSession } from '@/lib/onboarding-session'
 import VerifyForm from './_form'
 
 export const metadata = {
-  title: 'Verifica tu acceso · Planneo',
+  title: 'Verifica tu acceso',
   robots: { index: false, follow: false },
 }
 
