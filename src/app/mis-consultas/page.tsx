@@ -40,7 +40,7 @@ export default async function MisConsultasPage() {
       <Navbar />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <div className="mb-6">
-          <h1 className="v4-display text-3xl font-bold tracking-[-0.04em] text-white">Mis consultas</h1>
+          <h1 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">Mis consultas</h1>
           <p className="text-sm text-white/55 mt-0.5">
             Tus solicitudes de cotización y las respuestas de los proveedores.
           </p>
@@ -95,7 +95,7 @@ function InquiryCard({ inquiry }: { inquiry: InquiryRow }) {
             </p>
           </div>
           <span
-            className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
+            className={`text-xs font-medium px-2 py-0.5 rounded-full ${
               isConfirmed ? 'bg-planneo-mint text-planneo-950' : 'bg-white/10 text-white/55'
             }`}
           >

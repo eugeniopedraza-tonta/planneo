@@ -55,7 +55,7 @@ export default function InquiryList({ inquiries }: { inquiries: InquiryWithMessa
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-sm font-semibold text-white">{inquiry.name}</h2>
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[inquiry.status]}`}>
+                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[inquiry.status]}`}>
                   {INQUIRY_STATUS_LABELS[inquiry.status]}
                 </span>
               </div>
@@ -68,7 +68,7 @@ export default function InquiryList({ inquiries }: { inquiries: InquiryWithMessa
                   type="button"
                   disabled={isPending || inquiry.status === s}
                   onClick={() => setStatus(inquiry, s)}
-                  className={`px-2.5 py-1 rounded-lg border text-[11px] font-medium transition-colors disabled:opacity-50 ${
+                  className={`px-2.5 py-1 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 ${
                     inquiry.status === s
                       ? 'border-transparent ' + STATUS_STYLES[s]
                       : 'border-white/10 text-white/55 hover:bg-white/[0.07]'
@@ -197,7 +197,7 @@ function ThreadMessage({
         isProvider ? 'bg-planneo-600/10 border border-planneo-300/25 ml-6' : 'bg-white/[0.04] border border-white/10 mr-6'
       }`}
     >
-      <p className="text-[11px] font-medium text-white/50 mb-0.5">
+      <p className="text-xs font-medium text-white/50 mb-0.5">
         {who} · {formatDate(at)}
       </p>
       {quoteAmount != null && (

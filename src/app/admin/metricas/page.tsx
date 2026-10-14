@@ -60,7 +60,7 @@ export default async function MetricasPage() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Métricas</h1>
+        <h1 className="text-xl font-bold text-white">Métricas</h1>
         <p className="mt-1 text-sm text-white/55">Leads y actividad de los últimos 30 días.</p>
       </div>
 
@@ -136,7 +136,7 @@ function MetricCard({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border border-white/10 bg-planneo-900 p-5">
       <p className="mb-1 text-sm text-white/55">{label}</p>
-      <p className="text-3xl font-bold text-white">{value}</p>
+      <p className="text-2xl font-bold text-white">{value}</p>
     </div>
   )
 }

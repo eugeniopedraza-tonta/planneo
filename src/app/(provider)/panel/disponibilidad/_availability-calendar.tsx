@@ -103,7 +103,7 @@ export default function AvailabilityCalendar({
         {/* Grid del calendario */}
         <div className="grid grid-cols-7 gap-1 text-center">
           {WEEKDAYS.map((d) => (
-            <span key={d} className="text-[11px] font-medium text-white/50 py-1">{d}</span>
+            <span key={d} className="text-xs font-medium text-white/50 py-1">{d}</span>
           ))}
           {Array.from({ length: firstWeekday }).map((_, i) => (
             <span key={`pad-${i}`} />

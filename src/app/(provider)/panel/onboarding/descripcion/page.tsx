@@ -77,7 +77,7 @@ export default async function DescripcionPage() {
         ← Volver a la activación
       </Link>
 
-      <h1 className="mt-4 text-2xl font-semibold text-white">Describe tu servicio</h1>
+      <h1 className="mt-4 text-xl font-semibold text-white">Describe tu servicio</h1>
       <p className="mt-1 text-sm text-white/60">
         Una descripción clara ayuda a que te contacten por el servicio correcto.
       </p>

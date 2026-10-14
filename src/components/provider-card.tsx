@@ -83,7 +83,7 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
         )}
 
         <div className="absolute inset-x-4 bottom-3">
-          <p className="v4-mono text-[10px] text-white/65">
+          <p className="v4-mono text-xs text-white/65">
             {provider.subcategory ?? provider.categories?.name ?? 'Proveedor'}
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
 
       {/* Contenido */}
       <div className="flex flex-1 flex-col gap-2 p-5">
-        <h3 className="v4-display text-xl font-bold tracking-[-0.03em] text-white transition-colors group-hover:text-planneo-300">
+        <h3 className="v4-display text-lg font-bold tracking-[-0.03em] text-white transition-colors group-hover:text-planneo-300">
           {provider.name}
         </h3>
 
@@ -113,7 +113,7 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
           {provider.event_types && provider.event_types.length > 0 ? (
             <div className="flex flex-wrap gap-1.5">
               {provider.event_types.slice(0, 2).map((type) => (
-                <span key={type} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-[9px] text-white/55">
+                <span key={type} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-xs text-white/55">
                   {EVENT_LABEL[type] ?? type}
                 </span>
               ))}

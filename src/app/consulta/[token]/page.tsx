@@ -65,7 +65,7 @@ export default async function ConsultaPage({
     <div className="min-h-screen bg-planneo-950 text-planneo-ink py-10 px-4">
       <div className="max-w-2xl mx-auto flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <Link href="/" className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">Planneo</Link>
+          <Link href="/" className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-xl font-bold text-transparent">Planneo</Link>
           <div className="flex items-center gap-3">
             {isOwner && isOrganizerAccountsEnabled() && (
               <Link href="/mis-consultas" className="text-xs font-medium text-planneo-300 hover:underline">
@@ -192,7 +192,7 @@ function MessageBubble({
             : 'bg-planneo-600 text-white'
         }`}
       >
-        <p className={`text-[11px] font-medium mb-1 ${isProvider ? 'text-white/50' : 'text-white/70'}`}>
+        <p className={`text-xs font-medium mb-1 ${isProvider ? 'text-white/50' : 'text-white/70'}`}>
           {name} · {formatDateTime(createdAt)}
         </p>
         {quoteAmount != null && (

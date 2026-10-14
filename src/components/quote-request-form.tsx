@@ -134,7 +134,7 @@ export default function QuoteRequestForm({ providerId }: { providerId: string })
       >
         {isPending ? 'Enviando…' : 'Enviar solicitud'}
       </button>
-      <p className="text-[11px] text-white/50 text-center">
+      <p className="text-xs text-white/50 text-center">
         Recibirás la cotización aquí mismo en Planneo.
       </p>
     </form>

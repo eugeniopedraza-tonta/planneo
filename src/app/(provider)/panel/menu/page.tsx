@@ -38,7 +38,7 @@ export default async function MenuPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">Mis menús</h1>
+        <h1 className="text-lg font-semibold text-white">Mis menús</h1>
         <p className="text-sm text-white/55 mt-0.5">
           Arma tus menús por tiempos. Aparecen en tu perfil público para que el cliente
           sepa qué esperar.

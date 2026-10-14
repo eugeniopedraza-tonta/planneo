@@ -54,7 +54,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
       <div className="mx-auto px-12 lg:px-24">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="inline-flex min-h-11 shrink-0 items-center" aria-label="Planneo inicio">
-            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-[28px] font-bold text-transparent sm:text-[32px]">
+            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
               Planneo
             </span>
           </Link>

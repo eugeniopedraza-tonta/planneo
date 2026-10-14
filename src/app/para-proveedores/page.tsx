@@ -36,11 +36,11 @@ export default function ParaProveedoresPage() {
       <div className="mx-auto w-full max-w-3xl px-4 py-16">
         <div className="text-center">
           <Link href="/" className="mb-6 inline-block">
-            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">
               Planneo
             </span>
           </Link>
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h1 className="text-2xl font-bold tracking-tight text-white">
             Que te encuentren quienes ya están organizando su evento
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
@@ -69,7 +69,7 @@ export default function ParaProveedoresPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="text-center text-xl font-semibold text-white">Cómo funciona</h2>
+          <h2 className="text-center text-lg font-semibold text-white">Cómo funciona</h2>
           <ol className="mt-6 flex flex-col gap-4">
             {STEPS.map((s) => (
               <li key={s.n} className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5">

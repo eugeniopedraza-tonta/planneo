@@ -32,8 +32,8 @@ export default async function FeaturedListings() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// DESTACADOS"}</p>
-            <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+            <p className="v4-mono mb-4 text-xs text-planneo-300">{"// DESTACADOS"}</p>
+            <h2 className="v4-display max-w-3xl text-3xl font-bold leading-[0.95] tracking-[-0.04em]">
               Proveedores <span className="v4-shimmer-text">destacados.</span>
             </h2>
           </div>
@@ -60,8 +60,8 @@ export default async function FeaturedListings() {
                     </div>
                   )}
                   <div className="absolute bottom-5 left-5 right-5">
-                    <p className="v4-mono text-[10px] text-white/65">{provider.categories?.name ?? "Proveedor"}</p>
-                    <h3 className="v4-display mt-1 text-3xl font-bold tracking-[-0.04em] text-white">{provider.name}</h3>
+                    <p className="v4-mono text-xs text-white/65">{provider.categories?.name ?? "Proveedor"}</p>
+                    <h3 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">{provider.name}</h3>
                   </div>
                 </div>
 
@@ -73,7 +73,7 @@ export default async function FeaturedListings() {
                   {provider.event_types?.length ? (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {provider.event_types.slice(0, 3).map((tag) => (
-                        <span key={tag} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-[10px] text-white/55">{tag}</span>
+                        <span key={tag} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-xs text-white/55">{tag}</span>
                       ))}
                     </div>
                   ) : null}

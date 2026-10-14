@@ -167,7 +167,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
 
           {/* Título arriba de la galería, estilo Airbnb */}
           <header className="mt-4">
-            <h1 className="v4-display text-3xl font-bold tracking-[-0.04em] text-white sm:text-4xl">
+            <h1 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">
               {provider.name}
             </h1>
             <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-sm text-white/60">
@@ -265,7 +265,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
               {/* Descripción */}
               {provider.description && (
                 <section className="py-8">
-                  <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">
+                  <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">
                     Acerca de {provider.name}
                   </h2>
                   <p className="mt-4 whitespace-pre-line leading-7 text-white/70">
@@ -277,7 +277,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
               {/* Tipos de evento */}
               {provider.event_types && provider.event_types.length > 0 && (
                 <section className="py-8">
-                  <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">
+                  <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">
                     Ideal para estos eventos
                   </h2>
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -318,7 +318,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                   <div>
                     {provider.price_range ? (
                       <>
-                        <p className="v4-display text-2xl font-bold tracking-[-0.02em] text-white">
+                        <p className="v4-display text-xl font-bold tracking-[-0.02em] text-white">
                           {provider.price_range}
                           <span className="ml-2 text-sm font-normal text-white/55">
                             {PRICE_LABEL[provider.price_range]?.split('· ')[1] ?? ''}
@@ -327,7 +327,7 @@ export default async function ProviderProfilePage({ params, searchParams }: Page
                         <p className="mt-0.5 text-xs text-white/50">Rango de precios del proveedor</p>
                       </>
                     ) : (
-                      <p className="v4-display text-xl font-bold tracking-[-0.02em] text-white">
+                      <p className="v4-display text-lg font-bold tracking-[-0.02em] text-white">
                         Precio a consultar
                       </p>
                     )}

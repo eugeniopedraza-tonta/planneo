@@ -46,7 +46,7 @@ export default function TaskCard({
         <div className="flex flex-wrap items-center gap-2">
           <h3 className="text-sm font-semibold text-white">{title}</h3>
           {state === 'optional' && (
-            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white/50">
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-white/50">
               Opcional
             </span>
           )}

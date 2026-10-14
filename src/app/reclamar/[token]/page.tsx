@@ -99,10 +99,10 @@ export default async function ReclamarPage({ params }: Props) {
     <div className="min-h-screen bg-planneo-950 px-4 py-10">
       <div className="mx-auto w-full max-w-lg">
         <div className="mb-6 text-center">
-          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">
             Planneo
           </span>
-          <h1 className="mt-3 text-xl font-semibold text-white">Tu perfil ya está preparado</h1>
+          <h1 className="mt-3 text-lg font-semibold text-white">Tu perfil ya está preparado</h1>
           <p className="mt-1 text-sm text-white/60">
             Revisa cómo podrán encontrarte en Planneo. Puedes corregir cualquier detalle antes de
             activarlo. Es gratis y toma alrededor de 2 minutos.

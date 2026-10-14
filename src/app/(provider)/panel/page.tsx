@@ -109,7 +109,7 @@ export default async function PanelPage() {
       )}
 
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">
+        <h1 className="text-lg font-semibold text-white">
           Hola, <span className="text-planneo-300">{provider?.name ?? 'proveedor'}</span>
         </h1>
         <p className="text-sm text-white/55 mt-0.5">
@@ -143,7 +143,7 @@ export default async function PanelPage() {
 function StatCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
   return (
     <div className={`bg-planneo-900 rounded-2xl border p-4 ${accent ? 'border-planneo-300/40' : 'border-white/10'}`}>
-      <p className={`text-2xl font-bold ${accent ? 'text-planneo-300' : 'text-white'}`}>{value}</p>
+      <p className={`text-xl font-bold ${accent ? 'text-planneo-300' : 'text-white'}`}>{value}</p>
       <p className="text-xs text-white/55 mt-0.5">{label}</p>
     </div>
   )

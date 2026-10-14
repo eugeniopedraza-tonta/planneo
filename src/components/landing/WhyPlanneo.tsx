@@ -14,7 +14,7 @@ export default function WhyPlanneo() {
               <div className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-planneo-600/20 text-planneo-300">
                 {index + 1}
               </div>
-              <h3 className="v4-display text-2xl font-bold tracking-[-0.04em]">{title}</h3>
+              <h3 className="v4-display text-xl font-bold tracking-[-0.04em]">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-white/55">{body}</p>
             </article>
           ))}

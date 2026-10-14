@@ -21,7 +21,7 @@ export default async function VerificarAccesoPage() {
     <div className="min-h-screen bg-planneo-950 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">
             Planneo
           </span>
         </div>

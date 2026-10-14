@@ -30,11 +30,11 @@ export default async function CrearCuentaPage({
       <div className="mx-auto max-w-md">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block mb-6">
-            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">
               Planneo
             </span>
           </Link>
-          <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+          <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">
             Crea tu cuenta
           </h1>
           <p className="text-white/55">

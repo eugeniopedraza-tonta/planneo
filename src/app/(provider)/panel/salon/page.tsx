@@ -37,7 +37,7 @@ export default async function SalonPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">Mi salón</h1>
+        <h1 className="text-lg font-semibold text-white">Mi salón</h1>
         <p className="text-sm text-white/55 mt-0.5">
           Capacidad, ubicación y amenidades. Esta información aparece en tu perfil público.
         </p>

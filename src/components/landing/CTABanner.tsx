@@ -8,8 +8,8 @@ export default function CTABanner() {
         <div className="absolute -bottom-24 right-20 h-72 w-72 rounded-full bg-planneo-mint/15 blur-3xl" />
 
         <div className="relative">
-          <p className="v4-mono mb-4 text-[11px] text-white/65">{"// PARA PROVEEDORES"}</p>
-          <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+          <p className="v4-mono mb-4 text-xs text-white/65">{"// PARA PROVEEDORES"}</p>
+          <h2 className="v4-display max-w-3xl text-3xl font-bold leading-[0.95] tracking-[-0.04em]">
             Te escriben directo a tu WhatsApp.
           </h2>
           <p className="mt-6 max-w-xl text-base leading-7 text-white/72">
@@ -27,7 +27,7 @@ export default function CTABanner() {
 
         <div className="relative mt-10 rounded-[24px] border border-white/15 bg-planneo-950/50 p-5 backdrop-blur-xl lg:mt-0">
           <div className="mb-5 flex items-center justify-between">
-            <span className="v4-mono text-[10px] text-planneo-mint">EJEMPLO DE MENSAJE</span>
+            <span className="v4-mono text-xs text-planneo-mint">EJEMPLO DE MENSAJE</span>
             <span className="text-xs text-white/65">WhatsApp</span>
           </div>
           <div className="space-y-3 text-sm">

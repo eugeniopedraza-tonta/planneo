@@ -29,7 +29,7 @@ export default async function EditarProveedorPage({
         <Button variant="ghost" size="sm" asChild>
           <Link href="/admin/proveedores">← Volver</Link>
         </Button>
-        <h1 className="text-2xl font-bold text-white">Editar proveedor</h1>
+        <h1 className="text-xl font-bold text-white">Editar proveedor</h1>
       </div>
 
       <div className="bg-planneo-900 rounded-xl border border-white/10 p-6">

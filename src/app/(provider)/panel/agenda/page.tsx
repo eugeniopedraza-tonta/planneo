@@ -40,7 +40,7 @@ export default async function AgendaPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">Agenda</h1>
+        <h1 className="text-lg font-semibold text-white">Agenda</h1>
         <p className="text-sm text-white/55 mt-0.5">
           Tus eventos confirmados: con quién, dónde y cuándo tienes que presentarte.
         </p>

@@ -51,14 +51,14 @@ export default async function Hero() {
           Arrancando en Monterrey · 2026
         </div>
 
-        <h1 className="v4-display mx-auto max-w-5xl text-[clamp(2.25rem,8vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.045em] text-white">
+        <h1 className="v4-display mx-auto max-w-5xl text-2xl sm:text-3xl font-bold leading-[0.95] tracking-[-0.045em] text-white">
           Encuentra proveedores verificados para tu evento en{" "}
           <span className="bg-[linear-gradient(120deg,#F5F0FF_0%,#C77DFF_48%,#06D6A0_100%)] bg-clip-text text-transparent">
             Monterrey.
           </span>
         </h1>
 
-        <p className="mt-6 max-w-2xl text-[16px] leading-7 text-white/65 sm:text-[19px] lg:mt-8 lg:leading-8">
+        <p className="mt-6 max-w-2xl text-base leading-7 text-white/65 sm:text-lg lg:mt-8 lg:leading-8">
           Salones, música, banquete, foto, decoración y más para eventos sociales en Monterrey. Revisa su perfil y escríbeles directo por WhatsApp.
         </p>
 
@@ -66,7 +66,7 @@ export default async function Hero() {
           className="v4-glass mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 rounded-[28px] p-2 text-left shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] lg:mt-10 lg:grid-cols-[1.6fr_1fr_1fr_auto]"
         >
           <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
-            <label htmlFor="hero-q" className="v4-mono text-[10px] text-planneo-300">
+            <label htmlFor="hero-q" className="v4-mono text-xs text-planneo-300">
               ¿Qué buscas?
             </label>
             <input
@@ -127,7 +127,7 @@ function HeroSelect({
 }) {
   return (
     <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
-      <label htmlFor={id} className="v4-mono text-[10px] text-planneo-300">
+      <label htmlFor={id} className="v4-mono text-xs text-planneo-300">
         {label}
       </label>
       <select

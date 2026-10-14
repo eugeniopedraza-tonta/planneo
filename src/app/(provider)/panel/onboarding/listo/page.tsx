@@ -38,7 +38,7 @@ export default async function ListoPage() {
           {isPublished ? <CheckCircleIcon className="size-10" /> : <ClockIcon className="size-10" />}
         </div>
 
-        <h1 className="text-2xl font-semibold text-white">
+        <h1 className="text-xl font-semibold text-white">
           {isPublished ? 'Tu perfil ya está activo' : 'Tu perfil está en revisión'}
         </h1>
         <p className="mt-2 text-sm text-white/60">

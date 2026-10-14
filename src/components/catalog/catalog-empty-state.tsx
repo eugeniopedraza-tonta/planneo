@@ -21,7 +21,7 @@ export default function CatalogEmptyState(
     )
     return (
       <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:py-14">
-        <h2 className="v4-display mx-auto max-w-xl text-2xl font-bold tracking-[-0.04em] sm:text-3xl">
+        <h2 className="v4-display mx-auto max-w-xl text-xl font-bold tracking-[-0.04em] sm:text-2xl">
           Estamos sumando {what} en Monterrey.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/55">
@@ -43,7 +43,7 @@ export default function CatalogEmptyState(
 
   return (
     <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:py-14">
-      <h2 className="v4-display mx-auto max-w-xl text-2xl font-bold tracking-[-0.04em] sm:text-3xl">
+      <h2 className="v4-display mx-auto max-w-xl text-xl font-bold tracking-[-0.04em] sm:text-2xl">
         No encontramos proveedores con esos filtros.
       </h2>
       <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/55">

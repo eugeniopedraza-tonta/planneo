@@ -40,7 +40,7 @@ export default function PublicAvailabilityCalendar({
   if (!today) {
     return (
       <section className="py-8">
-        <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
+        <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
         <div className="mt-4 h-64 max-w-md animate-pulse rounded-2xl bg-white/[0.05]" />
       </section>
     )
@@ -66,7 +66,7 @@ export default function PublicAvailabilityCalendar({
 
   return (
     <section className="py-8">
-      <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
+      <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">Disponibilidad</h2>
       <p className="mb-4 mt-2 text-sm text-white/50">
         Los días sin marcar están por confirmar con el proveedor.
       </p>
@@ -101,7 +101,7 @@ export default function PublicAvailabilityCalendar({
 
         <div className="grid grid-cols-7 gap-1 text-center">
           {WEEKDAYS.map((d, i) => (
-            <div key={i} className="v4-mono py-1 text-[9px] text-white/50">
+            <div key={i} className="v4-mono py-1 text-xs text-white/50">
               {d}
             </div>
           ))}
@@ -128,7 +128,7 @@ export default function PublicAvailabilityCalendar({
           })}
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-3 text-[11px] text-white/55">
+        <div className="mt-4 flex flex-wrap gap-3 text-xs text-white/55">
           <span className="flex items-center gap-1.5">
             <span className="inline-block size-2.5 rounded-full bg-planneo-mint" /> Disponible
           </span>

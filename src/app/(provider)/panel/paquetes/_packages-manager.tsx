@@ -56,7 +56,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
                 <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="text-sm font-semibold text-white">{pkg.name}</h2>
                   {pkg.is_featured && (
-                    <span className="text-[11px] font-medium bg-planneo-gold/10 border border-planneo-gold/40 text-planneo-gold px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-medium bg-planneo-gold/10 border border-planneo-gold/40 text-planneo-gold px-2 py-0.5 rounded-full">
                       Destacado
                     </span>
                   )}

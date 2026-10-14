@@ -325,7 +325,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                   className="object-cover"
                 />
                 {index === 0 && (
-                  <span className="absolute top-2 left-2 text-[11px] font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 left-2 text-xs font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full">
                     Principal
                   </span>
                 )}
@@ -360,7 +360,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                       type="button"
                       disabled={savingOrder}
                       onClick={() => void makePrimary(index)}
-                      className="text-[11px] font-medium text-planneo-300 hover:underline disabled:opacity-50 ml-1"
+                      className="text-xs font-medium text-planneo-300 hover:underline disabled:opacity-50 ml-1"
                     >
                       Hacer principal
                     </button>
@@ -369,7 +369,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                     type="button"
                     onClick={() => void handleDelete(media)}
                     aria-label={`Eliminar foto ${index + 1}`}
-                    className="ml-auto text-[11px] font-medium text-red-300 hover:underline"
+                    className="ml-auto text-xs font-medium text-red-300 hover:underline"
                   >
                     Eliminar
                   </button>

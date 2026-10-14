@@ -72,7 +72,7 @@ export default function EventCart() {
         </svg>
         Mi evento
         {count > 0 && (
-          <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-planneo-mint text-[11px] font-bold text-planneo-950">
+          <span className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full bg-planneo-mint text-xs font-bold text-planneo-950">
             {count}
           </span>
         )}
@@ -89,8 +89,8 @@ export default function EventCart() {
           <aside className="absolute right-0 top-0 flex h-dvh w-full max-w-md flex-col border-l border-white/10 bg-planneo-900 text-planneo-ink shadow-[0_0_80px_rgba(0,0,0,0.7)]">
             <header className="flex items-center justify-between border-b border-white/10 p-5">
               <div>
-                <p className="v4-mono text-[10px] text-planneo-300">TU PLAN</p>
-                <h2 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em]">Mi evento</h2>
+                <p className="v4-mono text-xs text-planneo-300">TU PLAN</p>
+                <h2 className="v4-display mt-1 text-xl font-bold tracking-[-0.04em]">Mi evento</h2>
               </div>
               <button
                 type="button"
@@ -120,7 +120,7 @@ export default function EventCart() {
 
               {count === 0 ? (
                 <div className="rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-6 py-14 text-center">
-                  <p className="v4-display text-2xl font-bold tracking-[-0.04em]">Tu evento está vacío.</p>
+                  <p className="v4-display text-xl font-bold tracking-[-0.04em]">Tu evento está vacío.</p>
                   <p className="mx-auto mt-3 max-w-xs text-sm leading-6 text-white/55">
                     Agrega paquetes de foto, música, salón o catering desde los perfiles y arma tu plan aquí.
                   </p>
@@ -190,7 +190,7 @@ export default function EventCart() {
                 >
                   Agregar más servicios
                 </Link>
-                <p className="mt-3 text-center text-[11px] leading-5 text-white/50">
+                <p className="mt-3 text-center text-xs leading-5 text-white/50">
                   Al terminar, desde aquí enviarás tu solicitud de cotización a todos los proveedores de tu plan.
                 </p>
               </footer>

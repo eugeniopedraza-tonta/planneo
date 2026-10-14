@@ -60,7 +60,7 @@ export default async function SolicitudesPage() {
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-white">Solicitudes de registro</h1>
+          <h1 className="text-lg font-semibold text-white">Solicitudes de registro</h1>
           <p className="text-sm text-white/55 mt-0.5">{rows.length} proveedor{rows.length === 1 ? '' : 'es'} pendiente{rows.length === 1 ? '' : 's'}</p>
         </div>
       </div>

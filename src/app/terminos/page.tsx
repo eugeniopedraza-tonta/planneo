@@ -15,7 +15,7 @@ export default function TerminosPage() {
       <Navbar />
       <article className="mx-auto max-w-3xl">
         <Link href="/" className="text-sm font-semibold text-planneo-300">← Volver</Link>
-        <h1 className="v4-display mt-8 text-5xl font-bold tracking-[-0.04em]">Términos de uso</h1>
+        <h1 className="v4-display mt-8 text-3xl font-bold tracking-[-0.04em]">Términos de uso</h1>
         <div className="mt-8 space-y-6 text-sm leading-7 text-white/65">
           <p>
             Planneo es un directorio curado de proveedores para eventos. La plataforma facilita la

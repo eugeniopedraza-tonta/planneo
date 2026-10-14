@@ -57,7 +57,7 @@ export default function MenusManager({ menus }: { menus: CateringMenuWithItems[]
                   {menu.event_types?.map((t) => (
                     <span
                       key={t}
-                      className="text-[11px] font-medium bg-white/10 text-white/60 px-2 py-0.5 rounded-full"
+                      className="text-xs font-medium bg-white/10 text-white/60 px-2 py-0.5 rounded-full"
                     >
                       {EVENT_TYPES.find((e) => e.value === t)?.label ?? t}
                     </span>

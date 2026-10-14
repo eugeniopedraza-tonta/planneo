@@ -67,7 +67,7 @@ export default function CatalogCategoryRail({
                   <CategoryIcon slug={item.slug} className="size-5" />
                 )}
               </span>
-              <span className="v4-mono text-[10px] tracking-[0.08em]">{item.shortName}</span>
+              <span className="v4-mono text-xs tracking-[0.08em]">{item.shortName}</span>
             </Link>
           </li>
         ))}
