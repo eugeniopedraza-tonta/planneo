@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import ClientRegisterForm from './_form'
@@ -15,7 +15,8 @@ export default async function CrearCuentaPage({
 }: {
   searchParams: Promise<{ next?: string }>
 }) {
-  if (!isOrganizerAccountsEnabled()) redirect('/')
+  // Fase 2 apagada: la ruta no existe (404 real), no un redirect al home.
+  if (!isOrganizerAccountsEnabled()) notFound()
 
   const { next } = await searchParams
   const safeNext = z.string().startsWith('/').max(500).safeParse(next).success ? next : undefined

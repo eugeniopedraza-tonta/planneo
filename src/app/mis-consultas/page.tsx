@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import Navbar from '@/components/landing/Navbar'
@@ -20,7 +20,8 @@ type InquiryRow = InquiryWithMessages & {
 }
 
 export default async function MisConsultasPage() {
-  if (!isOrganizerAccountsEnabled()) redirect('/')
+  // Fase 2 apagada: la ruta no existe (404 real), no un redirect al home.
+  if (!isOrganizerAccountsEnabled()) notFound()
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
