@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 export default function CTABanner() {
@@ -12,14 +10,14 @@ export default function CTABanner() {
         <div className="relative">
           <p className="v4-mono mb-4 text-[11px] text-white/65">{"// PARA PROVEEDORES"}</p>
           <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
-            Recibe leads directo en tu celular.
+            Te escriben directo a tu WhatsApp.
           </h2>
           <p className="mt-6 max-w-xl text-base leading-7 text-white/72">
-            Reclama tu perfil, mantén tu información actualizada y responde cotizaciones sin instalar otra app.
+            Crea tu perfil gratis. Quien organiza un evento te escribe a tu WhatsApp con el nombre de tu negocio ya en el mensaje. Sin formularios ni intermediarios.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/login" className="inline-flex min-h-14 items-center justify-center rounded-[14px] bg-white px-8 font-semibold text-planneo-700 transition hover:bg-white/90">
-              Entrar al panel
+            <Link href="/para-proveedores" className="inline-flex min-h-14 items-center justify-center rounded-[14px] bg-white px-8 font-semibold text-planneo-700 transition hover:bg-white/90">
+              Crear mi perfil gratis
             </Link>
             <Link href="/proveedores" className="inline-flex min-h-14 items-center justify-center rounded-[14px] border border-white/25 bg-white/10 px-8 font-semibold text-white backdrop-blur transition hover:bg-white/15">
               Ver catálogo
@@ -29,11 +27,8 @@ export default function CTABanner() {
 
         <div className="relative mt-10 rounded-[24px] border border-white/15 bg-planneo-950/50 p-5 backdrop-blur-xl lg:mt-0">
           <div className="mb-5 flex items-center justify-between">
-            <span className="v4-mono text-[10px] text-planneo-mint">NUEVO LEAD</span>
-            <span className="flex items-center gap-2 text-xs text-white/65">
-              <span className="size-2 rounded-full bg-planneo-mint [animation:v4-pulse_1.8s_ease-in-out_infinite]" />
-              hace 2 min
-            </span>
+            <span className="v4-mono text-[10px] text-planneo-mint">EJEMPLO DE MENSAJE</span>
+            <span className="text-xs text-white/65">WhatsApp</span>
           </div>
           <div className="space-y-3 text-sm">
             <LeadRow label="Evento" value="Boda · 180 invitados" />
@@ -43,9 +38,10 @@ export default function CTABanner() {
               Hola, vi tu perfil en Planneo. ¿Me puedes compartir disponibilidad y paquete inicial?
             </div>
           </div>
-          <button className="mt-5 min-h-12 w-full rounded-[14px] bg-[#25D366] font-semibold text-white transition hover:bg-[#3BDF77]">
-            Contactar al cliente
-          </button>
+          {/* Ilustración, no un control: el proveedor responde desde su propio WhatsApp. */}
+          <div aria-hidden="true" className="mt-5 flex min-h-12 w-full items-center justify-center rounded-[14px] bg-[#25D366] font-semibold text-white">
+            Responder en WhatsApp
+          </div>
         </div>
       </div>
     </section>

@@ -53,42 +53,51 @@ export default async function CategoriesSection() {
             </h2>
           </div>
           <p className="max-w-md text-base leading-7 text-white/60">
-            Empieza por la categoría más urgente y guarda opciones para comparar antes de pedir cotización.
+            Empieza por la categoría más urgente, compara perfiles y escribe directo por WhatsApp.
           </p>
         </div>
 
-        <div className="-mx-4 flex snap-x gap-5 overflow-x-auto px-4 pb-4 [scrollbar-width:none] lg:-mx-14 lg:px-14">
+        {/* Rejilla: 2 columnas en móvil (la última impar se centra), 3×3 desde sm. */}
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
           {categories.map((cat) => {
             const meta = CATEGORY_META[cat.slug] ?? { icon: 'EVT', description: '', kind: 'venue' }
             return (
-              <Link
+              <li
                 key={cat.id}
-                href={`/${cat.slug}`}
-                className="group relative flex h-[430px] w-[78vw] max-w-[412px] shrink-0 snap-start overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1.5 sm:w-[412px] lg:h-[520px]"
+                className="min-w-0 max-sm:last:odd:col-span-2 max-sm:last:odd:w-[calc(50%-0.375rem)] max-sm:last:odd:justify-self-center"
               >
-                <CategoryArt kind={meta.kind} seed={cat.slug} />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.05),rgba(14,11,26,.86))]" />
-                <div className="absolute left-5 top-5 rounded-2xl border border-white/15 bg-black/20 px-3 py-2 text-xs font-semibold text-white backdrop-blur-xl">
-                  {meta.icon}
-                </div>
-                <div className="absolute inset-x-0 bottom-0 p-6">
-                  <p className="v4-display text-3xl font-bold tracking-[-0.04em] text-white lg:text-4xl">
-                    {cat.name}
-                  </p>
-                  <p className="mt-2 text-sm text-white/65">{meta.description}</p>
-                  <span className="mt-5 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold text-white/80 backdrop-blur">
-                    {cat.providerCount} publicados
-                  </span>
-                </div>
-              </Link>
+                <Link
+                  href={`/${cat.slug}`}
+                  className="group relative flex h-44 overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1 sm:h-56 sm:rounded-[24px] lg:h-64"
+                >
+                  <CategoryArt kind={meta.kind} seed={cat.slug} />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.05),rgba(14,11,26,.86))]" />
+                  <div className="absolute left-3 top-3 rounded-xl border border-white/15 bg-black/20 px-2.5 py-1.5 text-[10px] font-semibold text-white backdrop-blur-xl sm:left-5 sm:top-5 sm:text-xs">
+                    {meta.icon}
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
+                    <p className="v4-display text-xl font-bold leading-tight tracking-[-0.04em] text-white sm:text-3xl">
+                      {cat.name}
+                    </p>
+                    <p className="mt-1 hidden text-sm text-white/65 sm:block">{meta.description}</p>
+                    {cat.providerCount > 0 && (
+                      <span className="mt-2 inline-flex rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-white/80 backdrop-blur sm:mt-4 sm:px-3 sm:py-1 sm:text-xs">
+                        {cat.providerCount} {cat.providerCount === 1 ? 'proveedor' : 'proveedores'}
+                      </span>
+                    )}
+                  </div>
+                </Link>
+              </li>
             )
           })}
+        </ul>
+
+        <div className="mt-8 text-center">
           <Link
             href="/buscar"
-            className="flex h-[430px] w-[78vw] max-w-[412px] shrink-0 snap-start flex-col justify-end rounded-[24px] border border-dashed border-white/20 bg-white/[0.03] p-6 text-white transition hover:bg-white/[0.06] sm:w-[412px] lg:h-[520px]"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-planneo-300 transition hover:text-white"
           >
-            <p className="v4-mono text-[11px] text-planneo-300">VER TODAS</p>
-            <p className="v4-display mt-3 text-4xl font-bold tracking-[-0.04em]">Explora el catálogo completo.</p>
+            Explora el catálogo completo →
           </Link>
         </div>
       </div>

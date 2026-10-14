@@ -1,5 +1,5 @@
 const reasons = [
-  ["Cotiza con varios", "Compara opciones sin perder el hilo en grupos y mensajes sueltos."],
+  ["Compara antes de escribir", "Revisa perfiles, zonas y precios, y escribe por WhatsApp solo a quien te convence."],
   ["Solo verificados", "Perfiles curados para que sepas quién atiende y en qué zona trabaja."],
   ["Curado para MTY", "Categorías y zonas pensadas para eventos sociales en Monterrey."],
 ];

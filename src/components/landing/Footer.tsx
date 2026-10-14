@@ -1,14 +1,16 @@
 import Link from "next/link";
+import { isEventPlannerEnabled } from "@/lib/feature-flags";
 
+// "Diario" vuelve cuando exista /diario. "Crear evento" es Fase 2 (flag).
 const FOOTER_LINKS = {
   Explora: [
-    { label: "Categorías", href: "#categorias" },
-    { label: "Buscar proveedores", href: "/proveedores" },
-    { label: "Crear evento", href: "#crear-evento" },
+    { label: "Categorías", href: "/#categorias" },
+    { label: "Buscar proveedores", href: "/buscar" },
+    { label: "Catálogo", href: "/proveedores" },
+    ...(isEventPlannerEnabled() ? [{ label: "Crear evento", href: "/#crear-evento" }] : []),
   ],
   Planneo: [
-    { label: "Para proveedores", href: "#proveedores" },
-    { label: "Diario", href: "#diario" },
+    { label: "Para proveedores", href: "/para-proveedores" },
     { label: "Iniciar sesión", href: "/login" },
   ],
   Legal: [
@@ -22,7 +24,7 @@ export default function Footer() {
     <footer className="border-t border-white/10 bg-planneo-950 px-4 py-14 text-planneo-ink sm:px-6 lg:px-14">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_1fr_360px]">
         <div>
-          <Link href="/" className="v4-display inline-block bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-4xl font-bold text-transparent">
+          <Link href="/" className="v4-display inline-flex min-h-11 items-center bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-4xl font-bold text-transparent">
             Planneo
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-7 text-white/55">
@@ -34,10 +36,11 @@ export default function Footer() {
           {Object.entries(FOOTER_LINKS).map(([category, links]) => (
             <div key={category}>
               <h3 className="v4-mono mb-4 text-[10px] text-planneo-300">{category}</h3>
-              <ul className="space-y-3">
+              {/* Filas de 44px (objetivo táctil); -my-3 compensa el aire extra arriba y abajo. */}
+              <ul className="-my-3">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-sm text-white/55 transition hover:text-white">
+                    <Link href={link.href} className="inline-flex min-h-11 items-center text-sm text-white/55 transition hover:text-white">
                       {link.label}
                     </Link>
                   </li>
@@ -49,12 +52,12 @@ export default function Footer() {
 
         <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-6">
           <p className="v4-mono text-[10px] text-planneo-mint">¿ERES PROVEEDOR?</p>
-          <h3 className="v4-display mt-3 text-3xl font-bold tracking-[-0.04em]">Recibe leads sin costo.</h3>
+          <h3 className="v4-display mt-3 text-3xl font-bold tracking-[-0.04em]">Tu perfil, gratis.</h3>
           <p className="mt-3 text-sm leading-6 text-white/55">
-            Reclama tu perfil y responde cotizaciones por celular.
+            Los clientes te escriben directo a tu WhatsApp, sin intermediarios.
           </p>
-          <Link href="/login" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500">
-            Ir al panel
+          <Link href="/para-proveedores" className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500">
+            Crear mi perfil
           </Link>
         </div>
       </div>

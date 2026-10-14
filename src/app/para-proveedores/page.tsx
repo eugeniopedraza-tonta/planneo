@@ -14,8 +14,8 @@ const BENEFITS = [
     body: 'Apareces en el catálogo por categoría, zona y tipo de evento, no perdido en una búsqueda.',
   },
   {
-    title: 'Las cotizaciones llegan a un solo lugar',
-    body: 'Recibes y respondes las solicitudes dentro de Planneo, con el historial de cada conversación.',
+    title: 'Cotiza por WhatsApp',
+    body: 'El cliente te escribe directo a tu WhatsApp, con el nombre de tu negocio ya en el mensaje. Sin formularios, sin intermediarios, sin esperar a que te devolvamos el lead.',
   },
   {
     title: 'Tu perfil se completa por partes',
@@ -26,7 +26,7 @@ const BENEFITS = [
 const STEPS = [
   { n: '1', title: 'Crea tu borrador', body: 'Nombre del negocio, servicio, zona y correo. Sin contraseña.' },
   { n: '2', title: 'Completa lo esencial', body: 'Una foto, una descripción y los tipos de evento que atiendes.' },
-  { n: '3', title: 'Publica y recibe solicitudes', body: 'Revisamos tu perfil y lo activamos en el catálogo.' },
+  { n: '3', title: 'Publica y recibe mensajes', body: 'Revisamos tu perfil y lo activamos en el catálogo. Los clientes te escriben a tu WhatsApp.' },
 ]
 
 export default function ParaProveedoresPage() {
@@ -50,7 +50,7 @@ export default function ParaProveedoresPage() {
           <div className="mt-8 flex flex-col items-center gap-3">
             <Link
               href="/registrarme"
-              className="w-full max-w-xs rounded-xl bg-planneo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+              className="inline-flex min-h-11 w-full max-w-xs items-center justify-center rounded-xl bg-planneo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
             >
               Crear mi perfil gratis
             </Link>

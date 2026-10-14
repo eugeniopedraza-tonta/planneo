@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { isEventPlannerEnabled } from "@/lib/feature-flags";
 
 const eventTypes = ["Boda", "XV Años", "Cumpleaños", "Corporativo", "Bautizo", "Otro"];
 
+/** Asistente "Crear mi evento" (Fase 2): no se muestra con el flag apagado. */
 export default function HowItWorks() {
+  if (!isEventPlannerEnabled()) return null;
+  return <EventPlanner />;
+}
+
+function EventPlanner() {
   const [selected, setSelected] = useState("Boda");
 
   return (
