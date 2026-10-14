@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { createInquiry, type State } from '@/app/[category]/[slug]/_actions'
 
 const inputCls =
-  'w-full min-h-11 text-sm text-white bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 outline-none placeholder:text-white/35 focus:border-planneo-300 [&>option]:bg-[#211A30] [&>option]:text-white'
+  'w-full min-h-11 text-sm text-white bg-white/[0.06] border border-input rounded-xl px-3 py-2 outline-none placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300 [&>option]:bg-[#211A30] [&>option]:text-white'
 
 export default function QuoteRequestForm({ providerId }: { providerId: string }) {
   const [state, formAction, isPending] = useActionState<State, FormData>(createInquiry, {})

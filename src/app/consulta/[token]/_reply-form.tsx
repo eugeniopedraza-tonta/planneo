@@ -28,7 +28,7 @@ export default function ClientReplyForm({ token }: { token: string }) {
         rows={3}
         maxLength={2000}
         placeholder="Escribe tu mensaje al proveedor…"
-        className="w-full text-sm border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+        className="w-full text-sm border border-input rounded-lg px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
       />
       <div className="flex justify-end">
         <button

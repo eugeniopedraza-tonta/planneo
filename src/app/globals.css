@@ -102,7 +102,10 @@
   --accent-foreground: #F5F0FF;
   --destructive: #F87171;
   --border: rgba(245, 240, 255, 0.12);
-  --input: rgba(245, 240, 255, 0.14);
+  /* Borde de controles de formulario (WCAG 1.4.11, PLA-26): 40% de #F5F0FF = 3.53:1 sobre #0E0B1A.
+     Los bordes decorativos de tarjetas siguen en --border (12%). Relleno de campos: bg-input/10 (≈4%). */
+  --border-input: rgba(245, 240, 255, 0.4);
+  --input: var(--border-input);
   --ring: #C77DFF;
   --chart-1: #7B2CBF;
   --chart-2: #C77DFF;

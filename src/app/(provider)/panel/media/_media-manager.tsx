@@ -271,7 +271,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
                   maxLength={120}
                   aria-label="Título del archivo"
                   onBlur={(e) => void handleTitleBlur(item, e.target.value)}
-                  className="flex-1 text-sm font-medium border border-transparent hover:border-white/20 focus:border-planneo-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+                  className="flex-1 text-sm font-medium border border-transparent hover:border-white/20 focus:border-planneo-300 rounded-lg px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
                 />
                 <span className="text-xs text-white/50 shrink-0">
                   {formatSize(item.size_bytes)}

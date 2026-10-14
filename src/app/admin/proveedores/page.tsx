@@ -54,7 +54,7 @@ export default async function ProvidersPage({
         <select
           name="status"
           defaultValue={params.status ?? ''}
-          className="h-9 rounded-lg border border-white/10 bg-planneo-900 px-3 text-sm text-white/75"
+          className="h-9 rounded-lg border border-input bg-planneo-900 px-3 text-sm text-white/75 focus-visible:ring-2 focus-visible:ring-planneo-300"
         >
           <option value="">Todos los estados</option>
           {Object.entries(STATUS_LABELS).map(([value, label]) => (
@@ -65,7 +65,7 @@ export default async function ProvidersPage({
         <select
           name="category"
           defaultValue={params.category ?? ''}
-          className="h-9 rounded-lg border border-white/10 bg-planneo-900 px-3 text-sm text-white/75"
+          className="h-9 rounded-lg border border-input bg-planneo-900 px-3 text-sm text-white/75 focus-visible:ring-2 focus-visible:ring-planneo-300"
         >
           <option value="">Todas las categorías</option>
           {sortByCategoryTree(categories ?? []).map((c) => (

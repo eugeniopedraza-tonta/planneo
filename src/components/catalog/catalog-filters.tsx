@@ -264,7 +264,7 @@ function FilterFields({
           value={draft.q}
           onChange={(event) => set('q')(event.target.value)}
           placeholder="Fotografía, DJ, catering..."
-          className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300"
+          className="h-11 w-full rounded-xl border border-input bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
       </div>
       <Select id={`${idPrefix}-zona`} label="Zona" name="zona" value={draft.zona} onChange={set('zona')} options={zonas} />
@@ -280,7 +280,7 @@ function FilterFields({
           name="fecha"
           value={draft.fecha}
           onChange={(event) => set('fecha')(event.target.value)}
-          className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none [color-scheme:dark] focus:border-planneo-300"
+          className="h-11 w-full rounded-xl border border-input bg-white/10 px-3 text-sm text-white outline-none [color-scheme:dark] focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
       </div>
     </>
@@ -312,7 +312,7 @@ function Select({
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 w-full rounded-xl border border-white/10 bg-[#211A30] px-3 text-sm text-white outline-none focus:border-planneo-300"
+        className="h-11 w-full rounded-xl border border-input bg-[#211A30] px-3 text-sm text-white outline-none focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
       >
         <option value="">Todos</option>
         {options.map((option) => (

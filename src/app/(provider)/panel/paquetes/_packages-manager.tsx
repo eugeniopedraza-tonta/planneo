@@ -204,7 +204,7 @@ function PackageForm({
             id="pkg-price-unit"
             name="price_unit"
             defaultValue={pkg?.price_unit ?? ''}
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Sin especificar</option>
             {PRICE_UNITS.map((u) => (

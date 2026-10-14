@@ -338,7 +338,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                   maxLength={300}
                   aria-label={`Texto alternativo de la foto ${index + 1}`}
                   onBlur={(e) => void handleAltBlur(media, e.target.value)}
-                  className="w-full text-xs border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+                  className="w-full text-xs border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
                 />
                 <div className="flex items-center gap-1">
                   <IconButton

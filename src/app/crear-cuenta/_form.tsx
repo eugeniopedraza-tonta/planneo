@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { registerClient, type State } from './_actions'
 
 const inputCls =
-  'h-10 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus:bg-white/[0.07] transition-colors'
+  'h-10 w-full rounded-xl border border-input bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus:bg-white/[0.07] focus-visible:ring-2 focus-visible:ring-planneo-300 transition-colors'
 
 export default function ClientRegisterForm({ next }: { next?: string }) {
   const [state, formAction, isPending] = useActionState<State, FormData>(registerClient, {})

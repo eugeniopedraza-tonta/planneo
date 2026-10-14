@@ -65,7 +65,7 @@ export default async function Hero() {
         <HeroSearchForm
           className="v4-glass mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 rounded-[28px] p-2 text-left shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] lg:mt-10 lg:grid-cols-[1.6fr_1fr_1fr_auto]"
         >
-          <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
+          <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
             <label htmlFor="hero-q" className="v4-mono text-[10px] text-planneo-300">
               ¿Qué buscas?
             </label>
@@ -126,7 +126,7 @@ function HeroSelect({
   options: { value: string; label: string }[];
 }) {
   return (
-    <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] px-4 transition focus-within:bg-white/[0.06]">
+    <div className="flex min-h-14 min-w-0 flex-col justify-center rounded-[20px] border border-input px-4 transition focus-within:bg-white/[0.06] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300">
       <label htmlFor={id} className="v4-mono text-[10px] text-planneo-300">
         {label}
       </label>

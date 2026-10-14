@@ -59,7 +59,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             value={categoryId}
             onChange={(event) => setCategoryId(event.target.value)}
             required
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Seleccionar…</option>
             {orderedCategories.map((c) => (
@@ -83,7 +83,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
                 : ''
             }
             disabled={subcategoryOptions.length === 0}
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground disabled:opacity-50"
+            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">{subcategoryOptions.length ? 'Sin especificar' : 'Elige categoría primero'}</option>
             {subcategoryOptions.map((label) => (
@@ -103,7 +103,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             name="zona"
             defaultValue={defaultValues?.zona ?? ''}
             required
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Seleccionar…</option>
             {ZONAS_MTY.map((z) => (
@@ -170,7 +170,7 @@ export default function ProviderForm({ categories, action, defaultValues }: Prop
             id="price_range"
             name="price_range"
             defaultValue={defaultValues?.price_range ?? ''}
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+            className="h-9 w-full rounded-4xl border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Sin especificar</option>
             {PRICE_RANGES.map((p) => (

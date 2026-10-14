@@ -91,7 +91,7 @@ export default function DescriptionEditor({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Escribe con tus palabras qué ofreces y para qué eventos."
-          className="w-full resize-y rounded-xl border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300"
+          className="w-full resize-y rounded-xl border border-input bg-white/10 px-3 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
         <p className={`text-xs ${remaining > 0 ? 'text-white/40' : 'text-planneo-mint'}`}>
           {remaining > 0

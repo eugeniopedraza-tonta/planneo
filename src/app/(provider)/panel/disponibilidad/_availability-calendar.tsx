@@ -198,7 +198,7 @@ export default function AvailabilityCalendar({
               maxLength={300}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Ej. boda García, anticipo recibido…"
-              className="flex-1 text-sm border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+              className="flex-1 text-sm border border-input rounded-lg px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
             />
             {selectedEntry && (
               <button

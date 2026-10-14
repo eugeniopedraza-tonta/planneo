@@ -241,7 +241,7 @@ function ReplyForm({
         maxLength={2000}
         placeholder="Escribe tu respuesta o cotización…"
         aria-label="Respuesta al cliente"
-        className="w-full text-sm border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+        className="w-full text-sm border border-input rounded-lg px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
       />
       <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-1.5">
@@ -255,7 +255,7 @@ function ReplyForm({
             min="0"
             step="0.01"
             placeholder="$ MXN"
-            className="w-28 text-sm border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+            className="w-28 text-sm border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
           />
         </div>
         <div className="ml-auto flex items-center gap-2">
@@ -318,7 +318,7 @@ function ConfirmBookingForm({
             type="date"
             required
             defaultValue={inquiry.event_date ?? ''}
-            className="text-sm border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-planneo-mint/40"
+            className="text-sm border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
           />
         </div>
         <div className="flex flex-col gap-1 flex-1 min-w-40">
@@ -331,7 +331,7 @@ function ConfirmBookingForm({
             maxLength={300}
             defaultValue={inquiry.event_location ?? ''}
             placeholder="Salón, dirección o zona"
-            className="text-sm border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-planneo-mint/40"
+            className="text-sm border border-input rounded-lg px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
           />
         </div>
         <div className="flex items-center gap-2 ml-auto">

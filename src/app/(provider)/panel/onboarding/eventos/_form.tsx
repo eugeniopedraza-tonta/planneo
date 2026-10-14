@@ -29,10 +29,10 @@ export default function EventTypesForm({ selected }: { selected: EventType[] }) 
           return (
             <label
               key={type.value}
-              className={`cursor-pointer rounded-xl border px-3 py-4 text-center text-sm transition-colors ${
+              className={`cursor-pointer rounded-xl border px-3 py-4 text-center text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-planneo-300 ${
                 active
                   ? 'border-planneo-300 bg-planneo-600/20 text-white'
-                  : 'border-white/10 bg-white/[0.04] text-white/70 hover:border-white/25'
+                  : 'border-input bg-white/[0.04] text-white/70 hover:border-white/60'
               }`}
             >
               <input

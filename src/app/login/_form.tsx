@@ -8,7 +8,7 @@ import { loginWithCode, type LoginState } from './_actions'
 const RESEND_DELAY_SECONDS = 30
 
 const inputCls =
-  'h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300'
+  'h-11 w-full rounded-xl border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
 
 const buttonCls =
   'v4-cta-glow mt-2 w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60'
