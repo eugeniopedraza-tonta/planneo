@@ -11,7 +11,7 @@ import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Mis consultas | Planneo',
+  title: 'Mis consultas',
   robots: { index: false, follow: false },
 }
 

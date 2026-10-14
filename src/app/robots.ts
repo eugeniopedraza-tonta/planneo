@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { CATEGORY_SLUGS } from '@/lib/constants'
+import { absoluteUrl } from '@/lib/site-url'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -25,6 +26,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://planneo.mx/sitemap.xml',
+    sitemap: absoluteUrl('/sitemap.xml'),
   }
 }

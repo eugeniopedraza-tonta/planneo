@@ -6,7 +6,7 @@ import ClientRegisterForm from './_form'
 import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
 export const metadata = {
-  title: 'Crea tu cuenta — Planneo',
+  title: 'Crea tu cuenta',
   description: 'Guarda tus consultas y cotizaciones de proveedores de eventos en un solo lugar.',
 }
 

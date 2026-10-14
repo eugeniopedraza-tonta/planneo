@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ProviderCatalog from '@/components/provider-catalog'
+import { pageMetadata } from '@/lib/seo'
 
 type PageProps = {
   searchParams: Promise<{
@@ -12,12 +13,12 @@ type PageProps = {
   }>
 }
 
-export const metadata: Metadata = {
-  title: 'Catálogo de proveedores para eventos en Monterrey — Planneo',
+export const metadata: Metadata = pageMetadata({
+  title: 'Catálogo de proveedores para eventos en Monterrey',
   description:
     'Explora proveedores publicados y verificados para bodas, XV años, corporativos y graduaciones en Monterrey.',
-  alternates: { canonical: '/proveedores' },
-}
+  path: '/proveedores',
+})
 
 export default async function ProveedoresPage({ searchParams }: PageProps) {
   return (

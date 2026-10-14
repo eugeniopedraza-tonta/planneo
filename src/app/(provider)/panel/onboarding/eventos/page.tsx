@@ -7,7 +7,7 @@ import EventTypesForm from './_form'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: 'Tipos de evento · Planneo',
+  title: 'Tipos de evento',
   robots: { index: false, follow: false },
 }
 

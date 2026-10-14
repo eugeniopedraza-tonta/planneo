@@ -1,14 +1,17 @@
 import Link from 'next/link'
 import { connection } from 'next/server'
+import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import { createStaticClient } from '@/lib/supabase/server'
 import { CATEGORY_SLUGS, ZONA_OPTIONS, sortByCategoryTree } from '@/lib/constants'
 import RegisterForm from './_form'
 import { isOrganizerAccountsEnabled } from '@/lib/feature-flags'
 
-export const metadata = {
-  title: 'Registra tu negocio — Planneo',
+export const metadata: Metadata = pageMetadata({
+  title: 'Registra tu negocio',
   description: 'Únete al catálogo de proveedores de eventos en Monterrey.',
-}
+  path: '/registrarme',
+})
 
 export default async function RegistrarmePage() {
   // Se renderiza por request. Antes la página se prerenderizaba en el build y

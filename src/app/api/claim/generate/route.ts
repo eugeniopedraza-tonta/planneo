@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { SITE_URL } from '@/lib/site-url'
 
 /** Vigencia del enlace de reclamación (spec: 7 días, configurable). */
 const CLAIM_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planneo.mx'
+  const baseUrl = SITE_URL
   const url = `${baseUrl}/reclamar/${data.token}`
 
   return NextResponse.json({ url })

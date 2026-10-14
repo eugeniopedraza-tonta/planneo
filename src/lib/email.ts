@@ -1,7 +1,8 @@
 import { Resend } from 'resend'
+import { SITE_URL } from '@/lib/site-url'
 
 const FROM = 'Planneo <hola@planneo.mx>'
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://planneo.mx'
+const SITE = SITE_URL
 
 function resend() {
   if (!process.env.RESEND_API_KEY) return null

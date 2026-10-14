@@ -35,6 +35,10 @@ export default function ProviderCard({ provider, dateAvailability }: ProviderCar
   return (
     <Link
       href={href}
+      // provider_card_clicked: lo captura ProviderCardClickTracker (layout).
+      data-track="provider_card"
+      data-provider-id={provider.id}
+      data-category-slug={provider.categories?.slug}
       className="group flex flex-col overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04] shadow-[0_20px_60px_-24px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.06]"
     >
       {/* Foto / arte de categoría */}

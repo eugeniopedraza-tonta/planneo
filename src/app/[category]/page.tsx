@@ -3,6 +3,10 @@ import type { Metadata } from 'next'
 import { createStaticClient } from '@/lib/supabase/server'
 import { CATEGORY_SLUGS, isCategorySlug } from '@/lib/constants'
 import ProviderCatalog from '@/components/provider-catalog'
+import PageEvent from '@/components/analytics/page-event'
+import JsonLd from '@/components/json-ld'
+import { breadcrumbJsonLd } from '@/lib/json-ld'
+import { pageMetadata } from '@/lib/seo'
 
 export const revalidate = 3600
 
@@ -38,15 +42,12 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const category = await getCategoryBySlug(slug)
   if (!category) return {}
 
-  const title = `${category.name} para eventos en Monterrey — Planneo`
-  const description = `Encuentra los mejores proveedores de ${category.name.toLowerCase()} para bodas, XV años y eventos en Monterrey y área metropolitana.`
-
-  return {
-    title,
-    description,
-    alternates: { canonical: `/${slug}` },
-    openGraph: { title, description, locale: 'es_MX', type: 'website' },
-  }
+  // Sin portada de categoría en la base todavía: usa la imagen de marca.
+  return pageMetadata({
+    title: `${category.name} para eventos en Monterrey`,
+    description: `Encuentra los mejores proveedores de ${category.name.toLowerCase()} para bodas, XV años y eventos en Monterrey y área metropolitana.`,
+    path: `/${slug}`,
+  })
 }
 
 export default async function CategoryPage({ params, searchParams }: PageProps) {
@@ -61,6 +62,14 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   if (!category) notFound()
 
   return (
+    <>
+    <PageEvent name="category_view" params={{ category_slug: slug }} />
+    <JsonLd
+      data={breadcrumbJsonLd([
+        { name: 'Inicio', path: '/' },
+        { name: category.name, path: `/${slug}` },
+      ])}
+    />
     <ProviderCatalog
       searchParams={filters}
       action={`/${slug}`}
@@ -68,5 +77,6 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       title={`${category.name} para eventos en Monterrey.`}
       description={`Encuentra proveedores de ${category.name.toLowerCase()} para bodas, XV años, graduaciones y eventos corporativos.`}
     />
+    </>
   )
 }

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
+import { pageMetadata } from '@/lib/seo'
 import Link from 'next/link'
 import Navbar from '@/components/landing/Navbar'
 
-export const metadata: Metadata = {
-  title: 'Privacidad — Planneo',
+export const metadata: Metadata = pageMetadata({
+  title: 'Privacidad',
   description: 'Aviso de privacidad básico de Planneo.',
-  alternates: { canonical: '/privacidad' },
-}
+  path: '/privacidad',
+})
 
 export default function PrivacidadPage() {
   return (
