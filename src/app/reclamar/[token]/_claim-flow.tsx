@@ -128,6 +128,14 @@ function LoggedInClaim({
 function ContactStep({ action, reportAction }: { action: Action; reportAction: Action }) {
   const [state, formAction, isPending] = useActionState(action, {})
 
+  // Controlados: React reinicia el formulario tras cada envío y, si el servidor
+  // regresa errores, no queremos que la persona vuelva a escribir todo.
+  const [contactName, setContactName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+
+  const errors = state.fieldErrors
+
   return (
     <Card>
       <ErrorBox error={state.error} />
@@ -136,19 +144,36 @@ function ContactStep({ action, reportAction }: { action: Action; reportAction: A
         Te enviaremos un código para que solo tú puedas administrar este perfil.
       </p>
 
-      <form action={formAction} className="mt-4 flex flex-col gap-4">
-        <Field id="contact_name" label="Nombre de contacto" error={state.fieldErrors?.contact_name}>
-          <input id="contact_name" name="contact_name" autoComplete="name" required maxLength={80} placeholder="Tu nombre" className={inputCls} />
+      {/* noValidate: los mensajes los da el servidor, en español y bajo cada
+          campo. La validación nativa mostraría burbujas con otro texto. */}
+      <form action={formAction} noValidate className="mt-4 flex flex-col gap-4">
+        <Field id="contact_name" label="Nombre de contacto" error={errors?.contact_name}>
+          <input
+            id="contact_name"
+            name="contact_name"
+            autoComplete="name"
+            required
+            maxLength={80}
+            value={contactName}
+            onChange={(e) => setContactName(e.target.value)}
+            placeholder="Tu nombre"
+            {...describedBy('contact_name', errors?.contact_name)}
+            className={inputCls}
+          />
         </Field>
 
-        <Field id="claim-email" label="Email de acceso" error={state.fieldErrors?.email}>
+        <Field id="claim-email" label="Email de acceso" error={errors?.email}>
           <input
             id="claim-email"
             name="email"
             type="email"
             required
             autoComplete="email"
+            inputMode="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="tu@correo.com"
+            {...describedBy('claim-email', errors?.email)}
             className={inputCls}
           />
         </Field>
@@ -156,7 +181,7 @@ function ContactStep({ action, reportAction }: { action: Action; reportAction: A
         <Field
           id="phone"
           label="Teléfono / WhatsApp"
-          error={state.fieldErrors?.phone}
+          error={errors?.phone}
           hint="Lo usamos para confirmar el negocio. No se publica automáticamente."
         >
           <input
@@ -165,7 +190,11 @@ function ContactStep({ action, reportAction }: { action: Action; reportAction: A
             type="tel"
             required
             autoComplete="tel"
+            maxLength={40}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             placeholder="+52 81 1234 5678"
+            {...describedBy('phone', errors?.phone, true)}
             className={inputCls}
           />
         </Field>
@@ -219,7 +248,7 @@ function Card({ children }: { children: React.ReactNode }) {
 function ErrorBox({ error }: { error?: string }) {
   if (!error) return null
   return (
-    <div className="mb-4 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+    <div role="alert" className="mb-4 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
       {error}
     </div>
   )
@@ -227,6 +256,14 @@ function ErrorBox({ error }: { error?: string }) {
 
 const inputCls =
   'h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
+
+function describedBy(id: string, error?: string[], hasHint = false) {
+  const invalid = !!error?.[0]
+  return {
+    'aria-invalid': invalid || undefined,
+    'aria-describedby': invalid || hasHint ? `${id}-msg` : undefined,
+  }
+}
 
 function Field({
   id,
@@ -246,9 +283,9 @@ function Field({
       <label htmlFor={id} className="text-sm font-medium text-white/75">{label}</label>
       {children}
       {error?.[0] ? (
-        <p className="text-xs text-red-400">{error[0]}</p>
+        <p id={`${id}-msg`} className="text-xs text-red-400">{error[0]}</p>
       ) : hint ? (
-        <p className="text-xs text-white/40">{hint}</p>
+        <p id={`${id}-msg`} className="text-xs text-white/40">{hint}</p>
       ) : null}
     </div>
   )
