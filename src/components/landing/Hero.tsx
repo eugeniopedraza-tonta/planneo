@@ -1,18 +1,13 @@
 import Link from "next/link";
 import Spotlight from "@/components/ui/spotlight";
 import { createStaticClient } from "@/lib/supabase/server";
-import { ZONAS_MTY } from "@/lib/constants";
+import { EVENT_TYPES, ZONAS_MTY } from "@/lib/constants";
 import { isEventPlannerEnabled } from "@/lib/feature-flags";
 import HeroSearchForm from "./HeroSearchForm";
 
-// Valores que entiende /buscar (`evento` = EVENT_TYPES.value en constants).
-const HERO_EVENT_TYPES = [
-  { value: "bodas", label: "Boda" },
-  { value: "xv", label: "XV años" },
-  { value: "corporativo", label: "Corporativo" },
-  { value: "graduacion", label: "Graduación" },
-  { value: "otro", label: "Otro" },
-];
+// Misma fuente que el filtro del catálogo (`evento` = EVENT_TYPES.value):
+// así el hero no puede ofrecer menos tipos ni valores que /buscar no entienda.
+const HERO_EVENT_TYPES = EVENT_TYPES.map((e) => ({ value: e.value, label: e.label }));
 
 /** Cuántos proveedores están publicados. Si falla la consulta, 0: mejor ocultar el sello. */
 async function getPublishedProviderCount() {
