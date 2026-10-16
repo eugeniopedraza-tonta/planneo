@@ -1,7 +1,7 @@
 import type { CategorySlug } from '@/lib/constants'
 
 /**
- * Contenido editorial de una página de categoría (`planneo.mx/{slug}`).
+ * Contenido editorial de una página de categoría (`www.planneo.com.mx/{slug}`).
  * Autor oficial: Gus. Mientras `draft` sea `true`, el texto es un borrador
  * que se publica igual pero está pendiente de su revisión. `draft` y
  * `authorNote` nunca se renderizan.

@@ -1,7 +1,7 @@
 # Planneo — Plan de Producto: Primera Versión Funcional
 
 > **Audiencia:** Eugenio (dev) + Gus (negocio)
-> **Última actualización:** 2026-09-04
+> **Última actualización:** 2026-10-15
 > **Fuente de alcance:** Brief MVP Directorio (14 ago 2026). Si este archivo choca con el brief, manda el brief.
 > **Contrato:** cualquier cambio de alcance se escribe aquí *antes* de codearse, y se avisa a Gus. Las decisiones de la § «Decisiones cerradas» no se re-debaten en código.
 
@@ -11,24 +11,24 @@
 
 **El MVP en una frase:** un directorio público de proveedores de eventos en Monterrey, navegable sin cuenta. El organizador ve fotos, paquetes y rango de precio, y escribe por WhatsApp. Planneo no cobra, no intermedia y no ejecuta el evento.
 
-**Lo único que cuenta hasta el 30 de septiembre:** `planneo.mx` vivo, público y con proveedores adentro.
+**Lo único que cuenta hasta el 30 de septiembre:** `www.planneo.com.mx` vivo, público y con proveedores adentro.
 
 Leyenda: ✅ hecho en código · 🔨 falta construir · 🔌 hay que apagar o reactivar · 🌐 infra / producción · 👤 Gus · ❄ congelado (Fase 2, no borrar)
 
-Mergeado en `main` el 4 de septiembre 2026 (código). Falta aplicar las 3 migraciones SQL en Supabase (local + prod) para que WhatsApp leads, testimonios y el árbol nuevo existan en la base.
+Mergeado en `main` el 4 de septiembre 2026 (código). Schema MVP aplicado en prod el 4 de septiembre 2026 (16 migraciones + seed de 8 madres + Otros).
 
 ### Producto — entra en el MVP
 
 | Bloque | Qué incluye | Estado |
 |---|---|---|
-| Catálogo público | Home, páginas por categoría, perfil, `/buscar`, sitemap, JSON-LD | ✅ Hecho. Redirects 301 `/fotografia` → `/foto-video`, `/salones` → `/lugares` |
+| Catálogo público | Home, `/catalogo`, páginas por categoría, perfil, `/buscar`, sitemap, JSON-LD | ✅ Hecho. Redirects 301 `/fotografia` → `/foto-video`, `/salones` → `/lugares`, `/proveedores` → `/catalogo` |
 | Perfil de proveedor | Fotos, descripción, zona, tipos de evento, rango `$ / $$ / $$$`, paquetes, calendario, badge Verificado, testimonios, WhatsApp | ✅ Hecho en código |
-| Contacto | WhatsApp directo, sin cuenta, evento `whatsapp_click` | ✅ Código listo. 🌐 Aplicar migración `20260904000000_restaurar_whatsapp_click.sql` |
+| Contacto | WhatsApp directo, sin cuenta, evento `whatsapp_click` | ✅ Código + SQL en prod (`leads_type_check` incluye `whatsapp_click`) |
 | Alta de proveedores | CSV + link de reclamación + auto-registro con aprobación manual | ✅ Hecho. CSV entra como `draft`. Política default: `manual_review` |
 | Panel del proveedor | Perfil, fotos, media, paquetes, menú catering, salón, disponibilidad | ✅ Hecho. `/panel/consultas` y `/panel/agenda` siguen en código, gated |
 | Admin | CRUD, importador CSV, solicitudes, métricas, testimonios, subcategoría | ✅ Hecho |
 | Analítica | GA4: tráfico + `whatsapp_click` + `profile_view` | ✅ Eventos en código. 🌐 GA4 solo corre si existe `NEXT_PUBLIC_GA4_ID` en Vercel |
-| Categorías | 8 madre + subcategorías + Otros, con páginas indexables | ✅ Código + redirects. 🌐 Aplicar `20260904020000_categorias_madre.sql` |
+| Categorías | 8 madre + subcategorías + Otros, con páginas indexables | ✅ Código + redirects + SQL/seed en prod |
 
 ### Producto — se congela (feature flag OFF, no se elimina)
 
@@ -56,7 +56,7 @@ Verificado el 13 oct 2026 (PLA-10): todo lo de Fase 2 sigue en el repo; nada se 
 
 **Sigue accesible a propósito con los flags OFF:** `/consulta/{token}` y `/panel/consultas`, para que los hilos que ya existen no se pierdan. No se pueden crear consultas nuevas.
 
-**Pendiente (no construir hasta que `planneo.mx` esté público):** ver Sprint 8 en § 6.4 — modal «define tu evento», página `/carrito` con validación de disponibilidad, gate de cuenta al enviar, Server Action evento + N inquiries + emails; Sprint 9 (tablero por evento). Antes de reactivar cuentas de organizador hay que pasar `/crear-cuenta` al modelo de código por correo: hoy todavía pide contraseña.
+**Pendiente (no construir hasta que `www.planneo.com.mx` esté público):** ver Sprint 8 en § 6.4 — modal «define tu evento», página `/carrito` con validación de disponibilidad, gate de cuenta al enviar, Server Action evento + N inquiries + emails; Sprint 9 (tablero por evento). Antes de reactivar cuentas de organizador hay que pasar `/crear-cuenta` al modelo de código por correo: hoy todavía pide contraseña.
 
 **Cómo reactivar** (Vercel o `.env.local`, valor exacto `on`, y volver a hacer build porque son `NEXT_PUBLIC_*`):
 
@@ -77,12 +77,12 @@ Verificado el 13 oct 2026 (PLA-10): todo lo de Fase 2 sigue en el repo; nada se 
 | 4.3 | Auto-registros: aprobación manual 24–48 hrs | ✅ Sí |
 | 4.4 | Precargados sin reclamar no se publican solos | ✅ El CSV crea `draft` |
 | 4.5 | Directorio híbrido: permiso verbal + admin | 👤 Operación, no código |
-| 4.6 | Sin reseñas. Solo testimonios cargados por admin | ✅ Sí (migración testimonios pendiente en DB) |
+| 4.6 | Sin reseñas. Solo testimonios cargados por admin | ✅ Sí (`providers.testimonials` en prod) |
 | 4.7 | Sin muro de WhatsApp al lanzar | ✅ No hay muro. Cuentas de organizador apagadas |
 | 4.8 | Paquetes y calendario se quedan en el perfil público | ✅ Sí, sin botón de carrito |
 | 4.9 | Filtro de fecha amable | ✅ Catálogo: `?fecha=YYYY-MM-DD` |
-| 4.10 | 8 madre + subcategorías + Otros | ✅ Código. 🌐 Migración SQL pendiente |
-| 4.11 | Tráfico + clicks a WhatsApp | ✅ `whatsapp_click` en código. 🌐 GA4 + migración leads |
+| 4.10 | 8 madre + subcategorías + Otros | ✅ Código + SQL/seed en prod |
+| 4.11 | Tráfico + clicks a WhatsApp | ✅ `whatsapp_click` en código y en `leads`. 🌐 GA4 si existe `NEXT_PUBLIC_GA4_ID` |
 | 4.12 | Sprint 8 congelado | ✅ UI apagada, código conservado |
 
 ### Código alineado al brief
@@ -92,7 +92,7 @@ Verificado el 13 oct 2026 (PLA-10): todo lo de Fase 2 sigue en el repo; nada se 
 - [x] **Apagar carrito en la UI** — navbar y «Agregar a mi evento»
 - [x] **Apagar cuentas de organizador** — flag, no borrar
 - [x] **Testimonios** — admin, hasta 6 citas, sin estrellas
-- [x] **Migración de categorías 6 → 8 + Otros** — redirects 301; SQL pendiente de aplicar
+- [x] **Migración de categorías 6 → 8 + Otros** — redirects 301 + SQL/seed en prod
 - [x] **Filtro de fecha amable en el catálogo**
 - [x] **Copy de precio vacío** — «Precio a consultar»
 - [x] **Feature flags** — default OFF
@@ -106,26 +106,26 @@ Esto es lo que separa a Planneo de estar vivo. En orden.
 
 **Infraestructura**
 
-- [x] Proyecto Supabase y dominio `planneo.mx` (confirmado 4 sept 2026)
-- [ ] Aplicar en prod (y local) las 3 migraciones nuevas: `whatsapp_click`, `testimonials`, `categorias_madre`
-- [ ] Confirmar en Vercel: `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_SITE_URL`
+- [x] Proyecto Supabase y dominio (confirmado 4 sept 2026). Dominio canónico: `www.planneo.com.mx` (default de `src/lib/site-url.ts`)
+- [x] Aplicar en prod el schema MVP (16 migraciones, 4 sept 2026): baseline + panel + `whatsapp_click` + testimonios + 8 madres. Local `.env` sigue roto (symlink circular). Tablas del prototipo de mayo quedaron en schema `legacy_202605`.
+- [ ] Confirmar en Vercel: `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_PLANNEO_WHATSAPP` (detalle en «Lote Linear PLA-5…PLA-38»)
 - [ ] SMTP con Resend en el dashboard de Supabase (el mailer integrado ~2 correos/hora)
-- [ ] Confirmación de email activa + plantillas de `supabase/templates/` (`{{ .Token }}`, no el link)
+- [ ] Confirmación de email activa + plantillas de `supabase/templates/` (confirmation, magic-link y recovery con `{{ .Token }}`, no el link)
 - [ ] Crear usuarios admin (Gus y Eugenio): usuario en Supabase Auth con `app_metadata.role = admin`; entran por `/login` con código al correo, no necesitan contraseña
 
-**Cambios de alcance del MVP** *(código en `main`; SQL de categorías/testimonios/leads pendiente)*
+**Cambios de alcance del MVP** *(código en `main`; SQL de categorías/testimonios/leads en prod)*
 
 - [x] Feature flags en OFF (default)
-- [x] WhatsApp de vuelta + `whatsapp_click` (código)
-- [x] Migración de categorías + redirects (código; SQL pendiente)
+- [x] WhatsApp de vuelta + `whatsapp_click` (código + SQL)
+- [x] Migración de categorías + redirects (código + SQL/seed)
 - [x] Regla de disponibilidad amable en el filtro de fecha
-- [x] Testimonios desde admin (código; SQL pendiente)
+- [x] Testimonios desde admin (código + SQL)
 - [ ] Importar el CSV re-mapeado en modo oculto (`draft` / no published)
 - [x] Congelar Sprint 8 documentado aquí
 
 **Salida**
 
-- [ ] QA desde fuera de la red: abrir `planneo.mx` en un celular con datos móviles y completar un auto-registro de proveedor de punta a punta
+- [ ] QA desde fuera de la red: abrir `www.planneo.com.mx` en un celular con datos móviles y completar un auto-registro de proveedor de punta a punta
 - [ ] GA4 verificando tráfico real
 
 Detalle de Auth/SMTP: ver § 8 al final de este archivo.
@@ -144,13 +144,37 @@ Los que bloquean contenido real en el directorio.
 - [ ] Llenar campos `[por definir]` en los 3 documentos legales + abogado en NL
 - [ ] Copy y branding del sitio
 
+### Lote Linear PLA-5…PLA-38 (mergeado 13–15 oct 2026)
+
+**Qué entró a `main`:**
+
+- **Auth y registro (PLA-5…10, 16):** acceso solo por código de 6 dígitos al correo; `/recuperar` redirige a `/login`; registro con servicio principal; errores en español; páginas fantasma con su propio status; congelamiento Sprint 8 documentado arriba. La plantilla `recovery` también manda código (PLA-6).
+- **SEO, analítica y WhatsApp (PLA-11, 12, 14, 15, 17, 18, 19):** dominio canónico desde `NEXT_PUBLIC_SITE_URL` (default `https://www.planneo.com.mx`), Open Graph, JSON-LD, GA4 y CTA de WhatsApp en el perfil.
+- **Home y navegación (PLA-13, 21, 22, 29–32, 38):** landing honesta con el MVP, buscador en el hero, grid de categorías, nav limpio. El asistente «Crear mi evento» queda detrás de `NEXT_PUBLIC_FEATURE_EVENT_PLANNER` (nuevo, default OFF).
+- **Catálogo (PLA-20, 23, 24, 33–36):** `/proveedores` → 301 `/catalogo`; estados vacíos con CTA a Planneo; guías editoriales + FAQs por categoría; filtros en drawer móvil con conteo en vivo; etiquetas de precio.
+- **Design tokens (PLA-25…28):** morado primario solo como relleno, bordes de formulario visibles + focus ring, escala tipográfica de 7 pasos (mínimo 12px), 4 radios.
+
+**Rutas que cambiaron:** `/proveedores` → 301 `/catalogo` · `/recuperar` → `/login` (permanente) · `/login` es solo OTP (sin contraseña).
+
+**Pendiente de personas:**
+
+- [ ] 🌐 Pedraza — **Plantillas de correo en Supabase hosted** (las de `supabase/templates/` solo aplican en local). Las tres deben mostrar `{{ .Token }}`. A mano: Authentication > Emails > Templates → «Confirm signup», «Magic Link» y «Reset Password». Por Management API (`PATCH /v1/projects/{ref}/config/auth`): campos `mailer_templates_confirmation_content`, `mailer_templates_magic_link_content` y `mailer_templates_recovery_content`. Ver § 8.
+- [ ] 🌐 Pedraza — **Vercel env (Production) + redeploy** (son `NEXT_PUBLIC_*`, se hornean en el build):
+  - `NEXT_PUBLIC_SITE_URL=https://www.planneo.com.mx`. Hoy Vercel tiene `planneo.mx`, que pisa el default del código: canonical, sitemap, OG y correos salen con el dominio viejo.
+  - `NEXT_PUBLIC_GA4_ID` (👤 Gus pasa el ID). Sin él no corre GA4.
+  - `NEXT_PUBLIC_PLANNEO_WHATSAPP` (👤 Gus: número propio de Planneo para el CTA de categorías vacías). Sin él, el CTA cae a correo.
+  - `NEXT_PUBLIC_FEATURE_EVENT_PLANNER` opcional; dejar sin definir (OFF) en el MVP.
+- [ ] 👤 Gus — **Revisar el contenido editorial de categorías** (`content/categories/*.ts`, todas con `draft: true`). Se publica igual; al aprobar cada una, cambiar a `draft: false` (PLA-23).
+- [ ] 👤 Ambos — **PLA-37:** auditoría manual del primer perfil publicado (fotos, precio, WhatsApp, OG, JSON-LD, móvil).
+- [ ] 👤 Ambos — **Decisión: dominio del remitente.** El código usa `hola@planneo.mx` (`src/lib/email.ts`, `src/lib/planneo-contact.ts`, SMTP de § 8). Decidir si se queda en `planneo.mx` o pasa a `planneo.com.mx`; el dominio elegido debe estar verificado en Resend. No cambiar los correos en código hasta decidir.
+
 ### Fechas
 
 | Fecha | Qué | Quién |
 |---|---|---|
 | 14 ago 2026 | CSV entregado + este brief | Gus |
 | Semana del 18 ago | Junta de socios: alcance + Term Sheet | Ambos |
-| **15 sept 2026** | `planneo.mx` desplegado y accesible desde fuera, aunque tenga pocos perfiles | Pedraza |
+| **15 sept 2026** | `www.planneo.com.mx` desplegado y accesible desde fuera, aunque tenga pocos perfiles | Pedraza |
 | **30 sept 2026** | Hito 1: directorio público con contenido real + auto-registro funcionando desde fuera | Ambos |
 | 31 oct 2026 | 100 perfiles publicados · 30 clicks a WhatsApp · tráfico medible en GA4 | Ambos |
 
@@ -158,7 +182,7 @@ Ritmo: una junta semanal, día y hora fijos. Si un pendiente no se movió en dos
 
 ### Árbol de categorías objetivo
 
-Cada madre tiene página indexable (`planneo.mx/musica`). Las subcategorías son filtro/etiqueta. «Otros» se gradúa a madre cuando una subcategoría junte 10+ proveedores.
+Cada madre tiene página indexable (`www.planneo.com.mx/musica`). Las subcategorías son filtro/etiqueta. «Otros» se gradúa a madre cuando una subcategoría junte 10+ proveedores.
 
 | # | Madre | Slug | Subcategorías |
 |---|---|---|---|
@@ -179,7 +203,7 @@ Fase 2 — Planneo completo, inicio 2027/2028, disparada por número de proveedo
 ### Reglas para quien asiste el desarrollo
 
 1. Este archivo es el contrato. El brief manda si hay contradicción.
-2. No construir Fase 2 (carrito, cotizaciones, pagos, reseñas, favoritos) hasta que `planneo.mx` esté público.
+2. No construir Fase 2 (carrito, cotizaciones, pagos, reseñas, favoritos) hasta que `www.planneo.com.mx` esté público.
 3. No re-debatir las decisiones 4.1–4.12.
 4. Preferir apagar sobre borrar.
 5. Cada perfil es una página indexable. Sin muros de login, sin contenido solo-cliente, URLs canónicas y metadatos.
@@ -484,7 +508,7 @@ El grupo de rutas `(provider)` ya existe. Vamos a expandirlo:
 
 ## 6. Fase 2 — Carrito de Evento (decidido 2026-07-21, congelado 2026-08-14)
 
-> ❄ **Congelado.** No se construye más de esto hasta que `planneo.mx` esté público.
+> ❄ **Congelado.** No se construye más de esto hasta que `www.planneo.com.mx` esté público.
 > Ver DISEÑO.md § "Fase 2 — Carrito de Evento" para el comportamiento de producto.
 > Ya entregado y se apaga con flag: formulario de consulta público, hilo tokenizado,
 > cuentas de cliente (`/crear-cuenta`, `/mis-consultas`), drawer «Mi evento».
@@ -546,7 +570,7 @@ directamente — lo que necesita saber viaja en la inquiry. Admin todo.
 
 #### Sprint 8 — Carrito y envío ❄ CONGELADO (brief 4.12, 14 ago 2026)
 
-No se termina ni se borra. Se apaga la UI hasta que `planneo.mx` esté público. Cómo reactivar: prender el feature flag de carrito, terminar `/carrito` + envío, y volver a exponer «Agregar a mi evento».
+No se termina ni se borra. Se apaga la UI hasta que `www.planneo.com.mx` esté público. Cómo reactivar: prender el feature flag de carrito, terminar `/carrito` + envío, y volver a exponer «Agregar a mi evento».
 
 - [x] Migración: `events` + `inquiries.event_id` + `inquiries.package_id` + RLS (`supabase/migrations/20260721010000_eventos_carrito.sql`)
 - [x] Persistencia en localStorage (`src/lib/cart.ts`) + drawer «Mi evento» (`src/components/event-cart.tsx`)
@@ -578,7 +602,9 @@ Asegurarse de que estén en `.env` y en Vercel antes de Sprint 2:
 SUPABASE_SERVICE_ROLE_KEY    # necesario para aprobar/rechazar proveedores (cambiar roles)
 RESEND_API_KEY               # emails de notificación y aprobación
 NEXT_PUBLIC_GA4_ID           # analytics
-NEXT_PUBLIC_SITE_URL         # para emails con links absolutos
+NEXT_PUBLIC_SITE_URL         # origen canónico: https://www.planneo.com.mx (canonical, sitemap, OG, correos)
+NEXT_PUBLIC_PLANNEO_WHATSAPP # WhatsApp de Planneo para estados vacíos del catálogo (sin él, cae a correo)
+# Feature flags (opcionales, OFF si no existen; valor exacto `on`): ver src/lib/feature-flags.ts
 ```
 
 ## 8. Configuración de Supabase Auth en producción (checklist pre-lanzamiento)
@@ -601,9 +627,14 @@ proyecto HOSTED hay que replicarlo a mano en el dashboard:
    habilitar "Confirm email". OTP expiration: 600 segundos.
 3. **Plantillas** (Authentication > Emails > Templates): copiar
    `supabase/templates/confirmation.html` en "Confirm signup" y
-   `supabase/templates/magic-link.html` en "Magic Link". Las dos deben mostrar
-   `{{ .Token }}` (el código) en lugar del link; sin la de Magic Link, quien ya
-   tiene cuenta (admins incluidos) no recibe código al iniciar sesión.
+   `supabase/templates/magic-link.html` en "Magic Link" y
+   `supabase/templates/recovery.html` en "Reset Password". Las tres deben
+   mostrar `{{ .Token }}` (el código) en lugar del link; sin la de Magic Link,
+   quien ya tiene cuenta (admins incluidos) no recibe código al iniciar sesión.
+   Alternativa sin dashboard: Management API `PATCH /v1/projects/{ref}/config/auth`
+   con `mailer_templates_confirmation_content`,
+   `mailer_templates_magic_link_content` y `mailer_templates_recovery_content`
+   (el HTML de cada archivo).
 
 ---
 

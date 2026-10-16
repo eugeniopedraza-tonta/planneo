@@ -9,6 +9,7 @@
  *   NEXT_PUBLIC_FEATURE_ORGANIZER_ACCOUNTS=on
  *   NEXT_PUBLIC_FEATURE_WHATSAPP_WALL=on
  *   NEXT_PUBLIC_FEATURE_REVIEWS=on
+ *   NEXT_PUBLIC_FEATURE_EVENT_PLANNER=on
  */
 function isOn(value: string | undefined): boolean {
   return value === 'on'
