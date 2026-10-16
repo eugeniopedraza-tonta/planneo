@@ -59,7 +59,7 @@ export default async function ReclamarPage({ params }: Props) {
 
   const { data: provider } = await supabase
     .from('providers')
-    .select('id, name, description, zona, photos, categories(name)')
+    .select('id, name, description, zona, photos, status, categories(name)')
     .eq('id', tokenRow.provider_id)
     .maybeSingle()
 
@@ -94,6 +94,8 @@ export default async function ReclamarPage({ params }: Props) {
   }).catch(() => {})
 
   const categoryName = (provider.categories as unknown as { name: string } | null)?.name
+  // Hay perfiles precargados que ya están publicados: ahí "vista previa" mentiría.
+  const isPublished = provider.status === 'published'
 
   return (
     <div className="min-h-screen bg-planneo-950 px-4 py-10">
@@ -104,8 +106,10 @@ export default async function ReclamarPage({ params }: Props) {
           </span>
           <h1 className="mt-3 text-lg font-semibold text-white">Tu perfil ya está preparado</h1>
           <p className="mt-1 text-sm text-white/60">
-            Revisa cómo podrán encontrarte en Planneo. Puedes corregir cualquier detalle antes de
-            activarlo. Es gratis y toma alrededor de 2 minutos.
+            {isPublished
+              ? 'Así te encuentran hoy en Planneo. Reclámalo para corregir cualquier detalle y administrarlo tú.'
+              : 'Revisa cómo podrán encontrarte en Planneo. Puedes corregir cualquier detalle antes de activarlo.'}{' '}
+            Es gratis y toma alrededor de 2 minutos.
           </p>
         </div>
 
@@ -126,7 +130,7 @@ export default async function ReclamarPage({ params }: Props) {
               </div>
             )}
             <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
-              Vista previa — aún no es pública
+              {isPublished ? 'Ya publicado en Planneo' : 'Vista previa — aún no es pública'}
             </span>
           </div>
 

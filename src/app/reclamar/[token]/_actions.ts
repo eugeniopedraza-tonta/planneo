@@ -27,7 +27,10 @@ const ClaimSchema = z.object({
     .string({ error: 'Escribe un teléfono de contacto.' })
     .trim()
     .min(8, { error: 'Escribe un teléfono de contacto.' })
-    .max(40, { error: 'Usa máximo 40 caracteres.' }),
+    .max(40, { error: 'Usa máximo 40 caracteres.' })
+    .refine((value) => value.replace(/\D/g, '').length >= 10, {
+      error: 'Escribe un teléfono válido, con lada (10 dígitos).',
+    }),
 })
 
 /**
