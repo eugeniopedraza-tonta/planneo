@@ -20,9 +20,11 @@ import {
 } from '@/lib/catalog-href'
 import { createStaticClient } from '@/lib/supabase/server'
 import {
+  countPublicProviders,
   formatCatalogFecha,
   getPublicProviders,
   parseCatalogFecha,
+  type PublicProviderFilters,
 } from '@/lib/public-providers'
 import Navbar from '@/components/landing/Navbar'
 import CatalogFilters from '@/components/catalog/catalog-filters'
@@ -30,6 +32,9 @@ import CatalogEmptyState from '@/components/catalog/catalog-empty-state'
 import SubcategoryChips from '@/components/catalog/subcategory-chips'
 import CategoryEditorial from '@/components/category-editorial'
 import { getCategoryContent } from '../../content/categories'
+
+/** Cuántos proveedores pinta el listado. Sin paginación: el resto se alcanza filtrando. */
+const CATALOG_PAGE_SIZE = 90
 
 type CatalogParams = {
   q?: string
@@ -68,22 +73,29 @@ export default async function ProviderCatalog({
     sub: searchParams.sub,
   }
   const allPath = catalogAllPath(action)
-  const [{ data: categories }, providers] = await Promise.all([
+  // Mismos filtros para listado y conteo: el total del encabezado y el
+  // "Ver resultados (N)" del panel salen de la misma función que la API.
+  const providerFilters: PublicProviderFilters = {
+    q: searchParams.q,
+    category: categoryFilter,
+    subcategory: searchParams.sub,
+    zona: searchParams.zona,
+    evento: searchParams.evento,
+    precio: searchParams.precio,
+    fecha,
+  }
+  const [{ data: categories }, providers, counted] = await Promise.all([
     supabase
       .from('categories')
       .select('id, name, slug')
       .in('slug', CATEGORY_SLUGS as unknown as string[]),
-    getPublicProviders({
-      q: searchParams.q,
-      category: categoryFilter,
-      subcategory: searchParams.sub,
-      zona: searchParams.zona,
-      evento: searchParams.evento,
-      precio: searchParams.precio,
-      fecha,
-      limit: 90,
-    }),
+    getPublicProviders({ ...providerFilters, limit: CATALOG_PAGE_SIZE }),
+    countPublicProviders(providerFilters),
   ])
+  // Si el conteo falla (o corre detrás de un alta reciente) nunca mostramos
+  // menos de lo que ya está en pantalla.
+  const total = Math.max(counted ?? 0, providers.length)
+  const isTruncated = total > providers.length
   const sortedCategories = sortByCategoryTree(categories ?? [])
   const selectedSlug =
     categoryFilter && isCategorySlug(categoryFilter) ? categoryFilter : undefined
@@ -169,7 +181,7 @@ export default async function ProviderCatalog({
               action={formAction}
               categorySlug={categoryFilter}
               applied={appliedQuery}
-              appliedCount={providers.length}
+              appliedCount={total}
               clearHref={clearHref}
               zonas={ZONAS_MTY.map((z) => ({ value: z, label: z }))}
               eventos={EVENT_TYPES.map((e) => ({ value: e.value, label: e.label }))}
@@ -181,7 +193,7 @@ export default async function ProviderCatalog({
             <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-sm text-white/55">
-                  {providers.length} proveedor{providers.length === 1 ? '' : 'es'} encontrado{providers.length === 1 ? '' : 's'}
+                  {total} proveedor{total === 1 ? '' : 'es'} encontrado{total === 1 ? '' : 's'}
                 </p>
                 {searchParams.q && (
                   <p className="mt-1 text-sm text-white/50">Resultados para &ldquo;{searchParams.q}&rdquo;</p>
@@ -215,6 +227,12 @@ export default async function ProviderCatalog({
                   />
                 ))}
               </div>
+            )}
+
+            {isTruncated && (
+              <p className="mt-6 text-sm text-white/55" role="status">
+                Mostrando {providers.length} de {total} proveedores. Afina con los filtros para ver más.
+              </p>
             )}
 
             {editorial && (
