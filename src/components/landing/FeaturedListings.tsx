@@ -2,6 +2,9 @@ import Link from "next/link";
 import { createStaticClient } from "@/lib/supabase/server";
 import type { ProviderWithCategory } from "@/lib/types";
 import { formatPriceRange } from "@/lib/format";
+import { EVENT_TYPE_LABELS } from "@/lib/constants";
+
+const EVENT_LABEL: Record<string, string> = EVENT_TYPE_LABELS;
 
 const palettes = [
   "from-[#26133F] via-planneo-600 to-planneo-300",
@@ -75,7 +78,7 @@ export default async function FeaturedListings() {
                   {provider.event_types?.length ? (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {provider.event_types.slice(0, 3).map((tag) => (
-                        <span key={tag} className="v4-mono rounded-sm border border-white/10 px-2 py-1 text-xs text-white/55">{tag}</span>
+                        <span key={tag} className="v4-mono rounded-sm border border-white/10 px-2 py-1 text-xs text-white/55">{EVENT_LABEL[tag] ?? tag}</span>
                       ))}
                     </div>
                   ) : null}
