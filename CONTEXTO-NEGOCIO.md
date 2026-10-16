@@ -2,28 +2,38 @@
 
 > **Para:** Gus (co-fundador, lado del negocio) y su asistente de IA.
 > **De:** Eugenio (co-fundador técnico / desarrollador).
-> **Fecha:** 2026-07-21.
+> **Fecha:** 2026-07-21 · **Actualizado:** 2026-10-15 (alineado al MVP del brief del 14 ago 2026).
 > **Propósito:** darle a tu Claude todo el contexto del producto y su estado real hoy,
 > para que pueda ayudarte con estrategia, ventas, contenido y decisiones de negocio
 > sin inventar cosas que no existen todavía.
+> **Si algo aquí choca con `PLAN.md`, manda `PLAN.md`** (y el brief MVP manda sobre ambos).
 
 ---
 
 ## 1. ¿Qué es Planneo?
 
-Planneo es un **marketplace de servicios para eventos** enfocado en Monterrey y su
+Planneo es un **directorio público de proveedores de eventos** en Monterrey y su
 área metropolitana. Conecta a personas que organizan eventos (bodas, XV años,
-graduaciones, eventos corporativos) con proveedores especializados: fotógrafos,
-DJs, salones, caterings, decoradores, maquillistas.
+graduaciones, eventos corporativos, cumpleaños) con proveedores especializados:
+fotógrafos, DJs, salones, caterings, decoradores, maquillistas.
+
+**El MVP en una frase:** el organizador navega sin cuenta, ve fotos, paquetes y
+rango de precio, y le escribe al proveedor **directo por WhatsApp**. Planneo no
+cobra, no intermedia y no ejecuta el evento.
 
 **El problema:** organizar un evento hoy significa grupos de Facebook,
 recomendaciones de boca en boca y perfiles de Instagram sin precios ni
-disponibilidad. Planneo centraliza todo: perfiles con fotos reales, paquetes con
-precios, calendario de disponibilidad y cotización dentro de la plataforma.
+disponibilidad. Planneo centraliza perfiles con fotos reales, paquetes, rango de
+precio y calendario de disponibilidad, en páginas que Google indexa.
 
-**Objetivo a 90 días:** 1,000 proveedores en catálogo, 100+ leads, 10+ contrataciones.
+**Metas:**
+- Hito 1 (30 sept 2026): directorio público con contenido real + auto-registro
+  funcionando desde fuera.
+- 31 oct 2026: 100 perfiles publicados · 30 clicks a WhatsApp · tráfico medible en GA4.
+- *Histórico (jul 2026):* «1,000 proveedores en catálogo, 100+ leads, 10+
+  contrataciones a 90 días».
 
-**Dominio previsto:** planneo.mx (aún no configurado en producción).
+**Dominio canónico:** `www.planneo.com.mx`.
 
 ## 2. Equipo
 
@@ -40,174 +50,191 @@ desplegada en Vercel. Se eligió stack propio para tener control total de SEO
 (cada perfil de proveedor es una página indexable por Google), analítica y URLs
 canónicas — eso es el motor de adquisición orgánica.
 
+Lo que es Fase 2 no se borra: se apaga con **feature flags** (interruptores) que
+por defecto están en OFF. Ver § 7.
+
 ## 4. Quiénes usan el sistema (roles)
 
 | Rol | Quién | Qué hace |
 |---|---|---|
-| **Organizador / cliente** | Persona planeando un evento | Busca, compara, arma su evento, pide cotizaciones. Solo necesita cuenta al enviar cotizaciones. |
-| **Proveedor** (`provider`) | Negocio de servicios aprobado | Gestiona su perfil completo desde su panel. |
-| **Proveedor pendiente** (`provider_pending`) | Se auto-registró, espera aprobación | Puede completar su perfil mientras espera; no aparece en el catálogo. |
-| **Admin** (Gus y Eugenio) | Equipo Planneo | Gestión total: alta de proveedores, importar CSV, aprobar solicitudes, métricas. |
+| **Organizador / cliente** | Persona planeando un evento | Busca, compara y escribe por WhatsApp al proveedor. **No necesita cuenta** (en el MVP no hay cuentas de organizador). |
+| **Proveedor** (`provider`) | Negocio de servicios aprobado | Gestiona su perfil completo desde su panel. Entra con **código de 6 dígitos al correo** (sin contraseña). |
+| **Proveedor pendiente** (`provider_pending`) | Se auto-registró, espera aprobación | Puede completar su perfil mientras espera; no aparece en el catálogo. Aprobación manual en 24–48 hrs. |
+| **Admin** (Gus y Eugenio) | Equipo Planneo | Gestión total: alta de proveedores, importar CSV, aprobar solicitudes, testimonios, métricas. Entra igual por código al correo. |
 
 ## 5. Catálogo
 
-**Categorías:** Fotografía/Video, Belleza/Maquillaje, DJ/Música, Banquete/Catering,
-Decoración, Salones de Eventos. Cada una con su página propia (ej. planneo.mx/fotografia).
+**Categorías:** 8 madres + «Otros servicios», cada una con su página indexable
+(ej. `www.planneo.com.mx/musica`). Las subcategorías funcionan como filtro.
 
-**Tipos de evento:** Bodas, XV Años, Corporativo, Graduación.
+| Madre | URL |
+|---|---|
+| Lugares y salones | `/lugares` |
+| Banquete y bebidas | `/banquete` |
+| Música y entretenimiento | `/musica` |
+| Foto y video | `/foto-video` |
+| Decoración y ambientación | `/decoracion` |
+| Mobiliario y equipo | `/mobiliario` |
+| Belleza e imagen | `/belleza` |
+| Invitaciones y detalles | `/invitaciones` |
+| Otros servicios | `/otros` |
+
+El árbol completo de subcategorías está en `PLAN.md` § «Árbol de categorías
+objetivo». Las URLs viejas redirigen: `/fotografia` → `/foto-video`,
+`/salones` → `/lugares`. «Otros» se gradúa a madre cuando una subcategoría junte
+10+ proveedores. *Histórico:* hasta ago 2026 eran 6 categorías (Fotografía/Video,
+Belleza, DJ/Música, Banquete, Decoración, Salones).
+
+Cada página de categoría trae una guía editorial y preguntas frecuentes. Ese
+texto es **borrador pendiente de revisión de Gus** (`content/categories/`).
+
+**Tipos de evento:** Bodas, XV Años, Corporativo, Graduación, Cumpleaños,
+Bautizos y familiares, Otro.
 
 **Zonas (filtro):** San Pedro, San Nicolás, Guadalupe, Apodaca, Escobedo,
-Santa Catarina, Juárez, Monterrey Centro/Sur/Norte, García, Salinas Victoria.
+Santa Catarina, Juárez, Monterrey Centro/Sur/Norte, García, Salinas Victoria
+(+ «Toda el área metropolitana»).
 
-**Estados de un proveedor:** `draft` (creado por admin, oculto) → `pending`
-(auto-registrado, en revisión) → `published` (visible) / `claimed` (reclamado por
-su dueño vía link, visible).
+**Estados de un proveedor:** `draft` (creado por admin o importado por CSV,
+oculto) → `pending` (auto-registrado, en revisión) → `published` (visible) /
+`claimed` (reclamado por su dueño vía link, visible). Nada precargado se publica
+sin el «sí» del proveedor.
 
 ## 6. Lo que YA está construido y funciona
 
 ### Catálogo público
-- Homepage, páginas por categoría con filtros, perfil de cada proveedor
-  (fotos, descripción, zona, rango de precio) con SEO completo (sitemap, datos
-  estructurados para Google).
-- Búsqueda de texto completo (`/buscar`).
-- **Perfil público con paquetes:** los paquetes del proveedor se muestran con
-  nombre, descripción, rango de precio y qué incluyen, cada uno con botón
-  **"Agregar a mi evento"** (el inicio del carrito).
-- **Calendario de disponibilidad en modo lectura** en el perfil público
-  (verde = disponible, rojo = reservado, amarillo = tentativo; las notas
-  privadas del proveedor nunca se muestran).
+- Homepage con buscador, catálogo completo en `/catalogo`, páginas por
+  categoría con filtros (en celular, en un panel con conteo en vivo), y perfil de
+  cada proveedor con SEO completo (sitemap, datos estructurados, Open Graph).
+- Búsqueda de texto completo (`/buscar`) y filtro de fecha amable
+  (`?fecha=YYYY-MM-DD`).
+- **Perfil público:** fotos, descripción, zona, tipos de evento, rango
+  `$ / $$ / $$$` (sin dato → «Precio a consultar»), paquetes, calendario de
+  disponibilidad en modo lectura, badge Verificado y testimonios.
+- **Contacto = botón de WhatsApp** en el perfil (abre `wa.me`, sin cuenta ni
+  muro de login). Cada click se registra como evento `whatsapp_click`: es la
+  **métrica norte** del MVP.
+- **Testimonios:** solo los carga el admin, con consentimiento del proveedor y
+  de quien opina. Sin estrellas ni calificaciones.
+- Categorías sin proveedores muestran un estado vacío con CTA para escribirle a
+  Planneo (WhatsApp de Planneo si está configurado; si no, correo).
 
 ### Dos formas de subir proveedores
 1. **Outbound (flujo de Gus):** el admin crea el perfil en `/admin/proveedores`
-   (a mano o importando CSV), genera un **link de reclamación** único y se lo
-   manda al proveedor por WhatsApp. El proveedor da click, crea su cuenta y queda
-   dueño de su perfil.
-2. **Auto-registro:** el proveedor entra a `/registrarme`, llena el formulario y
-   queda pendiente. El admin aprueba o rechaza desde `/admin/solicitudes`
-   (con emails automáticos en cada paso).
+   (a mano o importando CSV, que entra como `draft`), genera un **link de
+   reclamación** único y se lo manda al proveedor por WhatsApp. El proveedor da
+   click, confirma su correo con un código y queda dueño de su perfil.
+2. **Auto-registro:** el proveedor entra a `/registrarme` (landing de captación
+   en `/para-proveedores`), llena el formulario, confirma su correo con código y
+   queda pendiente. El admin aprueba o rechaza desde `/admin/solicitudes` (con
+   emails automáticos en cada paso).
 
-### Panel del proveedor (100% completo)
-En `/panel`, el proveedor gestiona todo su negocio:
+### Acceso de proveedores y admins
+- **Solo código de 6 dígitos al correo** (OTP), sin contraseñas. `/login` pide
+  el correo y manda el código; `/recuperar` ya no existe (redirige a `/login`).
+
+### Panel del proveedor
+En `/panel`, el proveedor gestiona su perfil:
 - **Dashboard** con métricas rápidas.
 - **Perfil:** descripción, WhatsApp, Instagram, zona, rango de precio, tipos de evento.
 - **Fotos:** galería con subida múltiple, reordenar, foto principal, eliminar.
 - **Audio/Video:** para músicos y videógrafos (MP3, MP4, etc.) con reproductor.
 - **Paquetes:** crear paquetes con precio (rango o fijo, por evento/hora/persona),
   lista de lo que incluye, destacados.
-- **Menú de catering** (solo categoría Banquete): menús con precio por persona,
-  mínimo de invitados, y platillos organizados por tiempo (entrada, sopa, plato
-  principal, postre, bebidas).
-- **Detalles del salón** (solo categoría Salones): capacidad, dirección,
+- **Menú de catering** (solo Banquete): menús con precio por persona, mínimo de
+  invitados, y platillos organizados por tiempo.
+- **Detalles del salón** (solo Lugares): capacidad, dirección,
   interior/exterior, estacionamiento, catering externo, amenidades, plano.
 - **Disponibilidad:** calendario mensual; click en un día para marcarlo
   Disponible / Reservado / Tentativo, con nota privada.
-- **Consultas:** buzón de cotizaciones (ver siguiente sección).
-- **Agenda:** eventos confirmados — quién, dónde y cuándo debe presentarse.
-
-### Sistema de cotización (decisión de producto clave)
-**La cotización vive DENTRO de Planneo, no en WhatsApp.** El perfil público ya no
-muestra botón de WhatsApp ni email directo — todo el contacto pasa por el
-formulario "Solicitar cotización". Razón: la plataforma va a ofrecer pago y
-reservación en línea más adelante, y para eso la conversación tiene que vivir aquí.
-
-Flujo:
-1. El cliente pide cotización desde el perfil público (nombre, contacto, tipo de
-   evento, fecha, lugar, invitados, mensaje).
-2. El proveedor la ve en `/panel/consultas` y responde — con monto opcional de
-   cotización.
-3. El cliente ve y responde el hilo en un enlace privado (`/consulta/{token}`),
-   sin necesidad de cuenta. Recibe emails con su enlace.
-4. El proveedor puede **confirmar la reservación**: fija fecha y lugar, la fecha
-   se bloquea automáticamente como "Reservado" en su calendario, y el evento
-   aparece en su Agenda. El cliente recibe email de confirmación.
-
-### Cuentas de cliente
-- Registro en `/crear-cuenta` con verificación por código de 6 dígitos al email
-  (OTP), login, y recuperación de contraseña.
-- `/mis-consultas`: el cliente ve todas sus cotizaciones en un solo lugar.
+- *Consultas y Agenda* siguen en el código pero son de Fase 2 (ver § 7).
 
 ### Admin
 - CRUD de proveedores, importación por CSV, links de reclamación,
-  solicitudes de registro (aprobar/rechazar), y página de métricas.
+  solicitudes de registro (aprobar/rechazar), testimonios, y página de métricas.
 
-## 7. Fase actual: "Carrito de Evento" (en desarrollo AHORA)
+## 7. Fase 2 (congelado, no se borra)
 
-**Concepto:** el carrito es un **plan de evento**, no un checkout de e-commerce.
-El usuario arma su evento eligiendo paquetes de varios proveedores (fotógrafo +
-DJ + salón + catering), y al enviar se crea un **Evento** que manda una solicitud
-de cotización a cada proveedor por el sistema de hilos existente. **Sin pagos aún** —
-la negociación sigue en la cotización; pago y reservación en línea vendrán después
-sobre esta misma base.
+Por el brief MVP (14 ago 2026), todo esto se construyó entre junio y agosto pero
+está **apagado con feature flags** hasta que el directorio esté público y con
+tracción (arranque estimado 2027/2028, disparado por número de proveedores
+activos). Nada se tira.
 
-**Decisiones ya tomadas (2026-07-21):**
-1. Un item del carrito = un **paquete específico** de un proveedor.
-2. **Regla de disponibilidad amable:** como la mayoría de los proveedores no
-   mantendrá su calendario al día, solo un día marcado explícitamente como
-   "Reservado" bloquea agregarlo para esa fecha. Día disponible = badge verde;
-   tentativo o sin marcar = "Por confirmar". Nunca se castiga la falta de datos.
-3. El carrito funciona **sin cuenta** (se guarda en el navegador); la cuenta se
-   pide solo al enviar (con el flujo de código por email ya existente).
-4. `/mis-consultas` se convierte en un tablero por evento: estado de cada
-   proveedor (enviada / cotizada / confirmada) con acceso a cada hilo.
+- **Cotización dentro de Planneo** *(congelado)*. La decisión original
+  (jul 2026) era que la cotización viviera dentro de Planneo y no en WhatsApp,
+  para más adelante ofrecer pago y reservación en línea. El brief la revirtió:
+  en el MVP el contacto es WhatsApp directo. El flujo de hilos
+  (`/consulta/{token}`), el buzón `/panel/consultas` y la Agenda siguen en el
+  código; los hilos viejos siguen accesibles, pero no se pueden crear consultas
+  nuevas.
+- **Cuentas de organizador** (`/crear-cuenta`, `/mis-consultas`) *(congelado)*:
+  responden 404. Antes de reactivarlas hay que pasarlas al acceso por código.
+- **Carrito de Evento** *(congelado; Sprint 8 a medias, Sprint 9 sin empezar)*:
+  el organizador armaba un plan con paquetes de varios proveedores y al enviar se
+  creaba un Evento con una cotización por proveedor. La base de datos del envío
+  quedó lista; la interfaz del carrito está apagada.
+- **Asistente «Crear mi evento»** *(congelado)*.
+- **Muro de WhatsApp** (pedir cuenta para ver el número) y **reseñas con
+  estrellas**: no construidos; el MVP no los lleva.
+- **Pagos, comisiones, anticipos, favoritos, notificaciones push, búsqueda por
+  disponibilidad**: fuera.
 
-**Estado de los sprints de esta fase:**
+Detalle técnico y cómo reactivar cada flag: `PLAN.md` § «Congelamiento Sprint 8».
 
-| Sprint | Contenido | Estado |
-|---|---|---|
-| 6 | Cerrar panel proveedor (menú catering + salón) | ✅ Hecho (21 jul) |
-| 7 | Perfil público con paquetes + calendario readonly + botón "Agregar a mi evento" | ✅ Hecho (21 jul) |
-| 8 | Página `/carrito`, definición del evento, gate de cuenta al enviar, envío (crea evento + N cotizaciones + emails) | 🔨 **En curso** — la base de datos del envío ya está lista (creación atómica del evento con todas sus cotizaciones, validando disponibilidad); falta la interfaz del carrito |
-| 9 | `/mis-consultas` como tablero por evento | ⏳ Pendiente |
+## 8. Estado de producción
 
-**Fuera de scope de esta fase:** búsqueda por disponibilidad ("¿quién está libre
-el 15 de diciembre?"), pagos/anticipos, reseñas, favoritos, notificaciones push.
+- La base de datos de producción ya tiene el schema del MVP (aplicado el
+  4 sept 2026: 16 migraciones + las 8 madres y Otros). El prototipo de mayo quedó
+  archivado aparte.
+- Acceso por código al correo, catálogo en `/catalogo`, SEO, GA4 y WhatsApp ya
+  están en `main` (lote PLA-5…PLA-38, oct 2026).
 
-## 8. Pendientes para lanzar a producción (importante)
-
-El producto corre completo en el entorno local de desarrollo, pero **la base de
-datos de producción (Supabase remoto) está desalineada**: tiene un schema
-prototipo viejo que no corresponde al código. Antes de lanzar hay que:
-
-1. Resetear/alinear el proyecto Supabase remoto con las migraciones actuales
-   (o crear un proyecto nuevo).
-2. Llenar credenciales pendientes: `SUPABASE_SERVICE_ROLE_KEY` (sin esto no
-   funcionan registro ni aprobación de proveedores), `RESEND_API_KEY` (emails),
-   `NEXT_PUBLIC_GA4_ID` (analytics).
-3. Configurar en el dashboard de Supabase: SMTP con Resend (el mailer integrado
-   solo manda ~2 correos/hora), confirmación de email activa, y las plantillas de
-   código de verificación.
-4. Configurar el dominio planneo.mx en Vercel.
-5. Crear los usuarios admin (Gus y Eugenio).
-6. Importar el CSV de proveedores de Gus.
+**Pendientes antes de dar por bueno el lanzamiento** (detalle en `PLAN.md`):
+1. Plantillas de correo de Supabase en producción con el código (`{{ .Token }}`).
+2. Variables en Vercel: dominio canónico `https://www.planneo.com.mx`, ID de GA4
+   (Gus), WhatsApp propio de Planneo para categorías vacías (Gus).
+3. SMTP con Resend en Supabase (el mailer integrado solo manda ~2 correos/hora).
+4. Crear los usuarios admin (Gus y Eugenio).
+5. Importar el CSV re-mapeado de proveedores de Gus (en `draft`).
+6. Revisión de Gus al texto de las guías de categoría.
+7. Auditoría manual del primer perfil publicado (PLA-37).
 
 ## 9. Preguntas abiertas para Gus (decisiones de negocio pendientes)
 
-1. **Aprobación de proveedores:** ¿compromiso de tiempo de respuesta (24 hrs)?
-   ¿Verificación del negocio antes de aprobar, o aprobar directo por ahora?
-2. **Precios públicos:** ¿precio exacto o solo rangos en el perfil? (Hoy el
-   proveedor puede dejar el precio vacío → "Precio a consultar".)
-3. **Carga inicial:** el CSV de proveedores para arrancar el catálogo.
+1. **Dominio del correo remitente:** hoy los correos salen de `hola@planneo.mx`.
+   ¿Se queda así o pasa a `@planneo.com.mx`? El dominio elegido debe verificarse
+   en Resend.
+2. **Carga inicial:** el CSV de proveedores re-mapeado a las 8 madres + Otros.
+
+*Ya decididas en el brief (no se re-debaten):* aprobación manual de
+auto-registros en 24–48 hrs; en el perfil solo rangos de precio (sin dato →
+«Precio a consultar»); sin reseñas, solo testimonios cargados por admin.
 
 ## 10. Métricas que el sistema ya rastrea
 
 | Métrica | Fuente |
 |---|---|
+| Clicks en WhatsApp (**métrica norte**) | Evento `whatsapp_click` (GA4 + tabla `leads`) |
 | Visitas al perfil | Evento `profile_view` |
-| Clicks en WhatsApp | Evento `whatsapp_click` (histórico; el CTA principal ahora es cotizar) |
-| Cotizaciones enviadas | Tabla de consultas |
+| Tráfico | GA4 (requiere el ID configurado en Vercel) |
 | Proveedores activos | Perfiles publicados/reclamados |
 | Proveedores nuevos por semana | Fecha de alta |
+| *Cotizaciones enviadas* | *Fase 2 — tabla de consultas, sin altas nuevas en el MVP* |
 
 ## 11. Mapa de rutas (referencia rápida)
 
-**Público:** `/` · `/[categoria]` (ej. `/fotografia`) · `/[categoria]/[proveedor]` ·
-`/buscar` · `/registrarme` · `/crear-cuenta` · `/login` · `/consulta/{token}` ·
-`/mis-consultas` · `/carrito` (próximamente)
+**Público:** `/` · `/catalogo` (antes `/proveedores`, redirige) · `/[categoria]`
+(ej. `/musica`) · `/[categoria]/[proveedor]` · `/buscar` · `/para-proveedores` ·
+`/registrarme` · `/reclamar/{token}` · `/login` (solo código) · `/privacidad` ·
+`/terminos`
 
 **Proveedor:** `/panel` + perfil, fotos, media, paquetes, menú, salón,
-disponibilidad, consultas, agenda
+disponibilidad
 
 **Admin:** `/admin` + proveedores, solicitudes, métricas
+
+**Fase 2 (congelado):** `/consulta/{token}` (hilos viejos), `/panel/consultas`,
+`/panel/agenda`, `/crear-cuenta` y `/mis-consultas` (404), `/carrito` (no existe)
 
 ---
 

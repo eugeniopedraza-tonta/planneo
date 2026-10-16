@@ -48,7 +48,7 @@ export const PRICE_RANGES = [
   { value: '$$$', label: '$$$ · Premium' },
 ] as const
 
-/** Madres indexables en `planneo.mx/{slug}`. El orden es el del árbol público. */
+/** Madres indexables en `www.planneo.com.mx/{slug}`. El orden es el del árbol público. */
 export const CATEGORY_SLUGS = [
   'lugares',
   'banquete',
