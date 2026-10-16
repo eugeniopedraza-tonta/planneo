@@ -11,6 +11,7 @@ import {
   STATUS_STYLES,
   VENUE_CATEGORY_SLUG,
 } from '@/lib/constants'
+import { isInquiriesEnabled } from '@/lib/feature-flags'
 import type { Provider, Category } from '@/lib/types'
 
 type Props = {
@@ -41,7 +42,13 @@ export default function PanelSidebar({ provider }: Props) {
   const categorySlug = provider?.categories?.slug
   const status = provider?.status
 
+  const inquiriesOn = isInquiriesEnabled()
+
   const visibleNav = NAV.filter((item) => {
+    // Fase 2 (PLA-10): con el flag de inquiries OFF no se anuncian Consultas ni
+    // Agenda (que solo lista inquiries confirmadas). Las rutas siguen accesibles
+    // por URL para que los hilos existentes no se pierdan (ver PLAN.md, Congelamiento Sprint 8).
+    if (item.href === '/panel/consultas' || item.href === '/panel/agenda') return inquiriesOn
     if (item.href === '/panel/menu') return categorySlug === CATERING_CATEGORY_SLUG
     if (item.href === '/panel/salon') return categorySlug === VENUE_CATEGORY_SLUG
     return true

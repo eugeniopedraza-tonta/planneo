@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getProviderReadiness } from '@/lib/provider-readiness'
 import type { ProviderWithCategory } from '@/lib/types'
+import { isInquiriesEnabled } from '@/lib/feature-flags'
 
 export const dynamic = 'force-dynamic'
 
@@ -9,6 +10,9 @@ export default async function PanelPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
+  // Consultas y agenda son Fase 2 (flag OFF): las rutas siguen vivas, pero el
+  // dashboard no las promociona (PLA-10).
+  const inquiriesOn = isInquiriesEnabled()
 
   const { data: provider } = await supabase
     .from('providers')
@@ -120,8 +124,8 @@ export default async function PanelPage() {
       {/* Métricas */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard label="Visitas (7 días)" value={leadsCount ?? 0} />
-        <StatCard label="Consultas nuevas" value={newInquiries ?? 0} accent={!!newInquiries} />
-        <StatCard label="Eventos próximos" value={upcomingEvents ?? 0} accent={!!upcomingEvents} />
+        {inquiriesOn && <StatCard label="Consultas nuevas" value={newInquiries ?? 0} accent={!!newInquiries} />}
+        {inquiriesOn && <StatCard label="Eventos próximos" value={upcomingEvents ?? 0} accent={!!upcomingEvents} />}
         <StatCard label="Paquetes" value={packagesCount ?? 0} />
       </div>
 
@@ -133,8 +137,12 @@ export default async function PanelPage() {
         <QuickLink href="/panel/media" title="Audio / Video" desc="Snippets de tu trabajo (músicos, DJ, etc.)" />
         <QuickLink href="/panel/paquetes" title="Mis paquetes" desc="Define tus servicios y precios" />
         <QuickLink href="/panel/disponibilidad" title="Disponibilidad" desc="Marca tus fechas libres y reservadas" />
-        <QuickLink href="/panel/consultas" title="Consultas" desc={newInquiries ? `${newInquiries} nueva${newInquiries > 1 ? 's' : ''}` : 'Sin consultas nuevas'} accent={!!newInquiries} />
-        <QuickLink href="/panel/agenda" title="Agenda" desc={upcomingEvents ? `${upcomingEvents} evento${upcomingEvents > 1 ? 's' : ''} próximo${upcomingEvents > 1 ? 's' : ''}` : 'Sin eventos confirmados'} accent={!!upcomingEvents} />
+        {inquiriesOn && (
+          <>
+            <QuickLink href="/panel/consultas" title="Consultas" desc={newInquiries ? `${newInquiries} nueva${newInquiries > 1 ? 's' : ''}` : 'Sin consultas nuevas'} accent={!!newInquiries} />
+            <QuickLink href="/panel/agenda" title="Agenda" desc={upcomingEvents ? `${upcomingEvents} evento${upcomingEvents > 1 ? 's' : ''} próximo${upcomingEvents > 1 ? 's' : ''}` : 'Sin eventos confirmados'} accent={!!upcomingEvents} />
+          </>
+        )}
       </div>
     </div>
   )
