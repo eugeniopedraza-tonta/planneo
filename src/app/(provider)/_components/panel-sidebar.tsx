@@ -4,7 +4,9 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import {
+  CATEGORY_NAMES,
   CATERING_CATEGORY_SLUG,
+  isCategorySlug,
   STATUS_LABELS,
   STATUS_STYLES,
   VENUE_CATEGORY_SLUG,
@@ -91,7 +93,9 @@ export default function PanelSidebar({ provider }: Props) {
       {provider && (
         <div className="px-4 py-3 border-b border-white/10">
           <p className="text-xs font-medium text-white truncate">{provider.name}</p>
-          <p className="text-xs text-white/50 truncate capitalize">{provider.categories?.slug ?? 'Sin categoría'}</p>
+          <p className="text-xs text-white/50 truncate">
+            {categorySlug && isCategorySlug(categorySlug) ? CATEGORY_NAMES[categorySlug] : 'Sin categoría'}
+          </p>
         </div>
       )}
 
