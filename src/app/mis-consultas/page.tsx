@@ -40,21 +40,21 @@ export default async function MisConsultasPage() {
       <Navbar />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-24 pb-16">
         <div className="mb-6">
-          <h1 className="v4-display text-3xl font-bold tracking-[-0.04em] text-white">Mis consultas</h1>
+          <h1 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">Mis consultas</h1>
           <p className="text-sm text-white/55 mt-0.5">
             Tus solicitudes de cotización y las respuestas de los proveedores.
           </p>
         </div>
 
         {(inquiries ?? []).length === 0 ? (
-          <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+          <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
             <div className="mb-3 flex justify-center text-planneo-300"><InboxIcon className="size-8" /></div>
             <p className="text-sm text-white/55 mb-4">
               Aún no has enviado consultas. Explora el catálogo y pide cotización al proveedor que te interese.
             </p>
             <Link
               href="/catalogo"
-              className="inline-block rounded-xl bg-planneo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors"
+              className="inline-block rounded-md bg-planneo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-planneo-500 transition-colors"
             >
               Buscar proveedores
             </Link>
@@ -80,7 +80,7 @@ function InquiryCard({ inquiry }: { inquiry: InquiryRow }) {
     <li>
       <Link
         href={`/consulta/${inquiry.access_token}`}
-        className={`block bg-planneo-900 rounded-2xl border p-5 hover:shadow-sm transition-shadow ${
+        className={`block bg-planneo-900 rounded-lg border p-5 hover:shadow-sm transition-shadow ${
           isConfirmed ? 'border-planneo-mint/30' : 'border-white/10'
         }`}
       >
@@ -95,7 +95,7 @@ function InquiryCard({ inquiry }: { inquiry: InquiryRow }) {
             </p>
           </div>
           <span
-            className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
+            className={`text-xs font-medium px-2 py-0.5 rounded-full ${
               isConfirmed ? 'bg-planneo-mint text-planneo-950' : 'bg-white/10 text-white/55'
             }`}
           >
@@ -105,12 +105,12 @@ function InquiryCard({ inquiry }: { inquiry: InquiryRow }) {
 
         <div className="flex items-center gap-3 mt-3 flex-wrap text-xs text-white/60">
           {inquiry.event_date && (
-            <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+            <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
               <CalendarIcon /> {formatDateOnly(inquiry.event_date)}
             </span>
           )}
           {inquiry.event_location && (
-            <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+            <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
               <MapPinIcon /> {inquiry.event_location}
             </span>
           )}

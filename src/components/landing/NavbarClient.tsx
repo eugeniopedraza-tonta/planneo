@@ -54,7 +54,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
       <div className="mx-auto px-12 lg:px-24">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="inline-flex min-h-11 shrink-0 items-center" aria-label="Planneo inicio">
-            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-[28px] font-bold text-transparent sm:text-[32px]">
+            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-xl font-bold text-transparent sm:text-2xl">
               Planneo
             </span>
           </Link>
@@ -95,7 +95,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
                 <Button variant="ghost" size="sm" className="min-h-11 text-white/75 hover:bg-white/10 hover:text-white" asChild>
                   <Link href="/login">Iniciar sesión</Link>
                 </Button>
-                <Button size="sm" className="v4-cta-glow min-h-11 rounded-xl border-transparent bg-planneo-600 text-white hover:bg-planneo-500" asChild>
+                <Button size="sm" className="v4-cta-glow min-h-11 rounded-md border-transparent bg-planneo-600 text-white hover:bg-planneo-500" asChild>
                   <Link href="/buscar">Buscar proveedor</Link>
                 </Button>
               </>
@@ -105,7 +105,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
           <div className="flex items-center gap-2 md:hidden">
             {isCartEnabled() && <EventCart />}
           <button
-            className="min-h-11 min-w-11 rounded-xl p-2 text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+            className="min-h-11 min-w-11 rounded-md p-2 text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
@@ -132,7 +132,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex min-h-11 items-center rounded-lg px-3 py-3 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                className="flex min-h-11 items-center rounded-sm px-3 py-3 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
               >
                 {link.label}
               </Link>
@@ -154,7 +154,7 @@ export default function NavbarClient({ user }: { user: NavUser }) {
                   <Button variant="ghost" className="min-h-11 w-full justify-center text-white hover:bg-white/10" asChild>
                     <Link href="/login">Iniciar sesión</Link>
                   </Button>
-                  <Button className="min-h-11 w-full justify-center rounded-xl bg-planneo-600 text-white hover:bg-planneo-500" asChild>
+                  <Button className="min-h-11 w-full justify-center rounded-md bg-planneo-600 text-white hover:bg-planneo-500" asChild>
                     <Link href="/buscar">Buscar proveedor</Link>
                   </Button>
                 </>

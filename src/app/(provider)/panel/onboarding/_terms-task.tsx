@@ -13,7 +13,7 @@ export default function TermsTask({ done }: { done: boolean }) {
 
   return (
     <div
-      className={`rounded-2xl border p-4 transition-colors ${
+      className={`rounded-lg border p-4 transition-colors ${
         done ? 'border-planneo-mint/25 bg-planneo-mint/[0.06]' : 'border-white/10 bg-white/[0.04]'
       }`}
     >
@@ -43,7 +43,7 @@ export default function TermsTask({ done }: { done: boolean }) {
         </div>
 
         {done ? (
-          <span className="shrink-0 self-start rounded-xl border border-white/15 px-3 py-2 text-xs font-semibold text-white/55">
+          <span className="shrink-0 self-start rounded-md border border-white/15 px-3 py-2 text-xs font-semibold text-white/55">
             Aceptado
           </span>
         ) : (
@@ -51,7 +51,7 @@ export default function TermsTask({ done }: { done: boolean }) {
             <button
               type="submit"
               disabled={isPending}
-              className="rounded-xl bg-planneo-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+              className="rounded-md bg-planneo-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
             >
               {isPending ? 'Guardando…' : 'Aceptar'}
             </button>

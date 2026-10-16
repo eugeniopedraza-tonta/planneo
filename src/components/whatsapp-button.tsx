@@ -14,7 +14,7 @@ type Props = {
 
 /** Verde WhatsApp con texto oscuro (#0B141A): nunca blanco sobre verde. */
 const BASE_CLASS =
-  'inline-flex w-full min-h-14 cursor-pointer items-center justify-center gap-2 rounded-[14px] bg-whatsapp px-5 text-base font-semibold text-whatsapp-ink transition-colors hover:bg-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-whatsapp'
+  'inline-flex w-full min-h-14 cursor-pointer items-center justify-center gap-2 rounded-md bg-whatsapp px-5 text-base font-semibold text-whatsapp-ink transition-colors hover:bg-whatsapp-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-whatsapp'
 
 /**
  * CTA directo a wa.me. Sin muro de login (NEXT_PUBLIC_FEATURE_WHATSAPP_WALL

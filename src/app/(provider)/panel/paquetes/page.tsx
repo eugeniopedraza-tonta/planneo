@@ -34,7 +34,7 @@ export default async function PaquetesPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">Mis paquetes</h1>
+        <h1 className="text-lg font-semibold text-white">Mis paquetes</h1>
         <p className="text-sm text-white/55 mt-0.5">
           Define tus servicios con precios claros. Los paquetes aparecen en tu perfil público.
         </p>

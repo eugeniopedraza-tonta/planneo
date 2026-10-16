@@ -42,7 +42,7 @@ export default async function OnboardingPage() {
           )}
         </div>
 
-        <h1 className="mt-3 text-2xl font-semibold text-white">
+        <h1 className="mt-3 text-xl font-semibold text-white">
           {isPublished
             ? 'Tu perfil está activo'
             : `Tu perfil está al ${readiness.percent}%`}

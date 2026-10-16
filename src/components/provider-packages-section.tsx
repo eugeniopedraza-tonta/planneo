@@ -64,7 +64,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
   return (
     <section className="py-8">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">
+        <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">
           Paquetes y precios
         </h2>
         {eventDate && (
@@ -92,7 +92,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
           return (
             <div
               key={pkg.id}
-              className={`rounded-2xl border p-5 transition ${
+              className={`rounded-lg border p-5 transition ${
                 pkg.is_featured
                   ? 'border-planneo-gold/30 bg-planneo-gold/[0.06]'
                   : 'border-white/10 bg-white/[0.03]'
@@ -103,7 +103,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="v4-display text-lg font-bold tracking-[-0.02em] text-white">{pkg.name}</h3>
                     {pkg.is_featured && (
-                      <span className="v4-mono inline-flex items-center gap-1 rounded-full border border-planneo-gold/40 bg-planneo-gold/10 px-2.5 py-0.5 text-[9px] text-planneo-gold">
+                      <span className="v4-mono inline-flex items-center gap-1 rounded-full border border-planneo-gold/40 bg-planneo-gold/10 px-2.5 py-0.5 text-xs text-planneo-gold">
                         <svg className="size-2.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                           <path d="M12 2l2.9 6.26L21.5 9.27l-5 4.87 1.18 6.88L12 17.77l-5.68 3.25L7.5 14.14l-5-4.87 6.6-1.01L12 2z" />
                         </svg>
@@ -137,7 +137,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                     <button
                       type="button"
                       onClick={() => handleRemove(pkg)}
-                      className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-[14px] border border-planneo-mint/40 bg-planneo-mint/10 px-4 text-sm font-semibold text-planneo-mint transition hover:bg-planneo-mint/20"
+                      className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-planneo-mint/40 bg-planneo-mint/10 px-4 text-sm font-semibold text-planneo-mint transition hover:bg-planneo-mint/20"
                     >
                       <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M20 6 9 17l-5-5" />
@@ -149,7 +149,7 @@ export default function ProviderPackagesSection({ provider, packages, availabili
                       type="button"
                       disabled={blocked}
                       onClick={() => handleAdd(pkg)}
-                      className="inline-flex min-h-11 cursor-pointer items-center rounded-[14px] bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/35"
+                      className="inline-flex min-h-11 cursor-pointer items-center rounded-md bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/35"
                     >
                       Agregar a mi evento
                     </button>

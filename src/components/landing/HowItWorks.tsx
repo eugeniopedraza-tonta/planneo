@@ -26,8 +26,8 @@ function EventPlanner() {
         </div>
 
         <div>
-          <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// CREAR EVENTO"}</p>
-          <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+          <p className="v4-mono mb-4 text-xs text-planneo-300">{"// CREAR EVENTO"}</p>
+          <h2 className="v4-display max-w-3xl text-3xl font-bold leading-[0.95] tracking-[-0.04em]">
             ¿No sabes por dónde empezar? Mejor te lo resolvemos <span className="v4-shimmer-text">nosotros.</span>
           </h2>
           <p className="mt-6 max-w-xl text-base leading-7 text-white/60">
@@ -53,7 +53,7 @@ function EventPlanner() {
 
           <Link
             href="/catalogo"
-            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-[14px] bg-planneo-600 px-8 font-semibold text-white transition hover:bg-planneo-500"
+            className="v4-cta-glow mt-8 inline-flex min-h-14 items-center justify-center rounded-md bg-planneo-600 px-8 font-semibold text-white transition hover:bg-planneo-500"
           >
             Empezar mi evento
           </Link>
@@ -75,12 +75,12 @@ function PaperCard({
   body: string;
 }) {
   return (
-    <div className={`absolute w-[280px] rounded-[10px] border border-[#D9D2E8] bg-[#F8F6FB] p-5 text-[#1F1B2E] shadow-2xl shadow-black/30 sm:w-[340px] ${className}`}>
+    <div className={`absolute w-[280px] rounded-sm border border-[#D9D2E8] bg-[#F8F6FB] p-5 text-[#1F1B2E] shadow-2xl shadow-black/30 sm:w-[340px] ${className}`}>
       <div className="flex items-center justify-between">
-        <span className="v4-mono text-[10px] text-planneo-600">{step}</span>
+        <span className="v4-mono text-xs text-planneo-600">{step}</span>
         <span className="size-2 rounded-full bg-planneo-mint" />
       </div>
-      <h3 className="v4-display mt-5 text-2xl font-bold tracking-[-0.04em]">{title}</h3>
+      <h3 className="v4-display mt-5 text-xl font-bold tracking-[-0.04em]">{title}</h3>
       <p className="mt-2 text-sm text-[#6B6478]">{body}</p>
     </div>
   );

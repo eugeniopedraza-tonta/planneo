@@ -11,14 +11,14 @@ export default function ProviderTestimonialsSection({
 
   return (
     <section className="py-8">
-      <h2 className="v4-display text-2xl font-bold tracking-[-0.04em] text-white">
+      <h2 className="v4-display text-xl font-bold tracking-[-0.04em] text-white">
         Lo que dicen de ellos
       </h2>
       <ul className="mt-5 grid gap-4 sm:grid-cols-2">
         {items.map((item, index) => (
           <li key={`${item.quote}-${index}`}>
-            <blockquote className="v4-glass h-full rounded-[24px] p-5">
-              <p className="font-serif text-3xl leading-none text-planneo-gold/70" aria-hidden>
+            <blockquote className="v4-glass h-full rounded-lg p-5">
+              <p className="font-serif text-2xl leading-none text-planneo-gold/70" aria-hidden>
                 “
               </p>
               <p className="mt-2 leading-7 text-white/80">

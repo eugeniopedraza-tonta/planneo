@@ -47,8 +47,8 @@ export default async function CategoriesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-14">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// CATEGORÍAS"}</p>
-            <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+            <p className="v4-mono mb-4 text-xs text-planneo-300">{"// CATEGORÍAS"}</p>
+            <h2 className="v4-display max-w-3xl text-3xl font-bold leading-[0.95] tracking-[-0.04em]">
               Todo lo que tu evento necesita. <span className="v4-shimmer-text">En un solo lugar.</span>
             </h2>
           </div>
@@ -68,20 +68,20 @@ export default async function CategoriesSection() {
               >
                 <Link
                   href={`/${cat.slug}`}
-                  className="group relative flex h-44 overflow-hidden rounded-[20px] border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1 sm:h-56 sm:rounded-[24px] lg:h-64"
+                  className="group relative flex h-44 overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] transition duration-500 hover:-translate-y-1 sm:h-56 sm:rounded-lg lg:h-64"
                 >
                   <CategoryArt kind={meta.kind} seed={cat.slug} />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.05),rgba(14,11,26,.86))]" />
-                  <div className="absolute left-3 top-3 rounded-xl border border-white/15 bg-black/20 px-2.5 py-1.5 text-[10px] font-semibold text-white backdrop-blur-xl sm:left-5 sm:top-5 sm:text-xs">
+                  <div className="absolute left-3 top-3 rounded-md border border-white/15 bg-black/20 px-2.5 py-1.5 text-xs font-semibold text-white backdrop-blur-xl sm:left-5 sm:top-5">
                     {meta.icon}
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6">
-                    <p className="v4-display text-xl font-bold leading-tight tracking-[-0.04em] text-white sm:text-3xl">
+                    <p className="v4-display text-lg font-bold leading-tight tracking-[-0.04em] text-white sm:text-2xl">
                       {cat.name}
                     </p>
                     <p className="mt-1 hidden text-sm text-white/65 sm:block">{meta.description}</p>
                     {cat.providerCount > 0 && (
-                      <span className="mt-2 inline-flex rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-[11px] font-semibold text-white/80 backdrop-blur sm:mt-4 sm:px-3 sm:py-1 sm:text-xs">
+                      <span className="mt-2 inline-flex rounded-full border border-white/15 bg-white/10 px-2.5 py-0.5 text-xs font-semibold text-white/80 backdrop-blur sm:mt-4 sm:px-3 sm:py-1">
                         {cat.providerCount} {cat.providerCount === 1 ? 'proveedor' : 'proveedores'}
                       </span>
                     )}

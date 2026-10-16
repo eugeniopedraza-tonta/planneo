@@ -76,14 +76,14 @@ export default function AvailabilityCalendar({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
+      <div className="bg-planneo-900 rounded-lg border border-white/10 p-5">
         {/* Navegación de mes */}
         <div className="flex items-center justify-between mb-4">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
             aria-label="Mes anterior"
-            className="size-8 rounded-lg border border-white/10 text-white/55 hover:bg-white/[0.07]"
+            className="size-8 rounded-sm border border-white/10 text-white/55 hover:bg-white/[0.07]"
           >
             ←
           </button>
@@ -94,7 +94,7 @@ export default function AvailabilityCalendar({
             type="button"
             onClick={() => shiftMonth(1)}
             aria-label="Mes siguiente"
-            className="size-8 rounded-lg border border-white/10 text-white/55 hover:bg-white/[0.07]"
+            className="size-8 rounded-sm border border-white/10 text-white/55 hover:bg-white/[0.07]"
           >
             →
           </button>
@@ -103,7 +103,7 @@ export default function AvailabilityCalendar({
         {/* Grid del calendario */}
         <div className="grid grid-cols-7 gap-1 text-center">
           {WEEKDAYS.map((d) => (
-            <span key={d} className="text-[11px] font-medium text-white/50 py-1">{d}</span>
+            <span key={d} className="text-xs font-medium text-white/50 py-1">{d}</span>
           ))}
           {Array.from({ length: firstWeekday }).map((_, i) => (
             <span key={`pad-${i}`} />
@@ -121,7 +121,7 @@ export default function AvailabilityCalendar({
                 onClick={() => select(key)}
                 aria-label={`${day} de ${MONTHS[viewMonth]}${entry ? `: ${AVAILABILITY_STATUS_LABELS[entry.status]}` : ''}`}
                 aria-pressed={isSelected}
-                className={`relative aspect-square rounded-lg border text-sm flex flex-col items-center justify-center transition-colors ${
+                className={`relative aspect-square rounded-sm border text-sm flex flex-col items-center justify-center transition-colors ${
                   entry
                     ? STATUS_STYLES[entry.status]
                     : 'border-transparent text-white/75 hover:bg-white/[0.07]'
@@ -149,7 +149,7 @@ export default function AvailabilityCalendar({
 
       {/* Panel del día seleccionado */}
       {selected && (
-        <div className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
+        <div className="bg-planneo-900 rounded-lg border border-planneo-300/40 p-5">
           <h3 className="text-sm font-semibold text-white mb-3">
             {formatSelected(selected)}
             {selectedEntry && (
@@ -166,7 +166,7 @@ export default function AvailabilityCalendar({
                 type="button"
                 disabled={isPending}
                 onClick={() => save(s)}
-                className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors disabled:opacity-50 ${
+                className={`px-3 py-1.5 rounded-sm border text-xs font-medium transition-colors disabled:opacity-50 ${
                   selectedEntry?.status === s
                     ? STATUS_STYLES[s]
                     : 'border-white/10 text-white/60 hover:bg-white/[0.07]'
@@ -180,7 +180,7 @@ export default function AvailabilityCalendar({
                 type="button"
                 disabled={isPending}
                 onClick={() => save('none')}
-                className="px-3 py-1.5 rounded-lg border border-white/10 text-xs font-medium text-white/50 hover:text-red-300 hover:border-red-400/40 transition-colors disabled:opacity-50"
+                className="px-3 py-1.5 rounded-sm border border-white/10 text-xs font-medium text-white/50 hover:text-red-300 hover:border-red-400/40 transition-colors disabled:opacity-50"
               >
                 Quitar marca
               </button>
@@ -198,14 +198,14 @@ export default function AvailabilityCalendar({
               maxLength={300}
               onChange={(e) => setNote(e.target.value)}
               placeholder="Ej. boda García, anticipo recibido…"
-              className="flex-1 text-sm border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+              className="flex-1 text-sm border border-input rounded-sm px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
             />
             {selectedEntry && (
               <button
                 type="button"
                 disabled={isPending}
                 onClick={() => save(selectedEntry.status)}
-                className="px-3 py-2 rounded-lg bg-planneo-600 text-white text-xs font-medium hover:bg-planneo-500 disabled:opacity-50"
+                className="px-3 py-2 rounded-sm bg-planneo-600 text-white text-xs font-medium hover:bg-planneo-500 disabled:opacity-50"
               >
                 Guardar nota
               </button>

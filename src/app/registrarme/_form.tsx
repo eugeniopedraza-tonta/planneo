@@ -51,7 +51,7 @@ export default function RegisterForm({ categories, zonas }: Props) {
   return (
     <form action={formAction} noValidate className="flex flex-col gap-6">
       {state.error && (
-        <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div role="alert" className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
@@ -131,7 +131,7 @@ export default function RegisterForm({ categories, zonas }: Props) {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+          className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
         >
           {isPending ? 'Enviando código…' : 'Crear mi borrador'}
         </button>
@@ -181,7 +181,7 @@ function DuplicateStep({
         </p>
         <Link
           href="/"
-          className="mt-6 inline-flex rounded-xl border border-white/15 px-4 py-2 text-sm text-white/75 hover:border-white/30"
+          className="mt-6 inline-flex rounded-md border border-white/15 px-4 py-2 text-sm text-white/75 hover:border-white/30"
         >
           Volver al inicio
         </Link>
@@ -199,13 +199,13 @@ function DuplicateStep({
       </div>
 
       {state.error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
 
-      <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-        <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-planneo-600/20">
+      <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-3">
+        <div className="relative size-16 shrink-0 overflow-hidden rounded-md bg-planneo-600/20">
           {duplicate.photo && (
             <Image src={duplicate.photo} alt={duplicate.name} fill className="object-cover" sizes="64px" />
           )}
@@ -224,7 +224,7 @@ function DuplicateStep({
         <button
           type="submit"
           disabled={isPending}
-          className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+          className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
         >
           {isPending ? 'Enviando…' : 'Sí, quiero reclamar este perfil'}
         </button>
@@ -233,7 +233,7 @@ function DuplicateStep({
       <button
         type="button"
         onClick={onContinue}
-        className="w-full rounded-xl border border-white/15 py-3 text-sm font-medium text-white/75 transition-colors hover:border-white/30"
+        className="w-full rounded-md border border-white/15 py-3 text-sm font-medium text-white/75 transition-colors hover:border-white/30"
       >
         No, crear uno nuevo
       </button>
@@ -244,7 +244,7 @@ function DuplicateStep({
 }
 
 const inputCls =
-  'h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300'
+  'h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300'
 
 function Field({
   id,

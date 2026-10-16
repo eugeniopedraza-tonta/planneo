@@ -48,7 +48,7 @@ export default function DescriptionEditor({
   return (
     <form action={formAction} className="mt-6 flex flex-col gap-5">
       {state.error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
@@ -91,7 +91,7 @@ export default function DescriptionEditor({
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Escribe con tus palabras qué ofreces y para qué eventos."
-          className="w-full resize-y rounded-xl border border-white/10 bg-white/10 px-3 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300"
+          className="w-full resize-y rounded-md border border-input bg-white/10 px-3 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
         <p className={`text-xs ${remaining > 0 ? 'text-white/40' : 'text-planneo-mint'}`}>
           {remaining > 0
@@ -104,7 +104,7 @@ export default function DescriptionEditor({
         <button
           type="submit"
           disabled={isPending}
-          className="rounded-xl bg-planneo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+          className="rounded-md bg-planneo-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
         >
           {isPending ? 'Guardando…' : 'Guardar descripción'}
         </button>

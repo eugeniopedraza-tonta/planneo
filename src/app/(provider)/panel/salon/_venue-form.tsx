@@ -33,9 +33,9 @@ export default function VenueForm({ details }: { details: VenueDetails | null })
   }, [state.success, router])
 
   return (
-    <form action={formAction} className="bg-planneo-900 rounded-2xl border border-white/10 p-5 flex flex-col gap-5">
+    <form action={formAction} className="bg-planneo-900 rounded-lg border border-white/10 p-5 flex flex-col gap-5">
       {state.error && (
-        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-sm px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -171,7 +171,7 @@ export function FloorPlanSection({ floorPlanUrl }: { floorPlanUrl: string | null
   }
 
   return (
-    <div className="bg-planneo-900 rounded-2xl border border-white/10 p-5 flex flex-col gap-4">
+    <div className="bg-planneo-900 rounded-lg border border-white/10 p-5 flex flex-col gap-4">
       <div>
         <h2 className="text-sm font-semibold text-white">Plano del salón</h2>
         <p className="text-xs text-white/55 mt-0.5">
@@ -180,7 +180,7 @@ export function FloorPlanSection({ floorPlanUrl }: { floorPlanUrl: string | null
       </div>
 
       {floorPlanUrl && (
-        <div className="relative w-full max-w-md h-56 bg-white/[0.04] rounded-lg overflow-hidden border border-white/10">
+        <div className="relative w-full max-w-md h-56 bg-white/[0.04] rounded-sm overflow-hidden border border-white/10">
           <Image
             src={floorPlanUrl}
             alt="Plano del salón"

@@ -26,13 +26,13 @@ export default async function PerfilPage() {
   return (
     <div className="p-8 max-w-2xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">Mi perfil</h1>
+        <h1 className="text-lg font-semibold text-white">Mi perfil</h1>
         <p className="text-sm text-white/55 mt-0.5">
           Esta información aparece en tu perfil público
           {provider.categories?.name ? ` de ${provider.categories.name}` : ''}.
         </p>
       </div>
-      <div className="bg-planneo-900 rounded-2xl border border-white/10 p-6">
+      <div className="bg-planneo-900 rounded-lg border border-white/10 p-6">
         <ProfileForm provider={provider} />
       </div>
     </div>

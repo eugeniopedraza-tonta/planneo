@@ -60,7 +60,7 @@ export default async function MetricasPage() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Métricas</h1>
+        <h1 className="text-xl font-bold text-white">Métricas</h1>
         <p className="mt-1 text-sm text-white/55">Leads y actividad de los últimos 30 días.</p>
       </div>
 
@@ -72,9 +72,9 @@ export default async function MetricasPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <section className="rounded-xl border border-white/10 bg-planneo-900 p-6">
+        <section className="rounded-md border border-white/10 bg-planneo-900 p-6">
           <h2 className="mb-4 text-base font-semibold text-white">Top proveedores</h2>
-          <div className="overflow-hidden rounded-lg border border-white/10">
+          <div className="overflow-hidden rounded-sm border border-white/10">
             <table className="w-full text-sm">
               <thead className="bg-white/[0.04] text-left text-xs uppercase tracking-wide text-white/55">
                 <tr>
@@ -104,7 +104,7 @@ export default async function MetricasPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-white/10 bg-planneo-900 p-6">
+        <section className="rounded-md border border-white/10 bg-planneo-900 p-6">
           <h2 className="mb-4 text-base font-semibold text-white">Leads por categoría</h2>
           <div className="space-y-3">
             {categoryRows.length === 0 ? (
@@ -134,9 +134,9 @@ export default async function MetricasPage() {
 
 function MetricCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-planneo-900 p-5">
+    <div className="rounded-md border border-white/10 bg-planneo-900 p-5">
       <p className="mb-1 text-sm text-white/55">{label}</p>
-      <p className="text-3xl font-bold text-white">{value}</p>
+      <p className="text-2xl font-bold text-white">{value}</p>
     </div>
   )
 }

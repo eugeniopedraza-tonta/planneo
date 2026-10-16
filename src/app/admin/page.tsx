@@ -25,18 +25,18 @@ export default async function AdminDashboard() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold text-white mb-8">Dashboard</h1>
+      <h1 className="text-xl font-bold text-white mb-8">Dashboard</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {stats.map((s) => (
-          <div key={s.label} className="bg-planneo-900 rounded-xl border border-white/10 p-5">
+          <div key={s.label} className="bg-planneo-900 rounded-md border border-white/10 p-5">
             <p className="text-sm text-white/55 mb-1">{s.label}</p>
-            <p className={`text-3xl font-bold ${s.color}`}>{s.value}</p>
+            <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="bg-planneo-900 rounded-xl border border-white/10 p-6">
+      <div className="bg-planneo-900 rounded-md border border-white/10 p-6">
         <h2 className="text-base font-semibold text-white/75 mb-2">Próximos pasos</h2>
         <ul className="text-sm text-white/55 flex flex-col gap-1">
           <li>→ Agrega proveedores desde <Link href="/admin/proveedores" className="text-planneo-300 hover:underline">Proveedores</Link></li>

@@ -65,7 +65,7 @@ export default async function ConsultaPage({
     <div className="min-h-screen bg-planneo-950 text-planneo-ink py-10 px-4">
       <div className="max-w-2xl mx-auto flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <Link href="/" className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">Planneo</Link>
+          <Link href="/" className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-xl font-bold text-transparent">Planneo</Link>
           <div className="flex items-center gap-3">
             {isOwner && isOrganizerAccountsEnabled() && (
               <Link href="/mis-consultas" className="text-xs font-medium text-planneo-300 hover:underline">
@@ -79,7 +79,7 @@ export default async function ConsultaPage({
         </div>
 
         {inquiry.status === 'confirmed' && (
-          <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-2xl px-5 py-4">
+          <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-lg px-5 py-4">
             <p className="text-sm font-medium text-planneo-mint">¡Tu reservación está confirmada!</p>
             <p className="text-sm text-planneo-mint mt-0.5">
               {provider?.name ?? 'El proveedor'} confirmó tu evento
@@ -90,7 +90,7 @@ export default async function ConsultaPage({
         )}
 
         {enviada && (
-          <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-2xl px-5 py-4">
+          <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-lg px-5 py-4">
             <p className="text-sm font-medium text-planneo-mint">¡Tu solicitud fue enviada!</p>
             <p className="text-sm text-planneo-mint mt-0.5">
               Guarda este enlace: aquí recibirás la cotización y podrás responder.
@@ -100,7 +100,7 @@ export default async function ConsultaPage({
         )}
 
         {/* Encabezado de la consulta */}
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-5">
           <p className="text-xs text-white/50 uppercase tracking-wide font-medium">Cotización con</p>
           <div className="flex items-center justify-between gap-3 mt-1 flex-wrap">
             <h1 className="text-lg font-semibold text-white">{provider?.name ?? 'Proveedor'}</h1>
@@ -115,20 +115,20 @@ export default async function ConsultaPage({
           </div>
           <div className="flex items-center gap-3 mt-2 flex-wrap text-xs text-white/60">
             {eventLabel && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">{eventLabel}</span>
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">{eventLabel}</span>
             )}
             {inquiry.event_date && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <CalendarIcon /> {formatDateOnly(inquiry.event_date)}
               </span>
             )}
             {inquiry.event_location && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <MapPinIcon /> {inquiry.event_location}
               </span>
             )}
             {inquiry.guest_count != null && (
-              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-lg px-2 py-1">
+              <span className="inline-flex items-center gap-1.5 bg-white/[0.04] border border-white/10 rounded-sm px-2 py-1">
                 <UsersIcon /> {inquiry.guest_count} invitados
               </span>
             )}
@@ -161,7 +161,7 @@ export default async function ConsultaPage({
         </div>
 
         {/* Respuesta del cliente */}
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-5">
           <ClientReplyForm token={token} />
         </div>
       </div>
@@ -186,13 +186,13 @@ function MessageBubble({
   return (
     <div className={`flex ${isProvider ? 'justify-start' : 'justify-end'}`}>
       <div
-        className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+        className={`max-w-[85%] rounded-lg px-4 py-3 ${
           isProvider
             ? 'bg-planneo-900 border border-white/10'
             : 'bg-planneo-600 text-white'
         }`}
       >
-        <p className={`text-[11px] font-medium mb-1 ${isProvider ? 'text-white/50' : 'text-white/70'}`}>
+        <p className={`text-xs font-medium mb-1 ${isProvider ? 'text-white/50' : 'text-white/70'}`}>
           {name} · {formatDateTime(createdAt)}
         </p>
         {quoteAmount != null && (

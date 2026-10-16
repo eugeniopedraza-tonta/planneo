@@ -14,7 +14,7 @@ export default function AnimatedCard({ children, className }: AnimatedCardProps)
   return (
     <motion.div
       className={cn(
-        "relative rounded-2xl p-[1.5px]",
+        "relative rounded-lg p-[1.5px]",
         "bg-gray-200",
         className
       )}
@@ -28,7 +28,7 @@ export default function AnimatedCard({ children, className }: AnimatedCardProps)
       }
       transition={{ duration: 0.3 }}
     >
-      <div className="relative rounded-2xl bg-white h-full w-full overflow-hidden">
+      <div className="relative rounded-lg bg-white h-full w-full overflow-hidden">
         {children}
       </div>
     </motion.div>

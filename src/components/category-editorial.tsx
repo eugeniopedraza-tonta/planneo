@@ -11,11 +11,11 @@ export default function CategoryEditorial({ content }: { content: CategoryConten
       <section aria-labelledby="categoria-guia" className="max-w-3xl">
         <h2
           id="categoria-guia"
-          className="v4-display text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl"
+          className="v4-display text-xl font-bold tracking-[-0.03em] text-white sm:text-2xl"
         >
           {content.editorialTitle}
         </h2>
-        <div className="mt-4 space-y-4 text-[15px] leading-7 text-white/65">
+        <div className="mt-4 space-y-4 text-base leading-7 text-white/65">
           {content.editorial.map((paragraph) => (
             <p key={paragraph.slice(0, 32)}>{paragraph}</p>
           ))}
@@ -44,14 +44,14 @@ function CategoryFaq({ faqs }: { faqs: CategoryContent['faqs'] }) {
     <section aria-labelledby="categoria-faq" className="max-w-3xl">
       <h2
         id="categoria-faq"
-        className="v4-display text-2xl font-bold tracking-[-0.03em] text-white sm:text-3xl"
+        className="v4-display text-xl font-bold tracking-[-0.03em] text-white sm:text-2xl"
       >
         Preguntas frecuentes
       </h2>
-      <div className="mt-4 divide-y divide-white/10 rounded-[20px] border border-white/10 bg-white/[0.03]">
+      <div className="mt-4 divide-y divide-white/10 rounded-lg border border-white/10 bg-white/[0.03]">
         {faqs.map((faq) => (
           <details key={faq.question} className="group px-5">
-            <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-[15px] font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 [&::-webkit-details-marker]:hidden">
+            <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 [&::-webkit-details-marker]:hidden">
               {faq.question}
               <svg
                 className="size-4 shrink-0 text-white/50 transition-transform group-open:rotate-45"

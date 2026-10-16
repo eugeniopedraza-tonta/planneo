@@ -29,7 +29,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
   return (
     <div className="flex flex-col gap-4">
       {packages.length === 0 && !creating && (
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
           <div className="mb-3 flex justify-center text-planneo-300"><PackageIcon className="size-8" /></div>
           <p className="text-sm text-white/55">
             Aún no tienes paquetes. Los perfiles con precios claros generan más confianza.
@@ -39,7 +39,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
 
       {packages.map((pkg) =>
         editingId === pkg.id ? (
-          <div key={pkg.id} className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
+          <div key={pkg.id} className="bg-planneo-900 rounded-lg border border-planneo-300/40 p-5">
             <PackageForm
               pkg={pkg}
               onDone={() => {
@@ -50,13 +50,13 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
             />
           </div>
         ) : (
-          <div key={pkg.id} className="bg-planneo-900 rounded-2xl border border-white/10 p-5">
+          <div key={pkg.id} className="bg-planneo-900 rounded-lg border border-white/10 p-5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="text-sm font-semibold text-white">{pkg.name}</h2>
                   {pkg.is_featured && (
-                    <span className="text-[11px] font-medium bg-planneo-gold/10 border border-planneo-gold/40 text-planneo-gold px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-medium bg-planneo-gold/10 border border-planneo-gold/40 text-planneo-gold px-2 py-0.5 rounded-full">
                       Destacado
                     </span>
                   )}
@@ -98,7 +98,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
       )}
 
       {creating ? (
-        <div className="bg-planneo-900 rounded-2xl border border-planneo-300/40 p-5">
+        <div className="bg-planneo-900 rounded-lg border border-planneo-300/40 p-5">
           <PackageForm
             onDone={() => {
               setCreating(false)
@@ -111,7 +111,7 @@ export default function PackagesManager({ packages }: { packages: ServicePackage
         <button
           type="button"
           onClick={() => { setEditingId(null); setCreating(true) }}
-          className="rounded-2xl border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/55 hover:text-planneo-300 transition-colors p-4 text-sm font-medium"
+          className="rounded-lg border-2 border-dashed border-white/15 hover:border-planneo-300 text-white/55 hover:text-planneo-300 transition-colors p-4 text-sm font-medium"
         >
           + Nuevo paquete
         </button>
@@ -146,7 +146,7 @@ function PackageForm({
       </h2>
 
       {state.error && (
-        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-sm px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
@@ -204,7 +204,7 @@ function PackageForm({
             id="pkg-price-unit"
             name="price_unit"
             defaultValue={pkg?.price_unit ?? ''}
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+            className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Sin especificar</option>
             {PRICE_UNITS.map((u) => (

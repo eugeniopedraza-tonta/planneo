@@ -28,9 +28,9 @@ export default async function LoginPage({
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-planneo-950 px-4 text-planneo-ink">
       <div className="absolute left-[12%] top-[12%] h-56 w-56 rounded-full bg-planneo-600/35 blur-3xl" />
       <div className="absolute bottom-[15%] right-[10%] h-64 w-64 rounded-full bg-planneo-300/20 blur-3xl" />
-      <div className="v4-glass relative w-full max-w-sm rounded-[24px] p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
+      <div className="v4-glass relative w-full max-w-sm rounded-lg p-8 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
         <div className="mb-8 text-center">
-          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+          <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_50%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">
             Planneo
           </span>
           <p className="mt-2 text-sm text-white/55">Inicia sesión con tu correo</p>

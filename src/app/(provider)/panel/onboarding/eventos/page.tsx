@@ -25,7 +25,7 @@ export default async function EventosPage() {
         ← Volver a la activación
       </Link>
 
-      <h1 className="mt-4 text-2xl font-semibold text-white">¿Qué eventos atiendes?</h1>
+      <h1 className="mt-4 text-xl font-semibold text-white">¿Qué eventos atiendes?</h1>
       <p className="mt-1 text-sm text-white/60">
         Elige todos los que apliquen. Te conecta con el tipo de celebración correcta.
       </p>

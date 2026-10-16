@@ -48,7 +48,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
     <button
       type="button"
       onClick={() => setOpen(true)}
-      className="absolute bottom-3 right-3 z-10 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-white/20 bg-planneo-950/80 px-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-planneo-950"
+      className="absolute bottom-3 right-3 z-10 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-white/20 bg-planneo-950/80 px-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-planneo-950"
     >
       <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -63,7 +63,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
   return (
     <>
       {/* Móvil: carrusel con scroll-snap */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 sm:hidden">
+      <div className="relative overflow-hidden rounded-lg border border-white/10 sm:hidden">
         <div className="flex snap-x snap-mandatory overflow-x-auto" aria-label={`Fotos de ${name}`}>
           {photos.map((photo, i) => (
             <button
@@ -97,7 +97,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="relative block h-[420px] w-full cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]"
+            className="relative block h-[420px] w-full cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]"
             aria-label="Ver foto en pantalla completa"
           >
             <Image
@@ -110,7 +110,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
             />
           </button>
         ) : photos.length === 2 ? (
-          <div className="grid h-[360px] grid-cols-2 gap-2 overflow-hidden rounded-3xl border border-white/10">
+          <div className="grid h-[360px] grid-cols-2 gap-2 overflow-hidden rounded-lg border border-white/10">
             {photos.map((photo, i) => (
               <button
                 key={i}
@@ -131,7 +131,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
             ))}
           </div>
         ) : (
-          <div className="grid h-[420px] grid-cols-4 grid-rows-2 gap-2 overflow-hidden rounded-3xl border border-white/10">
+          <div className="grid h-[420px] grid-cols-4 grid-rows-2 gap-2 overflow-hidden rounded-lg border border-white/10">
             <button
               type="button"
               onClick={() => setOpen(true)}
@@ -185,7 +185,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
               ref={closeRef}
               type="button"
               onClick={() => setOpen(false)}
-              className="inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-4 text-sm font-medium text-white transition hover:bg-white/[0.12]"
+              className="inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center gap-2 rounded-md border border-white/15 bg-white/[0.06] px-4 text-sm font-medium text-white transition hover:bg-white/[0.12]"
             >
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M18 6 6 18M6 6l12 12" />
@@ -195,7 +195,7 @@ export default function ProviderPhotoGallery({ name, photos }: Props) {
           </div>
           <div className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-6 sm:px-6">
             {photos.map((photo, i) => (
-              <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white/[0.04]">
+              <div key={i} className="relative aspect-[4/3] overflow-hidden rounded-lg bg-white/[0.04]">
                 <Image
                   src={photo}
                   alt={`${name} foto ${i + 1}`}

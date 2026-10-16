@@ -33,12 +33,12 @@ export default async function ListoPage() {
 
   return (
     <div className="max-w-xl p-6 sm:p-8">
-      <div className="rounded-2xl border border-white/10 bg-planneo-900 p-8 text-center">
+      <div className="rounded-lg border border-white/10 bg-planneo-900 p-8 text-center">
         <div className="mb-4 flex justify-center text-planneo-mint">
           {isPublished ? <CheckCircleIcon className="size-10" /> : <ClockIcon className="size-10" />}
         </div>
 
-        <h1 className="text-2xl font-semibold text-white">
+        <h1 className="text-xl font-semibold text-white">
           {isPublished ? 'Tu perfil ya está activo' : 'Tu perfil está en revisión'}
         </h1>
         <p className="mt-2 text-sm text-white/60">
@@ -51,14 +51,14 @@ export default async function ListoPage() {
           {isPublished && (
             <Link
               href={publicUrl}
-              className="rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
+              className="rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500"
             >
               Ver mi perfil público
             </Link>
           )}
           <Link
             href="/panel/paquetes"
-            className={`rounded-xl py-3 text-sm font-semibold transition-colors ${
+            className={`rounded-md py-3 text-sm font-semibold transition-colors ${
               isPublished
                 ? 'border border-white/15 text-white/75 hover:border-white/30'
                 : 'bg-planneo-600 text-white hover:bg-planneo-500'

@@ -149,7 +149,7 @@ export default function CatalogFilters({
         action={action}
         method="get"
         onSubmit={apply}
-        className="sticky top-24 hidden space-y-5 rounded-[24px] border border-white/10 bg-white/[0.04] p-5 md:block"
+        className="sticky top-24 hidden space-y-5 rounded-lg border border-white/10 bg-white/[0.04] p-5 md:block"
       >
         <p className="text-sm font-semibold text-white">Afinar búsqueda</p>
         {applied.sub && <input type="hidden" name="sub" value={applied.sub} />}
@@ -157,7 +157,7 @@ export default function CatalogFilters({
         <button
           type="submit"
           aria-busy={count === null}
-          className="min-h-11 w-full rounded-xl bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
+          className="min-h-11 w-full rounded-md bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
         >
           {submitLabel}
         </button>
@@ -191,7 +191,7 @@ export default function CatalogFilters({
           <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 md:hidden" />
           <DialogPrimitive.Content
             aria-describedby={undefined}
-            className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] flex-col rounded-t-[28px] border-t border-white/10 bg-planneo-900 text-planneo-ink shadow-[0_-24px_60px_-20px_rgba(0,0,0,0.7)] outline-none data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom md:hidden"
+            className="fixed inset-x-0 bottom-0 z-50 flex max-h-[88dvh] flex-col rounded-t-lg border-t border-white/10 bg-planneo-900 text-planneo-ink shadow-[0_-24px_60px_-20px_rgba(0,0,0,0.7)] outline-none data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom md:hidden"
           >
             <form action={action} method="get" onSubmit={apply} className="flex min-h-0 flex-1 flex-col">
               <div className="flex items-center justify-between px-5 pb-2 pt-4">
@@ -214,14 +214,14 @@ export default function CatalogFilters({
                   type="button"
                   onClick={clear}
                   disabled={!canClear}
-                  className="min-h-11 shrink-0 rounded-xl px-3 text-sm font-medium text-white/65 transition hover:text-white disabled:opacity-40"
+                  className="min-h-11 shrink-0 rounded-md px-3 text-sm font-medium text-white/65 transition hover:text-white disabled:opacity-40"
                 >
                   Limpiar filtros
                 </button>
                 <button
                   type="submit"
                   aria-busy={count === null}
-                  className="min-h-11 flex-1 rounded-xl bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
+                  className="min-h-11 flex-1 rounded-md bg-planneo-600 font-semibold text-white transition hover:bg-planneo-500"
                 >
                   {submitLabel}
                 </button>
@@ -264,7 +264,7 @@ function FilterFields({
           value={draft.q}
           onChange={(event) => set('q')(event.target.value)}
           placeholder="Fotografía, DJ, catering..."
-          className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300"
+          className="h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
       </div>
       <Select id={`${idPrefix}-zona`} label="Zona" name="zona" value={draft.zona} onChange={set('zona')} options={zonas} />
@@ -280,7 +280,7 @@ function FilterFields({
           name="fecha"
           value={draft.fecha}
           onChange={(event) => set('fecha')(event.target.value)}
-          className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none [color-scheme:dark] focus:border-planneo-300"
+          className="h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none [color-scheme:dark] focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
       </div>
     </>
@@ -312,7 +312,7 @@ function Select({
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 w-full rounded-xl border border-white/10 bg-[#211A30] px-3 text-sm text-white outline-none focus:border-planneo-300"
+        className="h-11 w-full rounded-md border border-input bg-[#211A30] px-3 text-sm text-white outline-none focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
       >
         <option value="">Todos</option>
         {options.map((option) => (

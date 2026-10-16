@@ -36,7 +36,7 @@ export default async function ConsultasPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">
+        <h1 className="text-lg font-semibold text-white">
           Consultas
           {newCount > 0 && (
             <span className="ml-2 text-xs font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full align-middle">

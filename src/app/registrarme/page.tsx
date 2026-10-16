@@ -36,11 +36,11 @@ export default async function RegistrarmePage() {
       <div className="mx-auto max-w-xl">
         <div className="mb-8 text-center">
           <Link href="/" className="inline-block mb-6">
-            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-3xl font-bold text-transparent">
+            <span className="v4-display bg-[linear-gradient(120deg,#4A148C_0%,#7B2CBF_48%,#C77DFF_100%)] bg-clip-text text-2xl font-bold text-transparent">
               Planneo
             </span>
           </Link>
-          <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+          <h1 className="text-2xl font-bold text-white mb-2 tracking-tight">
             Crea tu perfil profesional en Planneo
           </h1>
           <p className="text-white/55">
@@ -48,7 +48,7 @@ export default async function RegistrarmePage() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
+        <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm">
           {categories.length > 0 ? (
             <RegisterForm categories={categories} zonas={[...ZONA_OPTIONS]} />
           ) : (

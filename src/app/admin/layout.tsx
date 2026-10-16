@@ -64,7 +64,7 @@ function NavLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-white/60 hover:bg-white/15 hover:text-white transition-colors font-medium"
+      className="flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm text-white/60 hover:bg-white/15 hover:text-white transition-colors font-medium"
     >
       {children}
     </Link>

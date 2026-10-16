@@ -135,17 +135,17 @@ export default async function ProviderCatalog({
       <Navbar />
       <a
         href="#catalogo-resultados"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-24 focus:z-50 focus:rounded-lg focus:bg-planneo-600 focus:px-3 focus:py-2 focus:text-sm focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-24 focus:z-50 focus:rounded-sm focus:bg-planneo-600 focus:px-3 focus:py-2 focus:text-sm focus:text-white"
       >
         Saltar al listado
       </a>
 
       <header className="border-b border-white/10 bg-planneo-900 pt-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
-          <p className="v4-mono text-[11px] text-planneo-300">
+          <p className="v4-mono text-xs text-planneo-300">
             {selectedName ? selectedName.toUpperCase() : 'CATÁLOGO'}
           </p>
-          <h1 className="v4-display mt-3 max-w-4xl text-3xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-4xl">
+          <h1 className="v4-display mt-3 max-w-4xl text-2xl font-bold leading-[0.95] tracking-[-0.04em]">
             {title}
           </h1>
           {description && (

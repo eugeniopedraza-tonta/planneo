@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { registerClient, type State } from './_actions'
 
 const inputCls =
-  'h-10 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus:bg-white/[0.07] transition-colors'
+  'h-10 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-planneo-300 focus:bg-white/[0.07] focus-visible:ring-2 focus-visible:ring-planneo-300 transition-colors'
 
 export default function ClientRegisterForm({ next }: { next?: string }) {
   const [state, formAction, isPending] = useActionState<State, FormData>(registerClient, {})
@@ -21,7 +21,7 @@ export default function ClientRegisterForm({ next }: { next?: string }) {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {state.error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
           {state.error}
         </div>
       )}
@@ -83,7 +83,7 @@ export default function ClientRegisterForm({ next }: { next?: string }) {
       <button
         type="submit"
         disabled={isPending}
-        className="mt-2 w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+        className="mt-2 w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
       >
         {isPending
           ? codeStep ? 'Verificando…' : 'Enviando código…'

@@ -20,8 +20,8 @@ export default function CatalogEmptyState(
         : 'Hola, busco proveedores para mi evento en Monterrey.'
     )
     return (
-      <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:py-14">
-        <h2 className="v4-display mx-auto max-w-xl text-2xl font-bold tracking-[-0.04em] sm:text-3xl">
+      <div className="rounded-lg border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:py-14">
+        <h2 className="v4-display mx-auto max-w-xl text-xl font-bold tracking-[-0.04em] sm:text-2xl">
           Estamos sumando {what} en Monterrey.
         </h2>
         <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/55">
@@ -33,7 +33,7 @@ export default function CatalogEmptyState(
           href={contact.href}
           target={contact.channel === 'whatsapp' ? '_blank' : undefined}
           rel={contact.channel === 'whatsapp' ? 'noopener noreferrer' : undefined}
-          className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300"
+          className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300"
         >
           {contact.channel === 'whatsapp' ? 'Escríbenos por WhatsApp' : 'Escríbenos'}
         </a>
@@ -42,8 +42,8 @@ export default function CatalogEmptyState(
   }
 
   return (
-    <div className="rounded-[24px] border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:py-14">
-      <h2 className="v4-display mx-auto max-w-xl text-2xl font-bold tracking-[-0.04em] sm:text-3xl">
+    <div className="rounded-lg border border-white/10 bg-white/[0.04] px-6 py-12 text-center sm:py-14">
+      <h2 className="v4-display mx-auto max-w-xl text-xl font-bold tracking-[-0.04em] sm:text-2xl">
         No encontramos proveedores con esos filtros.
       </h2>
       <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-white/55">
@@ -57,13 +57,13 @@ export default function CatalogEmptyState(
       <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           href={props.clearHref}
-          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300"
+          className="inline-flex min-h-11 items-center justify-center rounded-md bg-planneo-600 px-5 text-sm font-semibold text-white transition hover:bg-planneo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300"
         >
           Limpiar filtros
         </Link>
         <Link
           href={props.allHref}
-          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/15 px-5 text-sm font-semibold text-white/80 transition hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300"
+          className="inline-flex min-h-11 items-center justify-center rounded-md border border-white/15 px-5 text-sm font-semibold text-white/80 transition hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300"
         >
           Ver todos en Monterrey
         </Link>

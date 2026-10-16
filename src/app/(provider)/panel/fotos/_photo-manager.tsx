@@ -211,7 +211,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
           setDragging(false)
           addFiles(Array.from(e.dataTransfer.files))
         }}
-        className={`rounded-2xl border-2 border-dashed p-8 text-center transition-colors ${
+        className={`rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
           dragging ? 'border-planneo-300 bg-planneo-600/10' : 'border-white/15 bg-planneo-900'
         }`}
       >
@@ -249,14 +249,14 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
           {uploads.map((u) => (
             <li
               key={u.id}
-              className="flex items-center gap-3 bg-planneo-900 rounded-2xl border border-white/10 p-3"
+              className="flex items-center gap-3 bg-planneo-900 rounded-lg border border-white/10 p-3"
             >
               {/* Vista previa local (blob:) — next/image no aplica aquí */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={u.previewUrl}
                 alt=""
-                className="size-12 rounded-lg object-cover border border-white/10"
+                className="size-12 rounded-sm object-cover border border-white/10"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white/90 truncate">{u.file.name}</p>
@@ -303,7 +303,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
 
       {/* Galería */}
       {photos.length === 0 && uploads.length === 0 ? (
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
           <div className="mb-3 flex justify-center text-planneo-300"><CameraIcon className="size-8" /></div>
           <p className="text-sm text-white/55">
             Aún no tienes fotos. Los perfiles con fotos reciben muchas más consultas.
@@ -314,7 +314,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
           {photos.map((media, index) => (
             <li
               key={media.id}
-              className="bg-planneo-900 rounded-2xl border border-white/10 overflow-hidden flex flex-col"
+              className="bg-planneo-900 rounded-lg border border-white/10 overflow-hidden flex flex-col"
             >
               <div className="relative aspect-[4/3] bg-white/[0.04]">
                 <Image
@@ -325,7 +325,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                   className="object-cover"
                 />
                 {index === 0 && (
-                  <span className="absolute top-2 left-2 text-[11px] font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 left-2 text-xs font-medium bg-planneo-600 text-white px-2 py-0.5 rounded-full">
                     Principal
                   </span>
                 )}
@@ -338,7 +338,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                   maxLength={300}
                   aria-label={`Texto alternativo de la foto ${index + 1}`}
                   onBlur={(e) => void handleAltBlur(media, e.target.value)}
-                  className="w-full text-xs border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+                  className="w-full text-xs border border-input rounded-sm px-2 py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
                 />
                 <div className="flex items-center gap-1">
                   <IconButton
@@ -360,7 +360,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                       type="button"
                       disabled={savingOrder}
                       onClick={() => void makePrimary(index)}
-                      className="text-[11px] font-medium text-planneo-300 hover:underline disabled:opacity-50 ml-1"
+                      className="text-xs font-medium text-planneo-300 hover:underline disabled:opacity-50 ml-1"
                     >
                       Hacer principal
                     </button>
@@ -369,7 +369,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Provide
                     type="button"
                     onClick={() => void handleDelete(media)}
                     aria-label={`Eliminar foto ${index + 1}`}
-                    className="ml-auto text-[11px] font-medium text-red-300 hover:underline"
+                    className="ml-auto text-xs font-medium text-red-300 hover:underline"
                   >
                     Eliminar
                   </button>
@@ -400,7 +400,7 @@ function IconButton({
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="size-7 rounded-lg border border-white/10 text-white/55 text-sm hover:bg-white/[0.07] disabled:opacity-40 disabled:hover:bg-transparent"
+      className="size-7 rounded-sm border border-white/10 text-white/55 text-sm hover:bg-white/[0.07] disabled:opacity-40 disabled:hover:bg-transparent"
     >
       {children}
     </button>

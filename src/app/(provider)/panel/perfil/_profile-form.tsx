@@ -16,12 +16,12 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
   return (
     <form action={formAction} className="flex flex-col gap-5">
       {state.error && (
-        <div className="bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-300">
+        <div className="bg-red-400/10 border border-red-400/30 rounded-sm px-4 py-3 text-sm text-red-300">
           {state.error}
         </div>
       )}
       {state.success && (
-        <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-lg px-4 py-3 text-sm text-planneo-mint">
+        <div className="bg-planneo-mint/10 border border-planneo-mint/30 rounded-sm px-4 py-3 text-sm text-planneo-mint">
           Perfil actualizado correctamente.
         </div>
       )}
@@ -81,7 +81,7 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
             id="zona"
             name="zona"
             defaultValue={provider.zona ?? ''}
-            className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+            className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
           >
             <option value="">Sin especificar</option>
             {ZONAS_MTY.map((z) => (
@@ -107,7 +107,7 @@ export default function ProfileForm({ provider }: { provider: Provider }) {
           id="price_range"
           name="price_range"
           defaultValue={provider.price_range ?? ''}
-          className="h-9 w-full rounded-4xl border border-input bg-input/30 px-3 text-sm text-foreground"
+          className="h-9 w-full rounded-md border border-input bg-input/10 px-3 text-sm text-foreground focus-visible:ring-2 focus-visible:ring-planneo-300"
         >
           <option value="">Sin especificar</option>
           {PRICE_RANGES.map((p) => (

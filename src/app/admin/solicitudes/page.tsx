@@ -60,19 +60,19 @@ export default async function SolicitudesPage() {
     <div className="p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-white">Solicitudes de registro</h1>
+          <h1 className="text-lg font-semibold text-white">Solicitudes de registro</h1>
           <p className="text-sm text-white/55 mt-0.5">{rows.length} proveedor{rows.length === 1 ? '' : 'es'} pendiente{rows.length === 1 ? '' : 's'}</p>
         </div>
       </div>
 
       {rows.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/10 bg-planneo-900 p-12 text-center">
+        <div className="rounded-lg border border-dashed border-white/10 bg-planneo-900 p-12 text-center">
           <p className="text-sm text-white/50">No hay solicitudes pendientes.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
           {rows.map((p) => (
-            <div key={p.id} className="bg-planneo-900 rounded-2xl border border-white/10 shadow-sm p-5">
+            <div key={p.id} className="bg-planneo-900 rounded-lg border border-white/10 shadow-sm p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -113,7 +113,7 @@ export default async function SolicitudesPage() {
                   }}>
                     <button
                       type="submit"
-                      className="rounded-xl bg-planneo-600 px-4 py-2 text-sm font-medium text-white hover:bg-planneo-500 transition-colors"
+                      className="rounded-md bg-planneo-600 px-4 py-2 text-sm font-medium text-white hover:bg-planneo-500 transition-colors"
                     >
                       Aprobar
                     </button>
@@ -124,7 +124,7 @@ export default async function SolicitudesPage() {
                   }}>
                     <button
                       type="submit"
-                      className="rounded-xl border border-white/10 px-4 py-2 text-sm font-medium text-white/60 hover:bg-white/[0.07] transition-colors"
+                      className="rounded-md border border-white/10 px-4 py-2 text-sm font-medium text-white/60 hover:bg-white/[0.07] transition-colors"
                     >
                       Rechazar
                     </button>

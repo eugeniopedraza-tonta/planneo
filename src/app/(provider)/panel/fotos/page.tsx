@@ -35,7 +35,7 @@ export default async function FotosPage() {
   return (
     <div className="p-8 max-w-4xl">
       <div className="mb-6">
-        <h1 className="text-xl font-semibold text-white">Fotos</h1>
+        <h1 className="text-lg font-semibold text-white">Fotos</h1>
         <p className="text-sm text-white/55 mt-0.5">
           Muestra tu trabajo. La primera foto es la portada de tu perfil público.
           Máximo {MAX_PHOTOS_PER_PROVIDER} fotos.

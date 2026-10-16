@@ -167,7 +167,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
           setDragging(false)
           addFiles(Array.from(e.dataTransfer.files))
         }}
-        className={`rounded-2xl border-2 border-dashed p-8 text-center transition-colors ${
+        className={`rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
           dragging ? 'border-planneo-300 bg-planneo-600/10' : 'border-white/15 bg-planneo-900'
         }`}
       >
@@ -204,9 +204,9 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
           {uploads.map((u) => (
             <li
               key={u.id}
-              className="flex items-center gap-3 bg-planneo-900 rounded-2xl border border-white/10 p-3"
+              className="flex items-center gap-3 bg-planneo-900 rounded-lg border border-white/10 p-3"
             >
-              <span className="size-10 rounded-lg bg-planneo-600/20 text-planneo-300 flex items-center justify-center text-lg shrink-0">
+              <span className="size-10 rounded-sm bg-planneo-600/20 text-planneo-300 flex items-center justify-center text-lg shrink-0">
                 {u.file.type.startsWith('video/') ? <VideoIcon className="size-5" /> : <MusicIcon className="size-5" />}
               </span>
               <div className="flex-1 min-w-0">
@@ -253,7 +253,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
       )}
 
       {media.length === 0 && uploads.length === 0 ? (
-        <div className="bg-planneo-900 rounded-2xl border border-white/10 p-10 text-center">
+        <div className="bg-planneo-900 rounded-lg border border-white/10 p-10 text-center">
           <div className="mb-3 flex justify-center text-planneo-300"><MusicIcon className="size-8" /></div>
           <p className="text-sm text-white/55">
             Aún no tienes archivos. Los músicos y DJs con demos reciben más consultas.
@@ -262,7 +262,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
       ) : (
         <ul className="flex flex-col gap-3" aria-label="Archivos de audio y video">
           {media.map((item) => (
-            <li key={item.id} className="bg-planneo-900 rounded-2xl border border-white/10 p-4">
+            <li key={item.id} className="bg-planneo-900 rounded-lg border border-white/10 p-4">
               <div className="flex items-center gap-3 mb-3">
                 <input
                   type="text"
@@ -271,7 +271,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
                   maxLength={120}
                   aria-label="Título del archivo"
                   onBlur={(e) => void handleTitleBlur(item, e.target.value)}
-                  className="flex-1 text-sm font-medium border border-transparent hover:border-white/20 focus:border-planneo-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-planneo-300/40"
+                  className="flex-1 text-sm font-medium border border-transparent hover:border-white/20 focus:border-planneo-300 rounded-sm px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-planneo-300"
                 />
                 <span className="text-xs text-white/50 shrink-0">
                   {formatSize(item.size_bytes)}
@@ -287,7 +287,7 @@ export default function MediaManager({ initialMedia }: { initialMedia: ProviderM
               {item.type === 'audio' ? (
                 <audio controls preload="metadata" src={item.url} className="w-full h-10" />
               ) : (
-                <video controls preload="metadata" src={item.url} className="w-full max-h-64 rounded-lg bg-black" />
+                <video controls preload="metadata" src={item.url} className="w-full max-h-64 rounded-sm bg-black" />
               )}
             </li>
           ))}

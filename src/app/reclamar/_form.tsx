@@ -57,7 +57,7 @@ export default function ClaimInviteForm() {
           placeholder="planneo.com.mx/reclamar/…"
           aria-invalid={error ? true : undefined}
           aria-describedby="invitation-msg"
-          className="h-11 w-full rounded-xl border border-white/10 bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300"
+          className="h-11 w-full rounded-md border border-input bg-white/10 px-3 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-planneo-300 focus-visible:ring-2 focus-visible:ring-planneo-300"
         />
         {error ? (
           <p id="invitation-msg" className="text-xs text-red-400">{error}</p>
@@ -71,7 +71,7 @@ export default function ClaimInviteForm() {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
+        className="w-full rounded-md bg-planneo-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-planneo-500 disabled:opacity-60"
       >
         {pending ? 'Abriendo…' : 'Usar invitación'}
       </button>

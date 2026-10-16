@@ -43,7 +43,7 @@ export default function CatalogCategoryRail({
               ref={item.selected ? selectedRef : undefined}
               href={item.href}
               aria-current={item.selected ? 'page' : undefined}
-              className={`flex min-h-11 min-w-[4.75rem] flex-col items-center gap-1.5 rounded-2xl px-3 py-2.5 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 ${
+              className={`flex min-h-11 min-w-[4.75rem] flex-col items-center gap-1.5 rounded-lg px-3 py-2.5 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-planneo-300 ${
                 item.selected
                   ? 'bg-white/[0.1] text-white shadow-[inset_0_0_0_1px_rgba(199,125,255,0.45)]'
                   : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
@@ -67,7 +67,7 @@ export default function CatalogCategoryRail({
                   <CategoryIcon slug={item.slug} className="size-5" />
                 )}
               </span>
-              <span className="v4-mono text-[10px] tracking-[0.08em]">{item.shortName}</span>
+              <span className="v4-mono text-xs tracking-[0.08em]">{item.shortName}</span>
             </Link>
           </li>
         ))}

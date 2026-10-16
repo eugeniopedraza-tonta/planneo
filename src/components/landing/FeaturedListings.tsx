@@ -32,8 +32,8 @@ export default async function FeaturedListings() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <p className="v4-mono mb-4 text-[11px] text-planneo-300">{"// DESTACADOS"}</p>
-            <h2 className="v4-display max-w-3xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] sm:text-6xl">
+            <p className="v4-mono mb-4 text-xs text-planneo-300">{"// DESTACADOS"}</p>
+            <h2 className="v4-display max-w-3xl text-3xl font-bold leading-[0.95] tracking-[-0.04em]">
               Proveedores <span className="v4-shimmer-text">destacados.</span>
             </h2>
           </div>
@@ -48,7 +48,7 @@ export default async function FeaturedListings() {
             // Sin categoría no hay URL pública de perfil; no se destaca.
             if (!categorySlug) return null;
             return (
-              <article key={provider.id} className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04]">
+              <article key={provider.id} className="group overflow-hidden rounded-lg border border-white/10 bg-white/[0.04]">
                 <div className={`relative h-72 overflow-hidden bg-gradient-to-br ${palettes[index % palettes.length]}`}>
                   <div className="absolute inset-0 transition duration-700 group-hover:scale-105">
                     <div className="absolute left-8 top-12 h-40 w-40 rounded-full border border-white/25 bg-white/10" />
@@ -62,8 +62,8 @@ export default async function FeaturedListings() {
                     </div>
                   )}
                   <div className="absolute bottom-5 left-5 right-5">
-                    <p className="v4-mono text-[10px] text-white/65">{provider.categories?.name ?? "Proveedor"}</p>
-                    <h3 className="v4-display mt-1 text-3xl font-bold tracking-[-0.04em] text-white">{provider.name}</h3>
+                    <p className="v4-mono text-xs text-white/65">{provider.categories?.name ?? "Proveedor"}</p>
+                    <h3 className="v4-display mt-1 text-2xl font-bold tracking-[-0.04em] text-white">{provider.name}</h3>
                   </div>
                 </div>
 
@@ -75,13 +75,13 @@ export default async function FeaturedListings() {
                   {provider.event_types?.length ? (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {provider.event_types.slice(0, 3).map((tag) => (
-                        <span key={tag} className="v4-mono rounded-md border border-white/10 px-2 py-1 text-[10px] text-white/55">{tag}</span>
+                        <span key={tag} className="v4-mono rounded-sm border border-white/10 px-2 py-1 text-xs text-white/55">{tag}</span>
                       ))}
                     </div>
                   ) : null}
                   <div className="mt-5 flex items-center justify-between border-t border-white/10 pt-5">
                     <p className="text-sm text-white/50">{provider.phone ? "Contacto directo" : "Perfil publicado"}</p>
-                    <Link href={`/${categorySlug}/${provider.slug}`} className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1B2E] transition hover:bg-white/90">
+                    <Link href={`/${categorySlug}/${provider.slug}`} className="inline-flex min-h-11 items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-[#1F1B2E] transition hover:bg-white/90">
                       Ver perfil
                     </Link>
                   </div>
