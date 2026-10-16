@@ -1,4 +1,5 @@
-import type { AvailabilityStatus, ProviderWithCategory, PublicAvailability } from '@/lib/types'
+import { cache } from 'react'
+import type { ProviderWithCategory, PublicAvailability } from '@/lib/types'
 import { createStaticClient } from '@/lib/supabase/server'
 
 export type PublicProviderFilters = {
@@ -106,26 +107,125 @@ function toSafeNameQuery(q: string): string {
 
 const FTS_OPTIONS = { type: 'websearch', config: 'spanish' } as const
 
+/** Tope del listado público (`limit` se recorta a esto). */
+export const CATALOG_MAX_LIMIT = 100
+
+/**
+ * Máximo de ids por filtro `in` / `not.in`. Cada UUID ocupa ~37 bytes en la URL
+ * de PostgREST; 100 ids ≈ 3.7 KB, lejos de los límites de URL del gateway.
+ */
+export const MAX_IDS_PER_FILTER = 100
+
+/** Tope de filas que PostgREST devuelve por petición (`max-rows` de Supabase). */
+const POSTGREST_MAX_ROWS = 1000
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+type PublicAvailabilityRow = Pick<PublicAvailability, 'provider_id' | 'status'>
+
+/** Estado público de un día: quién está ocupado (se oculta) y quién confirmó libre. */
+export type DateStatuses = { booked: string[]; available: Set<string> }
+
+/** Puro. `tentative` (o sin fila) ni oculta ni confirma: queda «sin confirmar». */
+export function splitDateStatuses(rows: PublicAvailabilityRow[]): DateStatuses {
+  const booked: string[] = []
+  const available = new Set<string>()
+  for (const row of rows) {
+    if (row.status === 'booked') booked.push(row.provider_id)
+    else if (row.status === 'available') available.add(row.provider_id)
+  }
+  return { booked, available }
+}
+
+/** Puro. Parte `ids` en lotes de a lo más `size`. */
+export function chunkIds(ids: string[], size = MAX_IDS_PER_FILTER): string[][] {
+  const chunks: string[][] = []
+  for (let i = 0; i < ids.length; i += size) chunks.push(ids.slice(i, i + size))
+  return chunks
+}
+
+/** Puro. Lista `(a,b,c)` para `in` / `not.in` de PostgREST; solo deja pasar UUIDs. */
+export function toPostgrestIdList(ids: string[]): string {
+  return `(${ids.filter((id) => UUID_RE.test(id)).join(',')})`
+}
+
+/**
+ * Todas las filas públicas de disponibilidad de un día. Acotado por la fecha:
+ * a lo más una fila por proveedor (`unique (provider_id, date)`). Pagina por si
+ * algún día rebasa `max-rows`. `null` = falló la consulta (queda en el log).
+ * `cache` de React: listado y conteo del mismo render lo consultan una vez.
+ */
+const getDateStatuses = cache(async (fecha: string): Promise<DateStatuses | null> => {
+  const supabase = createStaticClient()
+  const rows: PublicAvailabilityRow[] = []
+  for (let from = 0; ; from += POSTGREST_MAX_ROWS) {
+    const { data, error } = await supabase
+      .from('public_provider_availability')
+      .select('provider_id, status')
+      .eq('date', fecha)
+      .order('provider_id')
+      .range(from, from + POSTGREST_MAX_ROWS - 1)
+      .returns<PublicAvailabilityRow[]>()
+    if (error) {
+      console.error('[catalogo] disponibilidad por fecha falló', { fecha, error })
+      return null
+    }
+    rows.push(...(data ?? []))
+    if (!data || data.length < POSTGREST_MAX_ROWS) break
+  }
+  return splitDateStatuses(rows)
+})
+
+/**
+ * Estado del día, o `null` sin fecha. Si la consulta de disponibilidad falla
+ * también es `null`: no se oculta a nadie y todos quedan «sin confirmar» (regla
+ * amable: la falta de datos nunca castiga). Listado y conteo comparten este
+ * respaldo, así que siguen cuadrando.
+ */
+async function resolveDateStatuses(fecha: string | undefined): Promise<DateStatuses | null> {
+  return fecha ? getDateStatuses(fecha) : null
+}
+
 export async function getPublicProviders(
   filters: PublicProviderFilters = {}
 ): Promise<PublicProviderListItem[]> {
   const supabase = createStaticClient()
   const fecha = parseCatalogFecha(filters.fecha)
-  const limit = Math.min(Math.max(filters.limit ?? 60, 1), 100)
+  const limit = Math.min(Math.max(filters.limit ?? 60, 1), CATALOG_MAX_LIMIT)
   const q = filters.q?.trim()
 
-  const categoryId = await resolveCategoryId(supabase, filters.category)
+  const [categoryId, statuses] = await Promise.all([
+    resolveCategoryId(supabase, filters.category),
+    resolveDateStatuses(fecha),
+  ])
   if (categoryId === null) return []
 
-  const baseQuery = () =>
-    applyProviderFilters(
+  // Ocupados: hasta MAX_IDS_PER_FILTER se excluyen en la propia consulta
+  // (`not.in`). Si son más, se piden `limit + ocupados` filas y se filtran aquí:
+  // a lo más esa cantidad de las traídas puede estar ocupada.
+  const booked = statuses?.booked ?? []
+  const filterInMemory = booked.length > MAX_IDS_PER_FILTER
+  const bookedSet = new Set(booked)
+  const fetchLimit = filterInMemory ? Math.min(limit + booked.length, POSTGREST_MAX_ROWS) : limit
+
+  const baseQuery = () => {
+    const query = applyProviderFilters(
       supabase.from('providers').select('*, categories(id, name, slug)'),
       filters,
       categoryId
     )
       .order('is_verified', { ascending: false })
       .order('created_at', { ascending: false })
-      .limit(limit)
+      .limit(fetchLimit)
+    return booked.length > 0 && !filterInMemory
+      ? query.not('id', 'in', toPostgrestIdList(booked))
+      : query
+  }
+
+  const keep = (rows: unknown[] | null): ProviderWithCategory[] => {
+    const list = (rows ?? []) as ProviderWithCategory[]
+    return (filterInMemory ? list.filter((row) => !bookedSet.has(row.id)) : list).slice(0, limit)
+  }
 
   let providers: ProviderWithCategory[]
 
@@ -135,111 +235,102 @@ export async function getPublicProviders(
       q,
       FTS_OPTIONS
     )
+    const ftsRows = ftsError ? [] : keep(ftsData)
 
-    if (!ftsError && ftsData && ftsData.length > 0) {
-      providers = ftsData as ProviderWithCategory[]
+    if (ftsRows.length > 0) {
+      providers = ftsRows
     } else {
       const safeQ = toSafeNameQuery(q)
       if (!safeQ) return []
-      const { data } = await baseQuery().ilike('name', `%${safeQ}%`)
-      providers = (data ?? []) as ProviderWithCategory[]
+      const { data, error } = await baseQuery().ilike('name', `%${safeQ}%`)
+      if (error) console.error('[catalogo] listado por nombre falló', { error })
+      providers = keep(data)
     }
   } else {
-    const { data } = await baseQuery()
-    providers = (data ?? []) as ProviderWithCategory[]
+    const { data, error } = await baseQuery()
+    if (error) console.error('[catalogo] listado falló', { error })
+    providers = keep(data)
   }
 
   if (!fecha) return providers
-  return applyFechaAvailability(supabase, providers, fecha)
+  return decorateWithDateAvailability(providers, statuses?.available ?? new Set())
 }
 
 /**
- * Cuántos proveedores devolvería `getPublicProviders` con estos filtros, sin
- * traer filas: mismos filtros, FTS con respaldo por nombre cuando FTS no
- * encuentra nada y, con fecha, se descuentan los ocupados ese día.
- * No aplica `limit`: es el total real (el listado se corta en 90).
+ * Cuántos proveedores devolvería `getPublicProviders` sin `limit`: mismos
+ * filtros, FTS con respaldo por nombre cuando FTS no encuentra nada y, con
+ * fecha, sin los ocupados ese día (mismo respaldo si falla la disponibilidad).
+ * Es el total real; el listado se corta en `limit`.
+ * `null` = no se pudo contar (el error queda en el log del servidor).
  */
 export async function countPublicProviders(
   filters: Omit<PublicProviderFilters, 'limit'> = {}
-): Promise<number> {
+): Promise<number | null> {
   const supabase = createStaticClient()
   const fecha = parseCatalogFecha(filters.fecha)
   const q = filters.q?.trim()
 
-  const categoryId = await resolveCategoryId(supabase, filters.category)
+  const [categoryId, statuses] = await Promise.all([
+    resolveCategoryId(supabase, filters.category),
+    resolveDateStatuses(fecha),
+  ])
   if (categoryId === null) return 0
 
-  // Con fecha hacen falta los ids para restar ocupados; sin fecha basta un
-  // conteo `head` (no viaja ninguna fila).
-  const baseQuery = () =>
+  const booked = statuses?.booked ?? []
+  const bookedChunks = booked.length > MAX_IDS_PER_FILTER ? chunkIds(booked) : []
+
+  // Conteo `head`: no viaja ninguna fila.
+  const headQuery = () =>
     applyProviderFilters(
-      fecha
-        ? supabase.from('providers').select('id')
-        : supabase.from('providers').select('id', { count: 'exact', head: true }),
+      supabase.from('providers').select('id', { count: 'exact', head: true }),
       filters,
       categoryId
-    ).limit(1000)
+    )
+  type HeadQuery = ReturnType<typeof headQuery>
 
-  type Counted = { ids: string[]; total: number; failed: boolean }
-  const run = async (query: ReturnType<typeof baseQuery>): Promise<Counted> => {
-    const { data, count, error } = await query
-    const ids = ((data ?? []) as { id: string }[]).map((row) => row.id)
-    return { ids, total: fecha ? ids.length : (count ?? 0), failed: Boolean(error) }
-  }
-
-  let result: Counted
-  if (q) {
-    result = await run(baseQuery().textSearch('search_vector', q, FTS_OPTIONS))
-    if (result.failed || result.total === 0) {
-      const safeQ = toSafeNameQuery(q)
-      if (!safeQ) return 0
-      result = await run(baseQuery().ilike('name', `%${safeQ}%`))
+  const countOf = async (query: HeadQuery): Promise<number | null> => {
+    const { count, error } = await query
+    if (error) {
+      console.error('[catalogo] conteo falló', { error })
+      return null
     }
-  } else {
-    result = await run(baseQuery())
+    return count ?? 0
   }
 
-  if (!fecha || result.ids.length === 0) return result.total
+  // Pocos ocupados: `not.in` en la misma consulta. Muchos: total menos lo que
+  // aporta cada lote de ocupados (`in` de ≤100 ids). Los lotes son disjuntos,
+  // así que la resta es exacta.
+  const netCount = async (search: (query: HeadQuery) => HeadQuery): Promise<number | null> => {
+    if (bookedChunks.length === 0) {
+      const query = search(headQuery())
+      return countOf(booked.length > 0 ? query.not('id', 'in', toPostgrestIdList(booked)) : query)
+    }
+    const [total, ...bookedCounts] = await Promise.all([
+      countOf(search(headQuery())),
+      ...bookedChunks.map((ids) => countOf(search(headQuery()).in('id', ids))),
+    ])
+    if (total === null || bookedCounts.some((n) => n === null)) return null
+    return Math.max(total - bookedCounts.reduce<number>((sum, n) => sum + (n ?? 0), 0), 0)
+  }
 
-  const { count: booked } = await supabase
-    .from('public_provider_availability')
-    .select('provider_id', { count: 'exact', head: true })
-    .eq('date', fecha)
-    .eq('status', 'booked')
-    .in('provider_id', result.ids)
+  if (!q) return netCount((query) => query)
 
-  return Math.max(result.ids.length - (booked ?? 0), 0)
+  // Igual que el listado: si FTS falla o no encuentra nada, respaldo por nombre.
+  const fts = await netCount((query) => query.textSearch('search_vector', q, FTS_OPTIONS))
+  if (fts !== null && fts > 0) return fts
+  const safeQ = toSafeNameQuery(q)
+  if (!safeQ) return 0
+  return netCount((query) => query.ilike('name', `%${safeQ}%`))
 }
 
-type PublicAvailabilityRow = Pick<PublicAvailability, 'provider_id' | 'status'>
-
-async function applyFechaAvailability(
-  supabase: StaticClient,
+function decorateWithDateAvailability(
   providers: ProviderWithCategory[],
-  fecha: string
-): Promise<PublicProviderListItem[]> {
-  if (providers.length === 0) return []
-
-  const { data } = await supabase
-    .from('public_provider_availability')
-    .select('provider_id, status')
-    .eq('date', fecha)
-    .in(
-      'provider_id',
-      providers.map((provider) => provider.id)
-    )
-    .returns<PublicAvailabilityRow[]>()
-
-  const statusById = new Map<string, AvailabilityStatus>(
-    (data ?? []).map((row) => [row.provider_id, row.status])
-  )
-
+  available: Set<string>
+): PublicProviderListItem[] {
   return providers
-    .filter((provider) => statusById.get(provider.id) !== 'booked')
     .map((provider): PublicProviderListItem => ({
       ...provider,
-      dateAvailability:
-        statusById.get(provider.id) === 'available' ? 'available' : 'unconfirmed',
+      dateAvailability: available.has(provider.id) ? 'available' : 'unconfirmed',
     }))
     .sort((a, b) => {
       const rank = (item: PublicProviderListItem) => (item.dateAvailability === 'available' ? 0 : 1)

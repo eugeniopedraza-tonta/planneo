@@ -20,6 +20,11 @@ export async function GET(request: NextRequest) {
     fecha: param('fecha'),
   })
 
+  // Si no se pudo contar, 503 sin caché: el botón muestra "…" en vez de un número falso.
+  if (count === null) {
+    return NextResponse.json({ count: null }, { status: 503, headers: { 'Cache-Control': 'no-store' } })
+  }
+
   return NextResponse.json(
     { count },
     { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' } }
